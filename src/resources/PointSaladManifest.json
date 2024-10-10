@@ -183,7 +183,7 @@
                 "LETTUCE": "4/PEPPER,  -2/ONION,  -2/CARROT",
                 "CARROT": "4/CABBAGE,  -2/PEPPER,  -2/ONION",
                 "CABBAGE": "4/CARROT,  -2/LETTUCE,  -2/TOMATO",
-                "ONION": "4/TOMATO,  -1/CABBAGE,  -2/PEPPER",
+                "ONION": "4/TOMATO,  -2/CABBAGE,  -2/PEPPER",
                 "TOMATO": "4/ONION,  -2/CARROT,  -2/LETTUCE"
             }
         },
