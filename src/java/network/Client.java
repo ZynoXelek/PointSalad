@@ -75,11 +75,6 @@ public class Client implements IClient {
 		this.port = port;
 	}
 
-	/**
-	 * Connects to the server.
-	 * 
-	 * @throws ClientException If an error occurs while connecting
-	 */
 	public void connect() throws ClientException {
 		try {
 			this.clientSocket = new Socket(this.host, this.port);
@@ -91,11 +86,6 @@ public class Client implements IClient {
 		}
 	}
 
-	/**
-	 * Disconnects from the server.
-	 * 
-	 * @throws ClientException If an error occurs while disconnecting
-	 */
 	public void disconnect() throws ClientException {
 		try {
 			this.outToServer.close();

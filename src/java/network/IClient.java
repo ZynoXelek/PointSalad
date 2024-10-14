@@ -6,7 +6,21 @@ import java.exceptions.ClientException;
  * Interface for a client.
  */
 public interface IClient {
-	
+
+	/**
+	 * Connects to the server.
+	 * 
+	 * @throws ClientException If an error occurs while connecting
+	 */
+	public void connect() throws ClientException;
+
+	/**
+	 * Disconnects from the server.
+	 * 
+	 * @throws ClientException If an error occurs while disconnecting
+	 */
+	public void disconnect() throws ClientException;
+
 	/**
 	 * Sends a message to the server.
 	 * 
