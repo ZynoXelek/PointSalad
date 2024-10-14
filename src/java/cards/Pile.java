@@ -4,21 +4,21 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 /**
- * Represents a pile of cards
+ * Represents a pile of cards.
  */
 public class Pile {
 	
 	private ArrayList<ICard> cards;
 
 	/**
-	 * Creates an empty pile
+	 * Creates an empty pile.
 	 */
 	public Pile() {
 		this.cards = new ArrayList<ICard>();
 	}
 
 	/**
-	 * Creates a pile with the given cards
+	 * Creates a pile with the given cards.
 	 * 
 	 * @param cards The cards to put in the pile
 	 */
@@ -27,7 +27,7 @@ public class Pile {
 	}
 
 	/**
-	 * Checks if the pile is empty
+	 * Checks if the pile is empty.
 	 * 
 	 * @return True if the pile is empty, false otherwise
 	 */
@@ -36,7 +36,8 @@ public class Pile {
 	}
 
 	/**
-	 * Gets the number of cards in the pile
+	 * Gets the number of cards in the pile.
+	 * 
 	 * @return The number of cards in the pile
 	 */
 	public int size() {
@@ -73,7 +74,7 @@ public class Pile {
 	}
 
 	/**
-	 * Draws a number of cards from the pile
+	 * Draws a number of cards from the pile.
 	 * 
 	 * @param numCards The number of cards to draw
 	 * @return The cards drawn, or an empty list if the pile is empty
@@ -104,7 +105,7 @@ public class Pile {
 	}
 
 	/**
-	 * Shuffles the pile
+	 * Shuffles the pile.
 	 */
 	public void shuffle() {
 		

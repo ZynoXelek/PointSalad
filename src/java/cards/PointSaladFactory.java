@@ -9,7 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
- * Factory for creating Point Salad cards
+ * Factory for creating Point Salad cards.
  */
 public class PointSaladFactory implements ICardFactory{
 	
@@ -17,7 +17,7 @@ public class PointSaladFactory implements ICardFactory{
 	}
 
 	/**
-	 * Creates each of the vegetable (6) cards related to a single Id from the JSON file
+	 * Creates each of the vegetable (6) cards related to a single Id from the JSON file.
 	 * 
 	 * @param cardData The JSON object containing the cards data: id and criteria
 	 * @return The cards created

@@ -2,29 +2,31 @@ package java.game;
 
 import java.cards.ICard;
 import java.cards.Pile;
+import java.exceptions.MarketException;
 import java.util.ArrayList;
 
+
 /**
- * Represents the market in the PointSalad game
+ * Represents the market in the PointSalad game.
  */
 public class PointSaladMarket implements IMarket {
 
-	/** Number of criteria drawing piles */
+	/** Number of criteria drawing piles. */
 	static public final int NUM_DRAW_PILES = 3;
-	/** Number of vegetable cards */
+	/** Number of vegetable cards. */
 	static public final int NUM_VEGETABLE_CARDS = 6;
-	/** Number of criteria cards to be drafted by a player */
+	/** Number of criteria cards to be drafted by a player. */
 	static public final int CRITERIA_DRAFT = 1;
-	/** Number of vegetable cards to be drafted by a player */
+	/** Number of vegetable cards to be drafted by a player. */
 	static public final int VEGETABLE_DRAFT = 2;
-	/** Alphabet to display the vegetable cards codes */
+	/** Alphabet to display the vegetable cards codes. */
 	static public final String ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 	private ArrayList<Pile> criteriaPiles;
 	private ArrayList<ICard> vegetableCards;
 
 	/**
-	 * Creates an empty market
+	 * Creates an empty market.
 	 */
 	public PointSaladMarket() {
 		criteriaPiles = new ArrayList<Pile>();
@@ -44,52 +46,49 @@ public class PointSaladMarket implements IMarket {
 	}
 
 	/**
-	 * Sets the pile at the given index
+	 * Sets the pile at the given index.
 	 * 
 	 * @param pileIndex The index of the pile
 	 * @param pile The pile to set
 	 * 
-	 * @throws IllegalArgumentException If the pile index is invalid
+	 * @throws MarketException If the pile index is invalid
 	 */
-	public void setPile(int pileIndex, Pile pile) {
-		//TODO: Add a custom exception related to market?
+	public void setPile(int pileIndex, Pile pile) throws MarketException {
 		if (pileIndex < 0 || pileIndex >= NUM_DRAW_PILES)
 		{
-			throw new IllegalArgumentException("Invalid pile index");
+			throw new MarketException("Invalid pile index");
 		}
 		criteriaPiles.set(pileIndex, pile);
 	}
 
 	/**
-	 * Sets the card at the given index
+	 * Sets the card at the given index.
 	 * 
 	 * @param cardIndex The index of the card
 	 * @param card The card to set
 	 * 
-	 * @throws IllegalArgumentException If the card index is invalid
+	 * @throws MarketException If the card index is invalid
 	 */
-	public void setCard(int cardIndex, ICard card) {
-		//TODO: Add a custom exception related to market?
+	public void setCard(int cardIndex, ICard card) throws MarketException {
 		if (cardIndex < 0 || cardIndex >= NUM_VEGETABLE_CARDS)
 		{
-			throw new IllegalArgumentException("Invalid card index");
+			throw new MarketException("Invalid card index");
 		}
 		vegetableCards.set(cardIndex, card);
 	}
 
 	/**
-	 * Draws a vegetable card from the market
+	 * Draws a vegetable card from the market.
 	 * 
 	 * @param cardIndex The index of the card to draw
 	 * @return The card drawn, or null if the card is empty
 	 * 
-	 * @throws IllegalArgumentException If the card index is invalid
+	 * @throws MarketException If the card index is invalid
 	 */
-	public ICard drawVegegetableCard(int cardIndex) {
-		//TODO: Add a custom exception related to market?
+	public ICard drawVegegetableCard(int cardIndex) throws MarketException {
 		if (cardIndex < 0 || cardIndex >= NUM_VEGETABLE_CARDS)
 		{
-			throw new IllegalArgumentException("Invalid card index");
+			throw new MarketException("Invalid card index");
 		}
 		ICard card = vegetableCards.get(cardIndex);
 		vegetableCards.set(cardIndex, null);
@@ -97,18 +96,17 @@ public class PointSaladMarket implements IMarket {
 	}
 
 	/**
-	 * Draws a criteria card from the market
+	 * Draws a criteria card from the market.
 	 * 
 	 * @param pileIndex The index of the pile to draw from
 	 * @return The card drawn, or null if the pile is empty
 	 * 
-	 * @throws IllegalArgumentException If the pile index is invalid
+	 * @throws MarketException If the pile index is invalid
 	 */
-	public ICard drawCriteriaCard(int pileIndex) {
-		//TODO: Add a custom exception related to market?
+	public ICard drawCriteriaCard(int pileIndex) throws MarketException {
 		if (pileIndex < 0 || pileIndex >= NUM_DRAW_PILES)
 		{
-			throw new IllegalArgumentException("Invalid pile index");
+			throw new MarketException("Invalid pile index");
 		}
 		Pile pile = criteriaPiles.get(pileIndex);
 		ICard card = pile.draw();
@@ -116,7 +114,7 @@ public class PointSaladMarket implements IMarket {
 	}
 
 	@Override
-	public ArrayList<ICard> draftCards(String cardsString) {
+	public ArrayList<ICard> draftCards(String cardsString) throws MarketException {
 		ArrayList<ICard> cards = new ArrayList<ICard>();
 
 		int length = cardsString.length();
@@ -125,7 +123,7 @@ public class PointSaladMarket implements IMarket {
 		// According to the rules, the player must draft either 1 criteria card or 2 vegetable cards though
 		if (length != CRITERIA_DRAFT && length != VEGETABLE_DRAFT)
 		{
-			throw new IllegalArgumentException("Invalid choice. " +
+			throw new MarketException("Invalid choice. " +
 				"You may either draft " + CRITERIA_DRAFT + " criteria card or " + VEGETABLE_DRAFT + " vegetable cards.");
 		}
 
@@ -139,7 +137,7 @@ public class PointSaladMarket implements IMarket {
 			String c = cardsString.substring(i, i + 1);
 			if (usedChars.contains(c))
 			{
-				throw new IllegalArgumentException("Invalid choice. Each card must be unique.");
+				throw new MarketException("Invalid choice. Each card must be unique.");
 			}
 			usedChars.add(c);
 		}
@@ -159,7 +157,7 @@ public class PointSaladMarket implements IMarket {
 				}
 				catch (NumberFormatException e)
 				{
-					throw new IllegalArgumentException("Invalid choice. " +
+					throw new MarketException("Invalid choice. " +
 						"Criteria card identifier must be a number.");
 				}
 			}
@@ -177,9 +175,9 @@ public class PointSaladMarket implements IMarket {
 					ICard card = drawVegegetableCard(cardIndex);
 					cards.add(card);
 				}
-				catch (IllegalArgumentException e)
+				catch (MarketException e)
 				{
-					throw new IllegalArgumentException("Invalid choice. " +
+					throw new MarketException("Invalid choice. " +
 						"Vegetable card identifier must be a letter.");
 				}
 			}
@@ -189,8 +187,7 @@ public class PointSaladMarket implements IMarket {
 	}
 
 	/**
-	 * Refills the vegetable market by drawing cards from the corresponding
-	 * criteria piles
+	 * Refills the vegetable market by drawing cards from the corresponding criteria piles.
 	 */
 	public void refillVegetables() {
 		for (int i = 0; i<NUM_VEGETABLE_CARDS; i++)
@@ -198,15 +195,24 @@ public class PointSaladMarket implements IMarket {
 			if (vegetableCards.get(i) == null)
 			{
 				int pileIndex = i % NUM_DRAW_PILES;
-				ICard card = drawCriteriaCard(pileIndex);
-				card.flip();
-				vegetableCards.set(i, card);
+				try {
+					ICard card = drawCriteriaCard(pileIndex);
+					card.flip();
+					vegetableCards.set(i, card);
+				}
+				catch (MarketException e)
+				{
+					// Print the error message in the terminal. May happen during testing. Will never happen once the project is completed.
+					System.err.println("Index error at PointSaladMarket.refillVegetables() with error message:\n" + 
+									e.getMessage());
+				}
 			}
 		}
 	}
 
 	/**
-	 * Balances the piles in the market
+	 * Balances the piles in the market.
+	 * If a pile is empty, it is refilled with half the bottom cards of the larger pile.
 	 */
 	public void balancePiles() {
 		for (int i = 0; i<NUM_DRAW_PILES; i++)
@@ -215,24 +221,31 @@ public class PointSaladMarket implements IMarket {
 
 			if (pile.isEmpty())
 			{
-				refillPileAt(i);
+				try {
+					refillPileAt(i);
+				}
+				catch (MarketException e)
+				{
+					// Print the error message in the terminal. May happen during testing. Will never happen once the project is completed.
+					System.err.println("Index error at PointSaladMarket.balancePiles() with error message:\n" + 
+									e.getMessage());
+				}
 			}
 		}
 	}
 
 	/**
 	 * Refills the pile at the given index if it is empty.
-	 * The pile is refilled with half the bottom cards of the larger pile
+	 * The pile is refilled with half the bottom cards of the larger pile.
 	 * 
 	 * @param pileIndex The index of the pile to refill
 	 * 
-	 * @throws IllegalArgumentException If the pile index is invalid
+	 * @throws MarketException If the pile index is invalid
 	 */
-	public void refillPileAt(int pileIndex) {
-		//TODO: Add a custom exception related to market?
+	public void refillPileAt(int pileIndex) throws MarketException {
 		if (pileIndex < 0 || pileIndex >= NUM_DRAW_PILES)
 		{
-			throw new IllegalArgumentException("Invalid pile index");
+			throw new MarketException("Invalid pile index");
 		}
 
 		Pile pile = criteriaPiles.get(pileIndex);
@@ -262,7 +275,7 @@ public class PointSaladMarket implements IMarket {
 
 	/**
 	 * Updates the market to ensure there are no empty vegetable card slot if it can be refilled,
-	 * and that there are no empty criteria pile if it can be balanced
+	 * and that there are no empty criteria pile if it can be balanced.
 	 */
 	public void updateMarket() {
 		balancePiles();

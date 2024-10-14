@@ -15,7 +15,7 @@ public abstract class AbstractPlayer {
 	private ArrayList<ICard> hand;
 
 	/**
-	 * Creates a player with the given ID, name and bot status
+	 * Creates a player with the given ID, name and bot status.
 	 * 
 	 * @param playerID The ID of the player
 	 * @param name The name of the player
@@ -30,7 +30,7 @@ public abstract class AbstractPlayer {
 	}
 
 	/**
-	 * Gets the player's ID
+	 * Gets the player's ID.
 	 * 
 	 * @return The player's ID
 	 */
@@ -39,7 +39,7 @@ public abstract class AbstractPlayer {
 	}
 
 	/**
-	 * Sets the player's ID
+	 * Sets the player's ID.
 	 * 
 	 * @param playerID The player's ID
 	 */
@@ -48,7 +48,7 @@ public abstract class AbstractPlayer {
 	}
 
 	/**
-	 * Gets the player's name
+	 * Gets the player's name.
 	 * 
 	 * @return The player's name
 	 */
@@ -57,7 +57,7 @@ public abstract class AbstractPlayer {
 	}
 
 	/**
-	 * Sets the player's name
+	 * Sets the player's name.
 	 * 
 	 * @param name The player's name
 	 */
@@ -66,7 +66,7 @@ public abstract class AbstractPlayer {
 	}
 
 	/**
-	 * Gets the player's bot status
+	 * Gets the player's bot status.
 	 * 
 	 * @return True if the player is a bot, false otherwise
 	 */
@@ -75,7 +75,7 @@ public abstract class AbstractPlayer {
 	}
 
 	/**
-	 * Sets the player's bot status
+	 * Sets the player's bot status.
 	 * 
 	 * @param isBot True if the player is a bot, false otherwise
 	 */
@@ -84,7 +84,7 @@ public abstract class AbstractPlayer {
 	}
 
 	/**
-	 * Gets the player's score
+	 * Gets the player's score.
 	 * 
 	 * @return The player's score
 	 */
@@ -93,7 +93,7 @@ public abstract class AbstractPlayer {
 	}
 
 	/**
-	 * Sets the player's score
+	 * Sets the player's score.
 	 * 
 	 * @param score The player's score
 	 */
@@ -102,7 +102,7 @@ public abstract class AbstractPlayer {
 	}
 
 	/**
-	 * Gets the player's hand
+	 * Gets the player's hand.
 	 * 
 	 * @return The player's hand
 	 */
@@ -111,7 +111,7 @@ public abstract class AbstractPlayer {
 	}
 
 	/**
-	 * Sets the player's hand
+	 * Sets the player's hand.
 	 * 
 	 * @param hand The player's hand
 	 */
@@ -120,19 +120,19 @@ public abstract class AbstractPlayer {
 	}
 
 	/**
-	 * Prints the player's hand
+	 * Adds a card to the player's hand.
+	 */
+	public void addCardToHand(ICard card) {
+		hand.add(card);
+	}
+
+	/**
+	 * Prints the player's hand.
 	 */
 	public void printHand() {
 		//TODO: may change this implementation if it is not good looking
 		for (ICard card : hand) {
 			card.printCard();
 		}
-	}
-
-	/**
-	 * Adds a card to the player's hand
-	 */
-	public void addCardToHand(ICard card) {
-		hand.add(card);
 	}
 }
