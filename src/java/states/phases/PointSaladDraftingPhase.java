@@ -44,22 +44,23 @@ public class PointSaladDraftingPhase implements IPhase {
 		}
 		else {
 			IServer server = state.getServer();
+			int playerID = player.getPlayerID();
 			String message = "\n\n****************************************************************\nIt's your turn! Your hand is:\n";
 			message += player.handToString();
 			message += "\nThe piles are: ";
 			message += market.toString();
 
 			try {
-				server.sendMessageTo(message, currentPlayerIndex);
+				server.sendMessageTo(message, playerID);
 			}
 			catch (Exception e) {
-				throw new DraftingException("Failed to send message to player of index " + currentPlayerIndex + ".");
+				throw new DraftingException("Failed to send message to player of index " + currentPlayerIndex + ", corresponding to Client of index " + playerID + ".");
 			}
 			try {
-				command = server.receiveMessageFrom(currentPlayerIndex);
+				command = server.receiveMessageFrom(playerID);
 			}
 			catch (Exception e) {
-				throw new DraftingException("Failed to receive message from player of index " + currentPlayerIndex + ".");
+				throw new DraftingException("Failed to send message to player of index " + currentPlayerIndex + ", corresponding to Client of index " + playerID + ".");
 			}
 		}
 
