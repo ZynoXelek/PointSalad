@@ -198,7 +198,7 @@ public class PointSaladMarket implements IMarket {
 				try {
 					ICard card = drawCriteriaCard(pileIndex);
 					card.flip();
-					vegetableCards.set(i, card);
+					this.setCard(i, card);
 				}
 				catch (MarketException e)
 				{
@@ -269,7 +269,7 @@ public class PointSaladMarket implements IMarket {
 			}
 
 			Pile maxPile = criteriaPiles.get(maxPileIndex);
-			criteriaPiles.set(pileIndex, maxPile.splitInTwo());
+			this.setPile(pileIndex, maxPile.splitInTwo());
 		}
 	}
 
