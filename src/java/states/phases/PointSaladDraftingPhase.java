@@ -36,7 +36,7 @@ public class PointSaladDraftingPhase implements IPhase {
 			// Use Bot Logic
 			try {
 				IAPlayer bot = (IAPlayer) player;
-				command = bot.getBotLogic().getMove(state);
+				command = bot.getMove(state);
 			}
 			catch (ClassCastException e) {
 				throw new DraftingException("Player of index " + currentPlayerIndex + " is not a bot while said so.");
@@ -50,13 +50,13 @@ public class PointSaladDraftingPhase implements IPhase {
 			message += market.toString();
 
 			try {
-				server.sendMessage(message, currentPlayerIndex);
+				server.sendMessageTo(message, currentPlayerIndex);
 			}
 			catch (Exception e) {
 				throw new DraftingException("Failed to send message to player of index " + currentPlayerIndex + ".");
 			}
 			try {
-				command = server.receiveMessage(currentPlayerIndex);
+				command = server.receiveMessageFrom(currentPlayerIndex);
 			}
 			catch (Exception e) {
 				throw new DraftingException("Failed to receive message from player of index " + currentPlayerIndex + ".");

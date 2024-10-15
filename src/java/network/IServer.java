@@ -34,6 +34,15 @@ public interface IServer {
 	public ArrayList<Integer> waitForClients(int numClients) throws ServerException;
 
 	/**
+	 * Sends a message to all clients.
+	 * 
+	 * @param message The message to send to all clients
+	 * 
+	 * @throws ServerException If an error occurs while sending the message
+	 */
+	public void sendMessageToAll(String message) throws ServerException;
+
+	/**
 	 * Sends a message to a client.
 	 * 
 	 * @param message The message to send
@@ -41,7 +50,7 @@ public interface IServer {
 	 * 
 	 * @throws ServerException If an error occurs while sending the message
 	 */
-	public void sendMessage(String message, int clientID) throws ServerException;
+	public void sendMessageTo(String message, int clientID) throws ServerException;
 
 	/**
 	 * Receives a message from a client.
@@ -52,5 +61,5 @@ public interface IServer {
 	 * 
 	 * @throws ServerException If an error occurs while receiving the message
 	 */
-	public String receiveMessage(int clientID) throws ServerException;
+	public String receiveMessageFrom(int clientID) throws ServerException;
 }

@@ -121,7 +121,18 @@ public class Server implements IServer {
 	}
 
 	@Override
-	public void sendMessage(String message, int clientID) throws ServerException {
+	public void sendMessageToAll(String message) throws ServerException {
+		for (int i = 0; i < this.outToClients.size(); i++) {
+			try {
+				this.outToClients.get(i).writeObject(message);
+			} catch(Exception e) {
+				throw new ServerException("Could not send the message to the client of id '" + i + "'", e);
+			}
+		}
+	}
+
+	@Override
+	public void sendMessageTo(String message, int clientID) throws ServerException {
 		try {
 			this.outToClients.get(clientID).writeObject(message);
 		} catch(Exception e) {
@@ -130,7 +141,7 @@ public class Server implements IServer {
 	}
 
 	@Override
-	public String receiveMessage(int clientID) throws ServerException {
+	public String receiveMessageFrom(int clientID) throws ServerException {
 		try {
 			return (String) this.inFromClients.get(clientID).readObject();
 		} catch(Exception e) {
