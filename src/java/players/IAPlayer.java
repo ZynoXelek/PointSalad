@@ -1,5 +1,7 @@
 package java.players;
 
+import java.states.State;
+
 /**
  * Class for a bot player.
  */
@@ -35,5 +37,16 @@ public class IAPlayer extends AbstractPlayer {
 	 */
 	public void setBotLogic(IBotLogic botLogic) {
 		this.botLogic = botLogic;
+	}
+
+	/**
+	 * Helper method to get the move from the bot logic.
+	 * 
+	 * @param state The current state of the game
+	 * 
+	 * @return The move to make, as a String command
+	 */
+	public String getMove(State state) {
+		return botLogic.getMove(state);
 	}
 }

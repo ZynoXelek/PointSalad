@@ -9,6 +9,7 @@ import java.util.ArrayList;
 public abstract class AbstractPlayer {
 	
 	private int playerID;
+	// TODO: implement name support
 	private String name;
 	private boolean isBot;
 	private int score;
@@ -127,12 +128,25 @@ public abstract class AbstractPlayer {
 	}
 
 	/**
-	 * Prints the player's hand.
+	 * Adds a list of cards to the player's hand.
 	 */
-	public void printHand() {
+	public void addCardsToHand(ArrayList<ICard> cards) {
+		hand.addAll(cards);
+	}
+
+	/**
+	 * Gets the player's hand as a string.
+	 * 
+	 * @return The player's hand as a string
+	 */
+	public String handToString() {
 		//TODO: may change this implementation if it is not good looking
+		String handString = "";
+
 		for (ICard card : hand) {
-			card.printCard();
+			handString += card.toString() + "\n";
 		}
+
+		return handString;
 	}
 }
