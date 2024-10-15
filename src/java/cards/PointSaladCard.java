@@ -1,5 +1,8 @@
 package java.cards;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 /**
  * A card for the PointSalad game.
  * It possesses a vegetable side and a criteria side.
@@ -69,6 +72,77 @@ public class PointSaladCard implements ICard {
 		} else {
 			return vegetable.toString();
 		}
+	}
+
+	/**
+	 * Gets the criteria hand from the given hand, which means a list of every card in the hand that has its criteria side up.
+	 * 
+	 * @param hand The hand to get the criteria hand from
+	 * 
+	 * @return The criteria hand from the given hand
+	 */
+	public static ArrayList<PointSaladCard> getCriteriaHand(ArrayList<PointSaladCard> hand)
+	{
+		ArrayList<PointSaladCard> criteriaHand = new ArrayList<>();
+
+		for (PointSaladCard card : hand)
+		{
+			if (card.isCriteriaSideUp())
+			{
+				criteriaHand.add(card);
+			}
+		}
+
+		return criteriaHand;
+	}
+
+	/**
+	 * Gets the veggie hand from the given hand, which means a list of every card in the hand that has its veggie side up.
+	 * 
+	 * @param hand The hand to get the veggie hand from
+	 * 
+	 * @return The veggie hand from the given hand
+	 */
+	public static ArrayList<PointSaladCard> getVeggieHand(ArrayList<PointSaladCard> hand)
+	{
+		ArrayList<PointSaladCard> veggieHand = new ArrayList<>();
+
+		for (PointSaladCard card : hand)
+		{
+			if (!card.isCriteriaSideUp())
+			{
+				veggieHand.add(card);
+			}
+		}
+
+		return veggieHand;
+	}
+
+	/**
+	 * Counts the number of each vegetable in the given hand.
+	 * 
+	 * @param hand The hand to count the vegetables from
+	 * 
+	 * @return A map of each vegetable and the number of times it appears in the hand
+	 */
+	public static HashMap<Vegetable, Integer> countVeggiesInHand(ArrayList<PointSaladCard> hand)
+	{
+		HashMap<Vegetable, Integer> veggieCount = new HashMap<>();
+
+		for (PointSaladCard card : hand)
+		{
+			Vegetable veggie = card.getVegetable();
+			if (veggieCount.containsKey(veggie))
+			{
+				veggieCount.put(veggie, veggieCount.get(veggie) + 1);
+			}
+			else
+			{
+				veggieCount.put(veggie, 1);
+			}
+		}
+
+		return veggieCount;
 	}
 
 }
