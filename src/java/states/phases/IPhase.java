@@ -8,7 +8,7 @@ import java.states.State;
 public interface IPhase {
 	
 	/**
-	 * Proceeds the phase, based on the current state of the game.
+	 * Process the phase, based on the current state of the game.
 	 * 
 	 * @param state The current state of the game
 	 * 
