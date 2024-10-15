@@ -5,7 +5,7 @@ package java.players;
  */
 public class IAPlayer extends AbstractPlayer {
 	
-	private ILogic botLogic;
+	private IBotLogic botLogic;
 
 	/**
 	 * Creates a bot player with the given ID and name.
@@ -14,7 +14,7 @@ public class IAPlayer extends AbstractPlayer {
 	 * @param name The name of the player
 	 * @param botLogic The logic of the bot
 	 */
-	public IAPlayer(int playerID, String name, ILogic botLogic) {
+	public IAPlayer(int playerID, String name, IBotLogic botLogic) {
 		super(playerID, name, true);
 		this.botLogic = botLogic;
 	}
@@ -24,7 +24,7 @@ public class IAPlayer extends AbstractPlayer {
 	 * 
 	 * @return The logic of the bot
 	 */
-	public ILogic getBotLogic() {
+	public IBotLogic getBotLogic() {
 		return this.botLogic;
 	}
 
@@ -33,7 +33,7 @@ public class IAPlayer extends AbstractPlayer {
 	 * 
 	 * @param botLogic The logic of the bot
 	 */
-	public void setBotLogic(ILogic botLogic) {
+	public void setBotLogic(IBotLogic botLogic) {
 		this.botLogic = botLogic;
 	}
 }

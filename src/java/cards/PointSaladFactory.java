@@ -13,8 +13,10 @@ import org.json.JSONObject;
  */
 public class PointSaladFactory implements ICardFactory{
 	
-	public PointSaladFactory() {
-	}
+	/**
+	 * Constructor for the PointSaladFactory.
+	 */
+	public PointSaladFactory() {}
 
 	/**
 	 * Creates each of the vegetable (6) cards related to a single Id from the JSON file.

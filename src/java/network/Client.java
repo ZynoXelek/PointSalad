@@ -75,6 +75,7 @@ public class Client implements IClient {
 		this.port = port;
 	}
 
+	@Override
 	public void connect() throws ClientException {
 		try {
 			this.clientSocket = new Socket(this.host, this.port);
@@ -86,6 +87,7 @@ public class Client implements IClient {
 		}
 	}
 
+	@Override
 	public void disconnect() throws ClientException {
 		try {
 			this.outToServer.close();
@@ -97,6 +99,7 @@ public class Client implements IClient {
 		}
 	}
 
+	@Override
 	public void sendMessage(String message) throws ClientException {
 		// tries to connect if not connected yet.
 		if (!this.isConnected) {
@@ -112,6 +115,7 @@ public class Client implements IClient {
 		}
 	}
 
+	@Override
 	public String readMessage() throws ClientException {
 		// tries to connect if not connected yet.
 		if (!this.isConnected) {

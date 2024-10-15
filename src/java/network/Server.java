@@ -56,6 +56,7 @@ public class Server implements IServer {
 		this.port = port;
 	}
 
+	@Override
 	public void startServer() throws ServerException {
 		if (this.serverSocket != null) {
 			// Server is already running
@@ -69,6 +70,7 @@ public class Server implements IServer {
 		}
 	}
 
+	@Override
 	public void stopServer() throws ServerException {
 		if (this.serverSocket == null) {
 			// Server is not running
@@ -107,6 +109,7 @@ public class Server implements IServer {
 		}
 	}
 
+	@Override
 	public ArrayList<Integer> waitForClients(int numClients) throws ServerException {
 		ArrayList<Integer> clientIDs = new ArrayList<Integer>();
 
@@ -117,6 +120,7 @@ public class Server implements IServer {
 		return clientIDs;
 	}
 
+	@Override
 	public void sendMessage(String message, int clientID) throws ServerException {
 		try {
 			this.outToClients.get(clientID).writeObject(message);
@@ -125,6 +129,7 @@ public class Server implements IServer {
 		}
 	}
 
+	@Override
 	public String receiveMessage(int clientID) throws ServerException {
 		try {
 			return (String) this.inFromClients.get(clientID).readObject();
