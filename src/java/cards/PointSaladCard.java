@@ -25,6 +25,24 @@ public class PointSaladCard implements ICard {
 		this.criteria = criteria;
 	}
 
+	/**
+	 * Gets the vegetable of the card.
+	 * 
+	 * @return The vegetable of the card
+	 */
+	public Vegetable getVegetable() {
+		return vegetable;
+	}
+
+	/**
+	 * Gets the criteria of the card.
+	 * 
+	 * @return The criteria of the card
+	 */
+	public String getCriteria() {
+		return criteria;
+	}
+
 	@Override
 	public void flip() {
 		criteriaSideUp = !criteriaSideUp;
