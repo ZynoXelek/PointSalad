@@ -10,9 +10,21 @@ import java.util.ArrayList;
 public interface IMarket {
 	
 	/**
-	 * Prints the market in the terminal.
+	 * Gets the string representation of the market.
+	 * 
+	 * @return The string representation of the market
 	 */
-	public void printMarket();
+	@Override
+	public String toString();
+
+	/**
+	 * Checks if a string identifier of cards is valid.
+	 * 
+	 * @param cardsString The string identifier of the cards
+	 * 
+	 * @return True if the string is valid, false otherwise
+	 */
+	public boolean isCardsStringValid(String cardsString);
 
 	/**
 	 * Buys one or several cards from the market based on a String identifier.

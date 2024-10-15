@@ -114,21 +114,15 @@ public class PointSaladMarket implements IMarket {
 	}
 
 	@Override
-	public ArrayList<ICard> draftCards(String cardsString) throws MarketException {
-		ArrayList<ICard> cards = new ArrayList<ICard>();
-
+	public boolean isCardsStringValid(String cardsString) {
 		int length = cardsString.length();
 
 		//TODO: May have to be changed if the number of cards to be drafted is not strict but "up to x cards"
 		// According to the rules, the player must draft either 1 criteria card or 2 vegetable cards though
 		if (length != CRITERIA_DRAFT && length != VEGETABLE_DRAFT)
 		{
-			throw new MarketException("Invalid choice. " +
-				"You may either draft " + CRITERIA_DRAFT + " criteria card or " + VEGETABLE_DRAFT + " vegetable cards.");
+			return false;
 		}
-
-		// Converts the string to uppercase to avoid case sensitivity
-		cardsString = cardsString.toUpperCase();
 
 		// Checks if each drafted card is unique
 		ArrayList<String> usedChars = new ArrayList<String>();
@@ -137,11 +131,27 @@ public class PointSaladMarket implements IMarket {
 			String c = cardsString.substring(i, i + 1);
 			if (usedChars.contains(c))
 			{
-				throw new MarketException("Invalid choice. Each card must be unique.");
+				return false;
 			}
 			usedChars.add(c);
 		}
 
+		return true;
+	}
+
+	@Override
+	public ArrayList<ICard> draftCards(String cardsString) throws MarketException {
+		ArrayList<ICard> cards = new ArrayList<ICard>();
+
+		int length = cardsString.length();
+		// Converts the string to uppercase to avoid case sensitivity
+		cardsString = cardsString.toUpperCase();
+
+		if (!isCardsStringValid(cardsString))
+		{
+			throw new MarketException("Invalid choice. " +
+				"You may either draft " + CRITERIA_DRAFT + " criteria card or " + VEGETABLE_DRAFT + " vegetable cards, where each should be unique.");
+		}
 
 		// Process criteria drafting (using numbers)
 		if (length == CRITERIA_DRAFT)
@@ -281,11 +291,6 @@ public class PointSaladMarket implements IMarket {
 		balancePiles();
 		refillVegetables();
 		balancePiles();
-	}
-
-	@Override
-	public void printMarket() {
-		System.out.println(this);
 	}
 
 	@Override
