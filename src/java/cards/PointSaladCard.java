@@ -43,6 +43,15 @@ public class PointSaladCard implements ICard {
 		return criteria;
 	}
 
+	/**
+	 * Gets whether the criteria side of the card is up.
+	 * 
+	 * @return Whether the criteria side of the card is up
+	 */
+	public boolean isCriteriaSideUp() {
+		return criteriaSideUp;
+	}
+
 	@Override
 	public void flip() {
 		criteriaSideUp = !criteriaSideUp;
