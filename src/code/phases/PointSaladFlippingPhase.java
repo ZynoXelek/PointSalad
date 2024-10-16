@@ -1,5 +1,6 @@
 package code.phases;
 
+import code.cards.ICard;
 import code.cards.PointSaladCard;
 import code.exceptions.FlippingException;
 import code.game.IMarket;
@@ -87,6 +88,9 @@ public class PointSaladFlippingPhase implements IPhase {
 		}
 
 		AbstractPlayer player = players.get(currentPlayerIndex);
+		ArrayList<ICard> hand = player.getHand();
+		ArrayList<PointSaladCard> pointSaladHand = PointSaladCard.convertHand(hand);
+		ArrayList<PointSaladCard> criteriaHand = PointSaladCard.getCriteriaHand(pointSaladHand);
 
 		boolean validCommand = false;
 		String command = "";
@@ -100,8 +104,8 @@ public class PointSaladFlippingPhase implements IPhase {
 			// Logic for a valid flipping command
 			if (command.matches("\\d")) {
 				int cardIndex = Integer.parseInt(command);
-				if (cardIndex >= 0 && cardIndex < player.getHand().size()) {
-					PointSaladCard card = (PointSaladCard) player.getHand().get(cardIndex);
+				if (cardIndex >= 0 && cardIndex < criteriaHand.size()) {
+					PointSaladCard card = criteriaHand.get(cardIndex);
 					if (card.isCriterionSideUp())
 					{
 						card.flip();
