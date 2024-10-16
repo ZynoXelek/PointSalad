@@ -78,7 +78,7 @@ public class PointSaladSetupPhase implements IPhase {
 		this.cardFactory = cardFactory;
 		this.cardsPath = cardsPath;
 	}
-
+	
 	/**
 	 * Extracts the Vegetable cards from a list of cards and build several piles,
 	 * each containing a single type of Vegetable cards.
@@ -87,28 +87,30 @@ public class PointSaladSetupPhase implements IPhase {
 	 * 
 	 * @return The list of piles, each containing a single type of Vegetable cards
 	 */
-	public static ArrayList<Pile> extractVeggiePiles(ArrayList<ICard> cards) {
-		ArrayList<Pile> piles = new ArrayList<Pile>();
-		HashMap<Vegetable, Pile> veggiePiles = new HashMap<Vegetable, Pile>();
-		
+	public static ArrayList<Pile<PointSaladCard>> extractVeggiePiles(ArrayList<ICard> cards) {
 		ArrayList<PointSaladCard> pointSaladCards = PointSaladCard.convertHand(cards);
 
+		ArrayList<Pile<PointSaladCard>> piles = new ArrayList<Pile<PointSaladCard>>();
+		HashMap<Vegetable, Pile<PointSaladCard>> veggiePiles = new HashMap<Vegetable, Pile<PointSaladCard>>();
+
 		for (Vegetable veggie : Vegetable.values()) {
-			Pile pile = new Pile();
+			Pile<PointSaladCard> pile = new Pile<PointSaladCard>();
 			veggiePiles.put(veggie, pile);
 		}
 
 		for (PointSaladCard card : pointSaladCards) {
-			Pile pile = veggiePiles.get(card.getVegetable());
+			Pile<PointSaladCard> pile = veggiePiles.get(card.getVegetable());
 			pile.addCard(card);
 		}
 
 		for (Vegetable veggie : Vegetable.values()) {
-			Pile pile = veggiePiles.get(veggie);
+			Pile<PointSaladCard> pile = veggiePiles.get(veggie);
 			piles.add(pile);
 		}
 
 		return piles;
+
+		// return extractVeggiePiles(pointSaladCards);
 	}
 
 	/**
@@ -119,7 +121,7 @@ public class PointSaladSetupPhase implements IPhase {
 	 * 
 	 * @return The list of piles, each containing a single type of Vegetable cards
 	 */
-	public static ArrayList<Pile> extractVeggiePiles(Pile pile) {
+	public static ArrayList<Pile<PointSaladCard>> extractVeggiePiles(Pile<ICard> pile) {
 		
 		return extractVeggiePiles(pile.getCards());
 	}
@@ -145,21 +147,21 @@ public class PointSaladSetupPhase implements IPhase {
 		}
 
 		// Get piles containing cards of a single type of Vegetable
-		ArrayList<Pile> veggiePiles = extractVeggiePiles(cards);
+		ArrayList<Pile<PointSaladCard>> veggiePiles = extractVeggiePiles(cards);
 
-		for (Pile pile : veggiePiles) {
+		for (Pile<PointSaladCard> pile : veggiePiles) {
 			// Remove the correct number of cards from each pile
 			int removeNumber = pile.size() - nbVeggieCards;
 			pile.draw(removeNumber);
 		}
 
 		// Prepare the initial deck
-		Pile deck = new Pile().concatenates(veggiePiles);
+		Pile<PointSaladCard> deck = new Pile<PointSaladCard>().concatenates(veggiePiles);
 		deck.shuffle();
 		deck.flip();
 
 		// Split it in three criteriion piles
-		ArrayList<Pile> criterionPiles = deck.splitIn(PointSaladMarket.NUM_DRAW_PILES);
+		ArrayList<Pile<PointSaladCard>> criterionPiles = deck.splitIn(PointSaladMarket.NUM_DRAW_PILES);
 
 		// Put the final piles in the market
 		PointSaladMarket pointSaladMarket = (PointSaladMarket) market;

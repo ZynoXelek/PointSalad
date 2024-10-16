@@ -2,6 +2,7 @@ package code.game;
 
 import code.cards.ICard;
 import code.cards.Pile;
+import code.cards.PointSaladCard;
 import code.exceptions.MarketException;
 
 import java.util.ArrayList;
@@ -23,15 +24,15 @@ public class PointSaladMarket implements IMarket {
 	/** Alphabet to display the vegetable cards codes. */
 	static public final String ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-	private ArrayList<Pile> criterionPiles;
-	private ArrayList<ICard> vegetableCards;
+	private ArrayList<Pile<PointSaladCard>> criterionPiles;
+	private ArrayList<PointSaladCard> vegetableCards;
 
 	/**
 	 * Creates an empty market.
 	 */
 	public PointSaladMarket() {
-		criterionPiles = new ArrayList<Pile>();
-		vegetableCards = new ArrayList<ICard>();
+		criterionPiles = new ArrayList<Pile<PointSaladCard>>();
+		vegetableCards = new ArrayList<PointSaladCard>();
 
 		// Create the criterion piles
 		for (int i = 0; i<NUM_DRAW_PILES; i++)
@@ -50,7 +51,7 @@ public class PointSaladMarket implements IMarket {
 	public boolean isEmpty() {
 		for (int i = 0; i<NUM_DRAW_PILES; i++)
 		{
-			Pile pile = criterionPiles.get(i);
+			Pile<PointSaladCard> pile = criterionPiles.get(i);
 			if (pile != null && !pile.isEmpty())
 			{
 				return false;
@@ -69,6 +70,76 @@ public class PointSaladMarket implements IMarket {
 	}
 
 	/**
+	 * Gets the criterion piles.
+	 * 
+	 * @return The criterion piles
+	 */
+	public ArrayList<Pile<PointSaladCard>> getCriterionPiles() {
+		return criterionPiles;
+	}
+
+	/**
+	 * Sets the criterion piles.
+	 * 
+	 * @param criterionPiles The criterion piles to set
+	 */
+	public void setCriterionPiles(ArrayList<Pile<PointSaladCard>> criterionPiles) {
+		this.criterionPiles = criterionPiles;
+	}
+
+	/**
+	 * Gets the vegetable cards.
+	 * 
+	 * @return The vegetable cards
+	 */
+	public ArrayList<PointSaladCard> getVegetableCards() {
+		return vegetableCards;
+	}
+
+	/**
+	 * Sets the vegetable cards.
+	 * 
+	 * @param vegetableCards The vegetable cards to set
+	 */
+	public void setVegetableCards(ArrayList<PointSaladCard> vegetableCards) {
+		this.vegetableCards = vegetableCards;
+	}
+
+	/**
+	 * Gets the available criteria in the market.
+	 * 
+	 * @return The available criteria
+	 */
+	public ArrayList<PointSaladCard> getAvailableCriteria() {
+		ArrayList<PointSaladCard> availableCriteria = new ArrayList<PointSaladCard>();
+		for (int i = 0; i<NUM_DRAW_PILES; i++)
+		{
+			Pile<PointSaladCard> pile = criterionPiles.get(i);
+			if (pile != null && !pile.isEmpty())
+			{
+				availableCriteria.add(pile.getTopCard());
+			}
+		}
+		return availableCriteria;
+	}
+
+	/**
+	 * Gets the pile at the given index.
+	 * 
+	 * @param pileIndex The index of the pile
+	 * @return The pile at the given index
+	 * 
+	 * @throws MarketException If the pile index is invalid
+	 */
+	public Pile<PointSaladCard> getPile(int pileIndex) throws MarketException {
+		if (pileIndex < 0 || pileIndex >= NUM_DRAW_PILES)
+		{
+			throw new MarketException("Invalid pile index");
+		}
+		return criterionPiles.get(pileIndex);
+	}
+
+	/**
 	 * Sets the pile at the given index.
 	 * 
 	 * @param pileIndex The index of the pile
@@ -76,12 +147,28 @@ public class PointSaladMarket implements IMarket {
 	 * 
 	 * @throws MarketException If the pile index is invalid
 	 */
-	public void setPile(int pileIndex, Pile pile) throws MarketException {
+	public void setPile(int pileIndex, Pile<PointSaladCard> pile) throws MarketException {
 		if (pileIndex < 0 || pileIndex >= NUM_DRAW_PILES)
 		{
 			throw new MarketException("Invalid pile index");
 		}
 		criterionPiles.set(pileIndex, pile);
+	}
+
+	/**
+	 * Gets the card at the given index.
+	 * 
+	 * @param cardIndex The index of the card
+	 * @return The card at the given index
+	 * 
+	 * @throws MarketException If the card index is invalid
+	 */
+	public PointSaladCard getCard(int cardIndex) throws MarketException {
+		if (cardIndex < 0 || cardIndex >= NUM_VEGETABLE_CARDS)
+		{
+			throw new MarketException("Invalid card index");
+		}
+		return vegetableCards.get(cardIndex);
 	}
 
 	/**
@@ -92,7 +179,7 @@ public class PointSaladMarket implements IMarket {
 	 * 
 	 * @throws MarketException If the card index is invalid
 	 */
-	public void setCard(int cardIndex, ICard card) throws MarketException {
+	public void setCard(int cardIndex, PointSaladCard card) throws MarketException {
 		if (cardIndex < 0 || cardIndex >= NUM_VEGETABLE_CARDS)
 		{
 			throw new MarketException("Invalid card index");
@@ -108,12 +195,12 @@ public class PointSaladMarket implements IMarket {
 	 * 
 	 * @throws MarketException If the card index is invalid
 	 */
-	public ICard drawVegegetableCard(int cardIndex) throws MarketException {
+	public PointSaladCard drawVegetableCard(int cardIndex) throws MarketException {
 		if (cardIndex < 0 || cardIndex >= NUM_VEGETABLE_CARDS)
 		{
 			throw new MarketException("Invalid card index");
 		}
-		ICard card = vegetableCards.get(cardIndex);
+		PointSaladCard card = vegetableCards.get(cardIndex);
 		vegetableCards.set(cardIndex, null);
 		return card;
 	}
@@ -126,13 +213,13 @@ public class PointSaladMarket implements IMarket {
 	 * 
 	 * @throws MarketException If the pile index is invalid
 	 */
-	public ICard drawCriterionCard(int pileIndex) throws MarketException {
+	public PointSaladCard drawCriterionCard(int pileIndex) throws MarketException {
 		if (pileIndex < 0 || pileIndex >= NUM_DRAW_PILES)
 		{
 			throw new MarketException("Invalid pile index");
 		}
-		Pile pile = criterionPiles.get(pileIndex);
-		ICard card = pile.draw();
+		Pile<PointSaladCard> pile = criterionPiles.get(pileIndex);
+		PointSaladCard card = pile.draw();
 		return card;
 	}
 
@@ -185,7 +272,7 @@ public class PointSaladMarket implements IMarket {
 				try
 				{
 					int pileIndex = Integer.parseInt(c);
-					ICard card = drawCriterionCard(pileIndex);
+					PointSaladCard card = drawCriterionCard(pileIndex);
 					cards.add(card);
 				}
 				catch (NumberFormatException e)
@@ -205,7 +292,7 @@ public class PointSaladMarket implements IMarket {
 				int cardIndex = ALPHABET.indexOf(c);
 				try
 				{
-					ICard card = drawVegegetableCard(cardIndex);
+					PointSaladCard card = drawVegetableCard(cardIndex);
 					cards.add(card);
 				}
 				catch (MarketException e)
@@ -229,7 +316,7 @@ public class PointSaladMarket implements IMarket {
 			{
 				int pileIndex = i % NUM_DRAW_PILES;
 				try {
-					ICard card = drawCriterionCard(pileIndex);
+					PointSaladCard card = drawCriterionCard(pileIndex);
 					card.flip();
 					this.setCard(i, card);
 				}
@@ -250,7 +337,7 @@ public class PointSaladMarket implements IMarket {
 	public void balancePiles() {
 		for (int i = 0; i<NUM_DRAW_PILES; i++)
 		{
-			Pile pile = criterionPiles.get(i);
+			Pile<PointSaladCard> pile = criterionPiles.get(i);
 
 			if (pile.isEmpty())
 			{
@@ -281,7 +368,7 @@ public class PointSaladMarket implements IMarket {
 			throw new MarketException("Invalid pile index");
 		}
 
-		Pile pile = criterionPiles.get(pileIndex);
+		Pile<PointSaladCard> pile = criterionPiles.get(pileIndex);
 		if (pile.isEmpty())
 		{
 			int[] pileSizes = new int[NUM_DRAW_PILES];
@@ -301,7 +388,7 @@ public class PointSaladMarket implements IMarket {
 				}
 			}
 
-			Pile maxPile = criterionPiles.get(maxPileIndex);
+			Pile<PointSaladCard> maxPile = criterionPiles.get(maxPileIndex);
 			this.setPile(pileIndex, maxPile.splitInTwo());
 		}
 	}

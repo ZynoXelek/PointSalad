@@ -4,17 +4,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 /**
- * Represents a pile of cards.
+ * Represents a generic pile of cards. These cards should implement the ICard interface.
  */
-public class Pile {
+public class Pile<T extends ICard> {
 	
-	private ArrayList<ICard> cards;
+	private ArrayList<T> cards;
 
 	/**
 	 * Creates an empty pile.
 	 */
 	public Pile() {
-		this.cards = new ArrayList<ICard>();
+		this.cards = new ArrayList<T>();
 	}
 
 	/**
@@ -22,7 +22,7 @@ public class Pile {
 	 * 
 	 * @param cards The cards to put in the pile
 	 */
-	public Pile(ArrayList<ICard> cards) {
+	public Pile(ArrayList<T> cards) {
 		this.cards = cards;
 	}
 
@@ -49,7 +49,7 @@ public class Pile {
 	 * 
 	 * @return The list of cards in the pile
 	 */
-	public ArrayList<ICard> getCards() {
+	public ArrayList<T> getCards() {
 		return cards;
 	}
 
@@ -58,7 +58,7 @@ public class Pile {
 	 * 
 	 * @param card The card to add
 	 */
-	public void addCard(ICard card) {
+	public void addCard(T card) {
 		cards.add(card);
 	}
 
@@ -67,7 +67,7 @@ public class Pile {
 	 * 
 	 * @param cards The cards to add
 	 */
-	public void addCards(ArrayList<ICard> cards) {
+	public void addCards(ArrayList<T> cards) {
 		cards.addAll(cards);
 	}
 
@@ -76,7 +76,7 @@ public class Pile {
 	 * 
 	 * @param pile The pile to add the cards from
 	 */
-	public void addCards(Pile pile) {
+	public void addCards(Pile<T> pile) {
 		cards.addAll(pile.cards);
 	}
 
@@ -85,7 +85,7 @@ public class Pile {
 	 * 
 	 * @return The top card of the pile, or null if the pile is empty
 	 */
-	public ICard getTopCard() {
+	public T getTopCard() {
 		if(isEmpty()) {
 			return null;
 		} else {
@@ -98,12 +98,12 @@ public class Pile {
 	 * 
 	 * @return The card drawn, or null if the pile is empty
 	 */
-	public ICard draw() {
+	public T draw() {
 		if(isEmpty()) {
 			return null;
 		} else {
 			// Draws from the top of the pile
-			ICard card = cards.get(cards.size() - 1);
+			T card = cards.get(cards.size() - 1);
 			cards.remove(cards.size() - 1);
 			return card;
 		}
@@ -115,12 +115,12 @@ public class Pile {
 	 * @param numCards The number of cards to draw
 	 * @return The cards drawn, or an empty list if the pile is empty
 	 */
-	public ArrayList<ICard> draw(int numCards) {
+	public ArrayList<T> draw(int numCards) {
 		if (numCards > cards.size()) {
 			numCards = cards.size();
 		}
 
-		ArrayList<ICard> drawnCards = new ArrayList<ICard>();
+		ArrayList<T> drawnCards = new ArrayList<T>();
 		for(int i = 0; i < numCards; i++) {
 			drawnCards.add(draw());
 		}
@@ -133,11 +133,11 @@ public class Pile {
 	 * 
 	 * @return The created pile. It may be empty if the current pile is of size <= 1.
 	 */
-	public Pile splitInTwo() {
+	public Pile<T> splitInTwo() {
 		int halfSize = cards.size() / 2;
-		ArrayList<ICard> newCards = new ArrayList<ICard>(cards.subList(0, halfSize));
-		cards = new ArrayList<ICard>(cards.subList(halfSize, cards.size()));
-		return new Pile(newCards);
+		ArrayList<T> newCards = new ArrayList<T>(cards.subList(0, halfSize));
+		cards = new ArrayList<T>(cards.subList(halfSize, cards.size()));
+		return new Pile<T>(newCards);
 	}
 
 	/**
@@ -147,8 +147,8 @@ public class Pile {
 	 * @param numPiles The number of piles to split the pile in
 	 * @return The created piles. They may be empty if the current pile is too small
 	 */
-	public ArrayList<Pile> splitIn(int numPiles) {
-		ArrayList<Pile> piles = new ArrayList<Pile>();
+	public ArrayList<Pile<T>> splitIn(int numPiles) {
+		ArrayList<Pile<T>> piles = new ArrayList<Pile<T>>();
 		int numCards = cards.size() / numPiles;
 		int remainingCards = cards.size() % numPiles;
 		int start = 0;
@@ -158,8 +158,8 @@ public class Pile {
 				end++;
 				remainingCards--;
 			}
-			ArrayList<ICard> newCards = new ArrayList<ICard>(cards.subList(start, end));
-			piles.add(new Pile(newCards));
+			ArrayList<T> newCards = new ArrayList<T>(cards.subList(start, end));
+			piles.add(new Pile<T>(newCards));
 			start = end;
 		}
 		return piles;
@@ -171,7 +171,7 @@ public class Pile {
 	 * @param pile The pile to concatenate
 	 * @return This pile
 	 */
-	public Pile concatenates(Pile pile) {
+	public Pile<T> concatenates(Pile<T> pile) {
 		this.addCards(pile);
 		return this;
 	}
@@ -182,8 +182,8 @@ public class Pile {
 	 * @param piles The piles to concatenate
 	 * @return This pile
 	 */
-	public Pile concatenates(ArrayList<Pile> piles) {
-		for(Pile pile : piles) {
+	public Pile<T> concatenates(ArrayList<Pile<T>> piles) {
+		for(Pile<T> pile : piles) {
 			this.addCards(pile);
 		}
 		return this;
@@ -193,7 +193,7 @@ public class Pile {
 	 * Flips all the cards in the pile.
 	 */
 	public void flip() {
-		for(ICard card : cards) {
+		for(T card : cards) {
 			card.flip();
 		}
 	}
