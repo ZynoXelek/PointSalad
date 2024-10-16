@@ -14,17 +14,17 @@ import code.players.AbstractPlayer;
 public class PointSaladCombinationCriterion extends AbstractPointSaladCriterion {
 
 	private ArrayList<Vegetable> vegetables;
-	private int pointsGranted;
+	private int pointsPerCombination;
 
 	/**
-	 * Creates a PointSaladCombinationCriterion for multiple vegetables with the given points granted.
+	 * Creates a PointSaladCombinationCriterion with the given vegetables and points per combination.
 	 * 
-	 * @param vegetables The vegetables of the criterion
-	 * @param pointsGranted The points granted by the criterion
+	 * @param vegetables The vegetables required for the combination
+	 * @param pointsPerCombination The points granted by the combination
 	 */
-	public PointSaladCombinationCriterion(ArrayList<Vegetable> vegetables, int pointsGranted) {
+	public PointSaladCombinationCriterion(ArrayList<Vegetable> vegetables, int pointsPerCombination) {
 		this.vegetables = vegetables;
-		this.pointsGranted = pointsGranted;
+		this.pointsPerCombination = pointsPerCombination;
 	}
 
 	@Override
@@ -61,7 +61,7 @@ public class PointSaladCombinationCriterion extends AbstractPointSaladCriterion 
 		}
 
 		// minCombinations can not be Integer.MAX_VALUE anymore here because at least one vegetable is required
-		points = minCombinations * pointsGranted;
+		points = minCombinations * pointsPerCombination;
 
 		return points;
 	}
@@ -75,7 +75,7 @@ public class PointSaladCombinationCriterion extends AbstractPointSaladCriterion 
 				criterionDisplay += " + ";
 			}
 		}
-		criterionDisplay += " = " + pointsGranted;
+		criterionDisplay += " = " + pointsPerCombination;
 		return criterionDisplay;
 	}
 }
