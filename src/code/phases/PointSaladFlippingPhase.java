@@ -84,6 +84,9 @@ public class PointSaladFlippingPhase implements IPhase {
 		boolean validCommand = false;
 		String command = "";
 
+		IServer server = state.getServer();
+		int playerID = player.getPlayerID();
+
 		while (!validCommand) {
 			command = getPlayerCommand(state);
 
@@ -102,6 +105,33 @@ public class PointSaladFlippingPhase implements IPhase {
 			else if (command.equals("n")) {
 				validCommand = true;
 			}
+
+			if (!validCommand) {
+				try {
+					server.sendMessageTo("Invalid answer. Please try again.", playerID);
+				}
+				catch (Exception e) {
+					throw new FlippingException("Failed to send message to player of index " + currentPlayerIndex +
+					", corresponding to Client of index " + playerID + ".", e);
+				}
+			}
+		}
+
+		// Player's turn is completed.
+		try {
+			server.sendMessageTo("\nYour turn is completed\n****************************************************************\n\n", playerID);
+		}
+		catch (Exception e) {
+			throw new FlippingException("Failed to send end of turn message to player of index " + currentPlayerIndex +
+			", corresponding to Client of index " + playerID + ".", e);
+		}
+
+		try {
+			String message = "Player " + playerID + "'s hand is now: \n" + player.handToString() + "\n";
+			server.sendMessageToAll(message);
+		}
+		catch (Exception e) {
+			throw new FlippingException("Failed to send updated hand message to all players.", e);
 		}
 	}
 

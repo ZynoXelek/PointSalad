@@ -96,6 +96,18 @@ public class PointSaladDraftingPhase implements IPhase {
 			if (market.isCardsStringValid(command)) {
 				validCommand = true;
 			}
+
+			if (!validCommand) {
+				IServer server = state.getServer();
+				int playerID = players.get(currentPlayerIndex).getPlayerID();
+				try {
+					server.sendMessageTo("Invalid draft. Please try again.", playerID);
+				}
+				catch (Exception e) {
+					throw new DraftingException("Failed to send message to player of index " + currentPlayerIndex +
+					", corresponding to Client of index " + playerID + ".", e);
+				}
+			}
 		}
 
 		try {
