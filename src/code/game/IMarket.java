@@ -19,6 +19,13 @@ public interface IMarket {
 	public String toString();
 
 	/**
+	 * Checks if the market is empty.
+	 * 
+	 * @return True if the market is empty, false otherwise
+	 */
+	public boolean isEmpty();
+
+	/**
 	 * Checks if a string identifier of cards is valid.
 	 * 
 	 * @param cardsString The string identifier of the cards

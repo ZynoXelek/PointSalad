@@ -46,6 +46,28 @@ public class PointSaladMarket implements IMarket {
 		}
 	}
 
+	@Override
+	public boolean isEmpty() {
+		for (int i = 0; i<NUM_DRAW_PILES; i++)
+		{
+			Pile pile = criteriaPiles.get(i);
+			if (pile != null && !pile.isEmpty())
+			{
+				return false;
+			}
+		}
+
+		for (int i = 0; i<NUM_VEGETABLE_CARDS; i++)
+		{
+			if (vegetableCards.get(i) != null)
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
+
 	/**
 	 * Sets the pile at the given index.
 	 * 
