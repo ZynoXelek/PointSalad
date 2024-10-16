@@ -150,4 +150,41 @@ public abstract class AbstractPlayer {
 
 		return handString;
 	}
+
+	/**
+	 * Gets the players' hands.
+	 * 
+	 * @param players The list of players
+	 * 
+	 * @return The players' hands
+	 */
+	public static ArrayList<ArrayList<ICard>> getHands(ArrayList<AbstractPlayer> players) {
+		ArrayList<ArrayList<ICard>> hands = new ArrayList<ArrayList<ICard>>();
+
+		for (AbstractPlayer player : players) {
+			hands.add(player.getHand());
+		}
+
+		return hands;
+	}
+
+	/**
+	 * Gets the other players in the game.
+	 * 
+	 * @param players The list of players
+	 * @param playerIndex The index of the player to be excluded from the created list
+	 * 
+	 * @return The other players in the game
+	 */
+	public static ArrayList<AbstractPlayer> getOtherPlayers(ArrayList<AbstractPlayer> players, int playerIndex) {
+		ArrayList<AbstractPlayer> otherPlayers = new ArrayList<AbstractPlayer>();
+
+		for (int i = 0; i < players.size(); i++) {
+			if (i != playerIndex) {
+				otherPlayers.add(players.get(i));
+			}
+		}
+
+		return otherPlayers;
+	}
 }
