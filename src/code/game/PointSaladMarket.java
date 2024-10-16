@@ -124,6 +124,62 @@ public class PointSaladMarket implements IMarket {
 	}
 
 	/**
+	 * Gets the available criteria strings in the market.
+	 * For instance, if the market is full, the strings will be "0", "1", "2".
+	 * 
+	 * @return The available criteria strings
+	 */
+	public ArrayList<String> getAvailableCriteriaStrings() {
+		ArrayList<String> availableCriteriaStrings = new ArrayList<String>();
+		for (int i = 0; i<NUM_DRAW_PILES; i++)
+		{
+			Pile<PointSaladCard> pile = criterionPiles.get(i);
+			if (pile != null && !pile.isEmpty())
+			{
+				availableCriteriaStrings.add(Integer.toString(i));
+			}
+		}
+		return availableCriteriaStrings;
+	}
+
+	/**
+	 * Gets the available vegetables in the market.
+	 * 
+	 * @return The available vegetables
+	 */
+	public ArrayList<PointSaladCard> getAvailableVegetables() {
+		ArrayList<PointSaladCard> availableVegetables = new ArrayList<PointSaladCard>();
+		for (int i = 0; i<NUM_VEGETABLE_CARDS; i++)
+		{
+			PointSaladCard card = vegetableCards.get(i);
+			if (card != null)
+			{
+				availableVegetables.add(card);
+			}
+		}
+		return availableVegetables;
+	}
+
+	/**
+	 * Gets the available vegetable strings in the market.
+	 * For instance, if the market is full, the strings will be "A", "B", "C", "D", "E", "F".
+	 * 
+	 * @return The available vegetable strings
+	 */
+	public ArrayList<String> getAvailableVegetableStrings() {
+		ArrayList<String> availableVegetableStrings = new ArrayList<String>();
+		for (int i = 0; i<NUM_VEGETABLE_CARDS; i++)
+		{
+			PointSaladCard card = vegetableCards.get(i);
+			if (card != null)
+			{
+				availableVegetableStrings.add(ALPHABET.substring(i, i + 1));
+			}
+		}
+		return availableVegetableStrings;
+	}
+
+	/**
 	 * Gets the pile at the given index.
 	 * 
 	 * @param pileIndex The index of the pile
