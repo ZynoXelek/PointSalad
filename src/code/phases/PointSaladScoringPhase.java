@@ -74,4 +74,9 @@ public class PointSaladScoringPhase implements IPhase {
 		}
 	}
 	
+	@Override
+	public boolean proceedToNextPhase(State state) {
+		// There are no other phases next. The game is over.
+		return false;
+	}
 }

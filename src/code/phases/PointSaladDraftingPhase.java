@@ -107,4 +107,12 @@ public class PointSaladDraftingPhase implements IPhase {
 		}
 	}
 
+	@Override
+	public boolean proceedToNextPhase(State state) {
+		// The next Phase for the PointSalad game is the Flipping Phase for the same player
+
+		state.setPhase(new PointSaladFlippingPhase());
+
+		return true;
+	}
 }

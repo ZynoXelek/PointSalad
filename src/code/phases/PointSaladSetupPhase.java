@@ -169,4 +169,17 @@ public class PointSaladSetupPhase implements IPhase {
 
 		pointSaladMarket.refillVegetables();
 	}
+
+	@Override
+	public boolean proceedToNextPhase(State state) {
+		// The next Phase for the PointSalad game is the Drafting Phase for the first player
+
+		// Randomly chooses the first player
+		int startingPlayerIndex = (int) (Math.random() * state.getPlayers().size());
+		state.setPlayerTurnIndex(startingPlayerIndex);
+		
+		state.setPhase(new PointSaladDraftingPhase());
+
+		return true;
+	}
 }

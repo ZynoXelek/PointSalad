@@ -2,6 +2,7 @@ package code.phases;
 
 import code.cards.PointSaladCard;
 import code.exceptions.FlippingException;
+import code.game.IMarket;
 import code.network.IServer;
 import code.players.AbstractPlayer;
 import code.players.IAPlayer;
@@ -100,5 +101,24 @@ public class PointSaladFlippingPhase implements IPhase {
 				validCommand = true;
 			}
 		}
+	}
+
+	@Override
+	public boolean proceedToNextPhase(State state) {
+		// The next Phase for the PointSalad game is either the Drafting Phase for the next player or the Scoring Phase if the market is empty.
+
+		IMarket market = state.getMarket();
+		if (market.isEmpty()) {
+			state.setPhase(new PointSaladScoringPhase());
+		}
+		else {
+			int nbPlayers = state.getPlayers().size();
+			int currentPlayerIndex = state.getPlayerTurnIndex();
+			int nextPlayerIndex = (currentPlayerIndex + 1) % nbPlayers;
+			state.setPlayerTurnIndex(nextPlayerIndex);
+			state.setPhase(new PointSaladDraftingPhase());
+		}
+
+		return true;
 	}
 }
