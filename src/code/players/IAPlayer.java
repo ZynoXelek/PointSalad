@@ -44,12 +44,13 @@ public class IAPlayer extends AbstractPlayer {
 	 * Helper method to get the move from the bot logic.
 	 * 
 	 * @param state The current state of the game
+	 * @param botPlayerId The ID of the bot player
 	 * 
 	 * @return The move to make, as a String command
 	 * 
 	 * @throws BotLogicException If an error occurs in the bot logic
 	 */
 	public String getMove(State state) throws BotLogicException {
-		return botLogic.getMove(state);
+		return botLogic.getMove(state, this.getPlayerID());
 	}
 }

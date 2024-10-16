@@ -17,5 +17,5 @@ public interface IBotLogic {
 	 * 
 	 * @throws BotLogicException If an error occurs in the bot logic
 	 */
-	public String getMove(State state) throws BotLogicException;
+	public String getMove(State state, int botPlayerId) throws BotLogicException;
 }
