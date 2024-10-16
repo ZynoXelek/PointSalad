@@ -145,4 +145,24 @@ public class PointSaladCard implements ICard {
 		return veggieCount;
 	}
 
+	/**
+	 * Converts a hand of ICard to a hand of PointSaladCard.
+	 * 
+	 * @param hand The hand to convert
+	 * 
+	 * @return The hand converted to PointSaladCard
+	 */
+	public static ArrayList<PointSaladCard> convertHand(ArrayList<ICard> hand) {
+		ArrayList<PointSaladCard> finalHand = new ArrayList<>();
+
+		for (ICard card: hand)
+		{
+			if (card instanceof PointSaladCard)
+			{
+				finalHand.add((PointSaladCard) card);
+			}
+		}
+
+		return finalHand;
+	}
 }
