@@ -1,5 +1,6 @@
 package code.phases;
 
+import code.exceptions.ScorerException;
 import code.exceptions.ScoringException;
 import code.game.IScorer;
 import code.game.PointSaladScorer;
@@ -38,7 +39,12 @@ public class PointSaladScoringPhase implements IPhase {
 		ArrayList<AbstractPlayer> players = state.getPlayers();
 
 		for (AbstractPlayer player : players) {
-			player.setScore(scorer.calculateScore(player));
+			try {
+				player.setScore(scorer.calculateScore(players, player.getPlayerID()));
+			}
+			catch (ScorerException e) {
+				throw new ScoringException("Error while calculating the score for player " + player.getPlayerID(), e);
+			}
 		}
 
 		int maxScore = 0;

@@ -1,5 +1,8 @@
 package code.game;
 
+import java.util.ArrayList;
+
+import code.exceptions.ScorerException;
 import code.players.AbstractPlayer;
 
 /**
@@ -8,11 +11,14 @@ import code.players.AbstractPlayer;
 public interface IScorer {
 
 	/**
-	 * Calculate the score for a player.
+	 * Calculates the score of a player. It may depend on other players' hands.
 	 * 
-	 * @param player The player to calculate the score for
+	 * @param players The list of players
+	 * @param playerID The ID of the player to calculate the score for
 	 * 
-	 * @return The score for the player
+	 * @return The score of the player
+	 * 
+	 * @throws ScorerException If there is an error during the scoring process
 	 */
-	public int calculateScore(AbstractPlayer player);
+	public int calculateScore(ArrayList<AbstractPlayer> players, int playerID) throws ScorerException;
 }
