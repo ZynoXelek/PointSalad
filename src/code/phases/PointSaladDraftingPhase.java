@@ -40,7 +40,7 @@ public class PointSaladDraftingPhase implements IPhase {
 				command = bot.getMove(state);
 			}
 			catch (ClassCastException e) {
-				throw new DraftingException("Player of index " + currentPlayerIndex + " is not a bot while said so.");
+				throw new DraftingException("Player of index " + currentPlayerIndex + " is not a bot while said so.", e);
 			}
 		}
 		else {
@@ -55,13 +55,15 @@ public class PointSaladDraftingPhase implements IPhase {
 				server.sendMessageTo(message, playerID);
 			}
 			catch (Exception e) {
-				throw new DraftingException("Failed to send message to player of index " + currentPlayerIndex + ", corresponding to Client of index " + playerID + ".");
+				throw new DraftingException("Failed to send message to player of index " + currentPlayerIndex +
+				", corresponding to Client of index " + playerID + ".", e);
 			}
 			try {
 				command = server.receiveMessageFrom(playerID);
 			}
 			catch (Exception e) {
-				throw new DraftingException("Failed to send message to player of index " + currentPlayerIndex + ", corresponding to Client of index " + playerID + ".");
+				throw new DraftingException("Failed to send message to player of index " + currentPlayerIndex +
+				", corresponding to Client of index " + playerID + ".", e);
 			}
 		}
 
@@ -103,7 +105,7 @@ public class PointSaladDraftingPhase implements IPhase {
 		}
 		catch (Exception e) {
 			// Should never happen since the command has been verified first.
-			throw new DraftingException("Failed to draft cards with the given command '" + command + "'.");
+			throw new DraftingException("Failed to draft cards with the given command '" + command + "'.", e);
 		}
 	}
 

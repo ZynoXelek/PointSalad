@@ -11,7 +11,7 @@ import code.states.State;
 import java.util.ArrayList;
 
 /**
- * Flipping phase for the Point Salad game, where a player can flip a criteria card back to a vegetable.
+ * Flipping phase for the Point Salad game, where a player can flip a criterion card back to a vegetable.
  */
 public class PointSaladFlippingPhase implements IPhase {
 
@@ -37,7 +37,7 @@ public class PointSaladFlippingPhase implements IPhase {
 				command = bot.getMove(state);
 			}
 			catch (ClassCastException e) {
-				throw new FlippingException("Player of index " + currentPlayerIndex + " is not a bot while said so.");
+				throw new FlippingException("Player of index " + currentPlayerIndex + " is not a bot while said so.", e);
 			}
 		}
 		else {
@@ -45,19 +45,21 @@ public class PointSaladFlippingPhase implements IPhase {
 			int playerID = player.getPlayerID();
 			String message = "\n";
 			message += player.handToString(); //TODO: As said in AbstractPlayer class, may have to redefine this method to make it look nicer
-			message += "\nWould you like to turn a criteria card into a veggie card? (Syntax example: n or 2)";
+			message += "\nWould you like to turn a criterion card into a veggie card? (Syntax example: n or 2)";
 
 			try {
 				server.sendMessageTo(message, playerID);
 			}
 			catch (Exception e) {
-				throw new FlippingException("Failed to send message to player of index " + currentPlayerIndex + ", corresponding to Client of index " + playerID + ".");
+				throw new FlippingException("Failed to send message to player of index " + currentPlayerIndex +
+				", corresponding to Client of index " + playerID + ".", e);
 			}
 			try {
 				command = server.receiveMessageFrom(playerID);
 			}
 			catch (Exception e) {
-				throw new FlippingException("Failed to send message to player of index " + currentPlayerIndex + ", corresponding to Client of index " + playerID + ".");
+				throw new FlippingException("Failed to send message to player of index " + currentPlayerIndex +
+				", corresponding to Client of index " + playerID + ".", e);
 			}
 		}
 
@@ -90,7 +92,7 @@ public class PointSaladFlippingPhase implements IPhase {
 				int cardIndex = Integer.parseInt(command);
 				if (cardIndex >= 0 && cardIndex < player.getHand().size()) {
 					PointSaladCard card = (PointSaladCard) player.getHand().get(cardIndex);
-					if (card.isCriteriaSideUp())
+					if (card.isCriterionSideUp())
 					{
 						card.flip();
 						validCommand = true;

@@ -62,13 +62,13 @@ public class PointSaladScoringPhase implements IPhase {
 				try {
 					server.sendMessageTo("\nCongratulations! Your are the winner with a score of " + maxScore, playerID);
 				} catch (Exception e) {
-					throw new ScoringException("Failed to send message to player of index " + i + ", corresponding to client of index " + playerID + ".");
+					throw new ScoringException("Failed to send message to player of index " + i + ", corresponding to client of index " + playerID + ".", e);
 				}
 			} else {
 				try {
 					server.sendMessageTo("\nPlayer " + player.getPlayerID() + " is the winner with a score of " + maxScore, playerID);
 				} catch (Exception e) {
-					throw new ScoringException("Failed to send message to player of index " + i + ", corresponding to client of index " + playerID + ".");
+					throw new ScoringException("Failed to send message to player of index " + i + ", corresponding to client of index " + playerID + ".", e);
 				}
 			}
 		}

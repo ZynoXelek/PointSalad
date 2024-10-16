@@ -12,7 +12,7 @@ import code.exceptions.CriterionFactoryException;
 public class PointSaladCriterionFactory implements ICriterionFactory {
 
 	/**
-	 * The type of criteria found in PointSalad cards.
+	 * The types of criteria found in PointSalad cards.
 	 */
 	public enum CriterionType {
 		MOST, 				// example: "MOST LETTUCE = 10"

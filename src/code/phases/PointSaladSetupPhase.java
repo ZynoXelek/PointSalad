@@ -158,14 +158,14 @@ public class PointSaladSetupPhase implements IPhase {
 		deck.shuffle();
 		deck.flip();
 
-		// Split it in three criteria piles
-		ArrayList<Pile> criteriaPiles = deck.splitIn(PointSaladMarket.NUM_DRAW_PILES);
+		// Split it in three criteriion piles
+		ArrayList<Pile> criterionPiles = deck.splitIn(PointSaladMarket.NUM_DRAW_PILES);
 
 		// Put the final piles in the market
 		PointSaladMarket pointSaladMarket = (PointSaladMarket) market;
 		for (int i = 0; i < PointSaladMarket.NUM_DRAW_PILES; i++) {
 			try {
-				pointSaladMarket.setPile(i, criteriaPiles.get(i));
+				pointSaladMarket.setPile(i, criterionPiles.get(i));
 			} catch (Exception e) {
 				// Print the error message in the terminal. May happen during testing. Will never happen once the project is completed.
 				System.err.println("Index error at PointSaladSetupPhase.processPhase() with error message:\n" + 
