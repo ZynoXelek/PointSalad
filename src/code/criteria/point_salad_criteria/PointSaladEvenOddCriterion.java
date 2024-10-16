@@ -3,9 +3,9 @@ package code.criteria.point_salad_criteria;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import code.cards.ICard;
 import code.cards.PointSaladCard;
 import code.cards.PointSaladCard.Vegetable;
-import code.players.AbstractPlayer;
 
 /**
  * Criterion for the even or odd number of a certain type of vegetable card.
@@ -29,14 +29,11 @@ public class PointSaladEvenOddCriterion extends AbstractPointSaladCriterion {
 		this.evenPoints = evenPoints;
 		this.oddPoints = oddPoints;
 	}
-	
 
 	@Override
-	public int computePlayerScore(ArrayList<AbstractPlayer> players, int playerIndex) {
+	public int computePlayerScore(ArrayList<ICard> playerHand, ArrayList<ArrayList<ICard>> otherHands) {
 		int veggieCount = 0;
-
-		AbstractPlayer player = players.get(playerIndex);
-		ArrayList<PointSaladCard> hand = PointSaladCard.convertHand(player.getHand());
+		ArrayList<PointSaladCard> hand = PointSaladCard.convertHand(playerHand);
 		HashMap<Vegetable, Integer> veggieCounts = PointSaladCard.countVeggiesInHand(hand);
 
 		if (veggieCounts.containsKey(vegetable)) {

@@ -3,9 +3,9 @@ package code.criteria.point_salad_criteria;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import code.cards.ICard;
 import code.cards.PointSaladCard;
 import code.cards.PointSaladCard.Vegetable;
-import code.players.AbstractPlayer;
 
 /**
  * A criterion for the Point Salad game that awards points for having a minimum number of each vegetable type.
@@ -28,11 +28,10 @@ public class PointSaladPerVeggieTypeCriterion extends AbstractPointSaladCriterio
 	}
 
 	@Override
-	public int computePlayerScore(ArrayList<AbstractPlayer> players, int playerIndex) {
+	public int computePlayerScore(ArrayList<ICard> playerHand, ArrayList<ArrayList<ICard>> otherHands) {
 		int points = 0;
 
-		AbstractPlayer player = players.get(playerIndex);
-		ArrayList<PointSaladCard> hand = PointSaladCard.convertHand(player.getHand());
+		ArrayList<PointSaladCard> hand = PointSaladCard.convertHand(playerHand);
 		HashMap<Vegetable, Integer> veggieCount = PointSaladCard.countVeggiesInHand(hand);
 		
 		for (Vegetable veggie : Vegetable.values()) {

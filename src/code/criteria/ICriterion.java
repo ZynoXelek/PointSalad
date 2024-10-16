@@ -1,5 +1,6 @@
 package code.criteria;
 
+import code.cards.ICard;
 import code.exceptions.CriterionException;
 import code.players.AbstractPlayer;
 
@@ -23,6 +24,19 @@ public interface ICriterion {
 	 * @throws CriterionException If the criterion object is not correctly initialized
 	 */
 	public int computePlayerScore(ArrayList<AbstractPlayer> players, int playerIndex) throws CriterionException;
+
+	/**
+	 * Computes the score of a player based on the criterion.
+	 * It can depend on the other players' hands.
+	 * 
+	 * @param playerHand The hand of the player to compute the score for
+	 * @param otherHands The hands of the other players in the game
+	 * 
+	 * @return The score of the player
+	 * 
+	 * @throws CriterionException If the criterion object is not correctly initialized
+	 */
+	public int computePlayerScore(ArrayList<ICard> playerHand, ArrayList<ArrayList<ICard>> otherHands) throws CriterionException;
 
 	/**
 	 * Gets the string representation of the criterion.

@@ -2,6 +2,7 @@ package code.criteria.point_salad_criteria;
 
 import java.util.ArrayList;
 
+import code.cards.ICard;
 import code.criteria.ICriterion;
 import code.exceptions.CriterionException;
 import code.players.AbstractPlayer;
@@ -33,7 +34,17 @@ public abstract class AbstractPointSaladCriterion implements ICriterion {
 	}
 
 	@Override
-	public abstract int computePlayerScore(ArrayList<AbstractPlayer> players, int playerIndex) throws CriterionException;
+	public int computePlayerScore(ArrayList<AbstractPlayer> players, int playerIndex) throws CriterionException {
+		AbstractPlayer player = players.get(playerIndex);
+		ArrayList<AbstractPlayer> otherPlayers = AbstractPlayer.getOtherPlayers(players, playerIndex);
+		ArrayList<ICard> hand = player.getHand();
+		ArrayList<ArrayList<ICard>> otherHands = AbstractPlayer.getHands(otherPlayers);
+
+		return computePlayerScore(hand, otherHands);
+	}
+
+	@Override
+	public abstract int computePlayerScore(ArrayList<ICard> playerHand, ArrayList<ArrayList<ICard>> otherHands) throws CriterionException;
 
 	@Override
 	public abstract String toString();

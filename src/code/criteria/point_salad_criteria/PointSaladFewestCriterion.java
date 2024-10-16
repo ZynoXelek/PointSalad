@@ -3,9 +3,9 @@ package code.criteria.point_salad_criteria;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import code.cards.ICard;
 import code.cards.PointSaladCard;
 import code.cards.PointSaladCard.Vegetable;
-import code.players.AbstractPlayer;
 
 /**
  * Criterion for the fewest of a certain type of vegetable card. 
@@ -28,20 +28,20 @@ public class PointSaladFewestCriterion extends AbstractPointSaladCriterion {
 	}
 
 	@Override
-	public int computePlayerScore(ArrayList<AbstractPlayer> players, int playerIndex) {
+	public int computePlayerScore(ArrayList<ICard> playerHand, ArrayList<ArrayList<ICard>> otherHands) {
 		int minCount = Integer.MAX_VALUE;
-		int playerCount = 0;
 
-		for (int i = 0; i < players.size(); i++) {
-			AbstractPlayer player = players.get(i);
-			ArrayList<PointSaladCard> hand = PointSaladCard.convertHand(player.getHand());
+		// Player processing
+		ArrayList<PointSaladCard> playerHandConverted = PointSaladCard.convertHand(playerHand);
+		HashMap<Vegetable, Integer> playerVeggieCount = PointSaladCard.countVeggiesInHand(playerHandConverted);
+		int playerCount = playerVeggieCount.getOrDefault(vegetable , 0);
+
+		// Other players processing
+		for (int i = 0; i < otherHands.size(); i++) {
+			ArrayList<PointSaladCard> hand = PointSaladCard.convertHand(otherHands.get(i));
 			HashMap<Vegetable, Integer> veggieCount = PointSaladCard.countVeggiesInHand(hand);
 
 			int count = veggieCount.getOrDefault(vegetable , 0);
-
-			if (i == playerIndex) {
-				playerCount = count;
-			}
 
 			if (count < minCount) {
 				minCount = count;

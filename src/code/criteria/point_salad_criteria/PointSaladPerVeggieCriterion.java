@@ -3,6 +3,7 @@ package code.criteria.point_salad_criteria;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import code.cards.ICard;
 import code.cards.PointSaladCard;
 import code.cards.PointSaladCard.Vegetable;
 import code.exceptions.CriterionException;
@@ -42,12 +43,28 @@ public class PointSaladPerVeggieCriterion extends AbstractPointSaladCriterion {
 		this.pointsPerVeggie = pointsPerVeggie;
 	}
 
-	@Override
-	public int computePlayerScore(ArrayList<AbstractPlayer> players, int playerIndex) throws CriterionException {
+	public void checkValidCriterion() throws CriterionException {
 		// Checks if the criterion lacks points for some veggies
 		if (pointsPerVeggie.size() < vegetables.size()) {
 			throw new CriterionException("The number of points per vegetable must be specified for each vegetable.");
 		}
+	}
+	
+	@Override
+	public int computePlayerScore(ArrayList<AbstractPlayer> players, int playerIndex) throws CriterionException {
+		checkValidCriterion();
+
+		// Checks if the criterion is empty
+		if (vegetables.isEmpty()) {
+			return 0;
+		}
+		
+		return super.computePlayerScore(players, playerIndex);
+	}
+
+	@Override
+	public int computePlayerScore(ArrayList<ICard> playerHand, ArrayList<ArrayList<ICard>> otherHands) throws CriterionException {
+		checkValidCriterion();
 		
 		// Checks if the criterion is empty
 		if (vegetables.isEmpty()) {
@@ -55,8 +72,7 @@ public class PointSaladPerVeggieCriterion extends AbstractPointSaladCriterion {
 		}
 
 		int points = 0;
-		AbstractPlayer player = players.get(playerIndex);
-		ArrayList<PointSaladCard> hand = PointSaladCard.convertHand(player.getHand());
+		ArrayList<PointSaladCard> hand = PointSaladCard.convertHand(playerHand);
 		HashMap<Vegetable, Integer> veggieCounts = PointSaladCard.countVeggiesInHand(hand);
 
 		for (Vegetable veggie : vegetables) {
