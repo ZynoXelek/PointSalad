@@ -66,17 +66,17 @@ public class PointSaladCard implements ICard {
 	}
 
 	@Override
-	public void printCard() {
-		System.out.println(this);
-	}
-
-	@Override
 	public String toString() {
 		if(criterionSideUp) {
 			return criterion.getCriterionDisplay() + " (" + vegetable + ")";
 		} else {
 			return vegetable.toString();
 		}
+	}
+
+	@Override
+	public String handToString(ArrayList<ICard> hand) {
+		return PointSaladCard.getHandAsString(PointSaladCard.convertHand(hand));
 	}
 
 	/**
@@ -170,5 +170,42 @@ public class PointSaladCard implements ICard {
 		}
 
 		return finalHand;
+	}
+
+	/**
+	 * Constructs a fancy string representation of a hand of PointSaladCard.
+	 * It will display the criteria and the vegetables in the hand, separately.
+	 * 
+	 * @param hand The hand to convert to a string
+	 * 
+	 * @return The string representation of the hand
+	 */
+	public static String getHandAsString(ArrayList<PointSaladCard> hand) {
+		StringBuilder handString = new StringBuilder();
+
+		ArrayList<PointSaladCard> criterionHand = getCriteriaHand(hand);
+		ArrayList<PointSaladCard> veggieHand = getVeggieHand(hand);
+
+		HashMap<Vegetable, Integer> veggieCount = countVeggiesInHand(veggieHand);
+
+		handString.append("Criteria: ");
+		for (int i = 0; i < criterionHand.size(); i++)
+		{
+			PointSaladCard card = criterionHand.get(i);
+			handString.append("[" + i + "] " + card.toString() + "\t\t");
+		}
+
+		handString.append("\nVegetables: ");
+		for (Vegetable veggie : Vegetable.values())
+		{
+			int count = veggieCount.getOrDefault(veggie, 0);
+			if (count == 0)
+			{
+				continue;
+			}
+			handString.append(veggie + ": " + count + "\t\t");
+		}
+
+		return handString.toString();
 	}
 }

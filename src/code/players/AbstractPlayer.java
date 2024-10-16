@@ -142,10 +142,11 @@ public abstract class AbstractPlayer {
 	 */
 	public String handToString() {
 		//TODO: may change this implementation if it is not good looking
-		String handString = "";
+		String handString = "Empty Hand";
 
-		for (ICard card : hand) {
-			handString += card.toString() + "\n";
+		if (hand.size() > 0) {
+			ICard card = hand.get(0);
+			handString = card.handToString(hand);
 		}
 
 		return handString;
@@ -186,5 +187,18 @@ public abstract class AbstractPlayer {
 		}
 
 		return otherPlayers;
+	}
+
+	/**
+	 * Gets the hands of the other players in the game.
+	 * 
+	 * @param players The list of players
+	 * @param playerIndex The index of the player to exclude from the created list
+	 * 
+	 * @return The hands of the other players in the game
+	 */
+	public static ArrayList<ArrayList<ICard>> getOtherHands(ArrayList<AbstractPlayer> players, int playerIndex) {
+		ArrayList<AbstractPlayer> otherPlayers = getOtherPlayers(players, playerIndex);
+		return getHands(otherPlayers);
 	}
 }

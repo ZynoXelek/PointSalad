@@ -1,5 +1,7 @@
 package code.cards;
 
+import java.util.ArrayList;
+
 /**
  * Interface for a card.
  */
@@ -10,8 +12,15 @@ public interface ICard {
 	 */
 	public void flip();
 
+	@Override
+	public String toString();
+
 	/**
-	 * Prints the card in the terminal.
+	 * Gets the string representation of a hand of cards.
+	 * 
+	 * @param hand The hand of cards
+	 * 
+	 * @return The string representation of the hand of cards
 	 */
-	public abstract void printCard();
+	public String handToString(ArrayList<ICard> hand);
 }
