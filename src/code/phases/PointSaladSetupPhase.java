@@ -3,7 +3,7 @@ package code.phases;
 import code.cards.ICard;
 import code.cards.ICardFactory;
 import code.cards.Pile;
-import code.cards.PointSaladFactory;
+import code.cards.PointSaladCardFactory;
 import code.cards.PointSaladCard;
 import code.cards.PointSaladCard.Vegetable;
 import code.exceptions.SetupException;
@@ -42,7 +42,7 @@ public class PointSaladSetupPhase implements IPhase {
 	 * By default, uses the PointSaladFactory and the default path for the cards.
 	 */
 	public PointSaladSetupPhase() {
-		this.cardFactory = new PointSaladFactory();
+		this.cardFactory = new PointSaladCardFactory();
 		this.cardsPath = DEFAULT_PATH;
 	}
 
@@ -64,7 +64,7 @@ public class PointSaladSetupPhase implements IPhase {
 	 * @param cardsPath The path to the cards json file
 	 */
 	public PointSaladSetupPhase(String cardsPath) {
-		this.cardFactory = new PointSaladFactory();
+		this.cardFactory = new PointSaladCardFactory();
 		this.cardsPath = cardsPath;
 	}
 
@@ -91,14 +91,15 @@ public class PointSaladSetupPhase implements IPhase {
 		ArrayList<Pile> piles = new ArrayList<Pile>();
 		HashMap<Vegetable, Pile> veggiePiles = new HashMap<Vegetable, Pile>();
 		
+		ArrayList<PointSaladCard> pointSaladCards = PointSaladCard.convertHand(cards);
+
 		for (Vegetable veggie : Vegetable.values()) {
 			Pile pile = new Pile();
 			veggiePiles.put(veggie, pile);
 		}
 
-		for (ICard card : cards) {
-			PointSaladCard pointSaladCard = (PointSaladCard) card;
-			Pile pile = veggiePiles.get(pointSaladCard.getVegetable());
+		for (PointSaladCard card : pointSaladCards) {
+			Pile pile = veggiePiles.get(card.getVegetable());
 			pile.addCard(card);
 		}
 
@@ -136,7 +137,12 @@ public class PointSaladSetupPhase implements IPhase {
 		}
 
 		int nbVeggieCards = NB_EACH_VEGGIE.get(nbPlayers);
-		ArrayList<ICard> cards = this.cardFactory.loadCards(this.cardsPath);
+		ArrayList<ICard> cards = null;
+		try {
+			cards = this.cardFactory.loadCards(this.cardsPath);
+		} catch (Exception e) {
+			throw new SetupException("Failed to load cards from path '" + this.cardsPath + "'", e);
+		}
 
 		// Get piles containing cards of a single type of Vegetable
 		ArrayList<Pile> veggiePiles = extractVeggiePiles(cards);

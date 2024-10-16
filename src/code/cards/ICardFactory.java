@@ -2,6 +2,8 @@ package code.cards;
 
 import java.util.ArrayList;
 
+import code.exceptions.CardFactoryException;
+
 /**
  * Interface for a card factory.
  */
@@ -16,5 +18,5 @@ public interface ICardFactory {
 	 * 
 	 * @throws CardFactoryException If the file does not exist
 	 */
-	public ArrayList<ICard> loadCards(String filename);
+	public ArrayList<ICard> loadCards(String filename) throws CardFactoryException;
 }
