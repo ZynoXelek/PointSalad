@@ -2,6 +2,7 @@ package code.game;
 
 import java.util.ArrayList;
 
+import code.cards.ICard;
 import code.exceptions.ScorerException;
 import code.players.AbstractPlayer;
 
@@ -21,4 +22,16 @@ public interface IScorer {
 	 * @throws ScorerException If there is an error during the scoring process
 	 */
 	public int calculateScore(ArrayList<AbstractPlayer> players, int playerID) throws ScorerException;
+
+	/**
+	 * Calculates the score of a hand. It may depend on other players' hands.
+	 * 
+	 * @param hand The hand to calculate the score for
+	 * @param otherHands The hands of the other players
+	 * 
+	 * @return The score of the hand
+	 * 
+	 * @throws ScorerException If there is an error during the scoring process
+	 */
+	public int calculateScore(ArrayList<ICard> hand, ArrayList<ArrayList<ICard>> otherHands) throws ScorerException;
 }

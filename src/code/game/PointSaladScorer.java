@@ -1,5 +1,6 @@
 package code.game;
 
+import code.cards.ICard;
 import code.cards.PointSaladCard;
 import code.exceptions.CriterionException;
 import code.exceptions.ScorerException;
@@ -15,19 +16,28 @@ public class PointSaladScorer implements IScorer {
 
 	@Override
 	public int calculateScore(ArrayList<AbstractPlayer> players, int playerID) throws ScorerException {
+		AbstractPlayer player = players.get(playerID);
+		ArrayList<AbstractPlayer> otherPlayers = AbstractPlayer.getOtherPlayers(players, playerID);
+		ArrayList<ICard> hand = player.getHand();
+		ArrayList<ArrayList<ICard>> otherHands = AbstractPlayer.getHands(otherPlayers);
+
+		return calculateScore(hand, otherHands);
+	}
+
+	@Override
+	public int calculateScore(ArrayList<ICard> hand, ArrayList<ArrayList<ICard>> otherHands) throws ScorerException {
 		int score = 0;
 
-		AbstractPlayer player = players.get(playerID);
+		ArrayList<PointSaladCard> pointSaladHand = PointSaladCard.convertHand(hand);
+		ArrayList<PointSaladCard> criteriaHand = PointSaladCard.getCriteriaHand(pointSaladHand);
 
-		ArrayList<PointSaladCard> hand = PointSaladCard.convertHand(player.getHand());
-		ArrayList<PointSaladCard> criteriaHand = PointSaladCard.getCriteriaHand(hand);
-
-		for (PointSaladCard card : criteriaHand) {
+		for (int i = 0; i < criteriaHand.size(); i++) {
+			PointSaladCard card = criteriaHand.get(i);
 			try {
-				score += card.getCriterion().computePlayerScore(players, playerID);
+				score += card.getCriterion().computePlayerScore(hand, otherHands);
 			}
 			catch (CriterionException e) {
-				throw new ScorerException("Error while computing the score for player " + playerID, e);
+				throw new ScorerException("Error while computing the score for criterion card n°" + (i+1), e);
 			}
 		}
 
