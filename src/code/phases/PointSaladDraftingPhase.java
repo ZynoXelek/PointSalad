@@ -35,12 +35,19 @@ public class PointSaladDraftingPhase implements IPhase {
 
 		if (player.getIsBot()) {
 			// Use Bot Logic
+			IAPlayer bot = null;
 			try {
-				IAPlayer bot = (IAPlayer) player;
-				command = bot.getMove(state);
+				bot = (IAPlayer) player;
 			}
 			catch (ClassCastException e) {
 				throw new DraftingException("Player of index " + currentPlayerIndex + " is not a bot while said so.", e);
+			}
+
+			try {
+				command = bot.getMove(state);
+			}
+			catch (Exception e) {
+				throw new DraftingException("Failed to get move from bot of index " + currentPlayerIndex + ".", e);
 			}
 		}
 		else {
