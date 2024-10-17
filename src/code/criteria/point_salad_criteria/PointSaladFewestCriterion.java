@@ -27,6 +27,16 @@ public class PointSaladFewestCriterion extends AbstractPointSaladCriterion {
 		this.pointsGranted = pointsGranted;
 	}
 
+	/**
+	 * Creates a PointSaladFewestCriterion copy of the given criterion.
+	 * 
+	 * @param other The criterion to copy
+	 */
+	public PointSaladFewestCriterion(PointSaladFewestCriterion other) {
+		this.vegetable = other.vegetable;
+		this.pointsGranted = other.pointsGranted;
+	}
+
 	@Override
 	public int computePlayerScore(ArrayList<ICard> playerHand, ArrayList<ArrayList<ICard>> otherHands) {
 		int minCount = Integer.MAX_VALUE;
@@ -58,5 +68,10 @@ public class PointSaladFewestCriterion extends AbstractPointSaladCriterion {
 	@Override
 	public String toString() {
 		return "FEWEST " + vegetable + " = " + pointsGranted;
+	}
+
+	@Override
+	public PointSaladFewestCriterion copy() {
+		return new PointSaladFewestCriterion(this);
 	}
 }

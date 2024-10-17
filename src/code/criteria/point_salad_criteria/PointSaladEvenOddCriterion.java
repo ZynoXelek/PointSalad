@@ -30,6 +30,17 @@ public class PointSaladEvenOddCriterion extends AbstractPointSaladCriterion {
 		this.oddPoints = oddPoints;
 	}
 
+	/**
+	 * Creates a PointSaladEvenOddCriterion copy of the given criterion.
+	 * 
+	 * @param other The criterion to copy
+	 */
+	public PointSaladEvenOddCriterion(PointSaladEvenOddCriterion other) {
+		this.vegetable = other.vegetable;
+		this.evenPoints = other.evenPoints;
+		this.oddPoints = other.oddPoints;
+	}
+
 	@Override
 	public int computePlayerScore(ArrayList<ICard> playerHand, ArrayList<ArrayList<ICard>> otherHands) {
 		int veggieCount = 0;
@@ -50,5 +61,10 @@ public class PointSaladEvenOddCriterion extends AbstractPointSaladCriterion {
 	@Override
 	public String toString() {
 		return vegetable + ": EVEN=" + evenPoints + ", ODD=" + oddPoints;
+	}
+
+	@Override
+	public PointSaladEvenOddCriterion copy() {
+		return new PointSaladEvenOddCriterion(this);
 	}
 }

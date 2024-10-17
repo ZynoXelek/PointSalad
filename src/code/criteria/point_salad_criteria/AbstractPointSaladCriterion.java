@@ -48,4 +48,7 @@ public abstract class AbstractPointSaladCriterion implements ICriterion {
 
 	@Override
 	public abstract String toString();
+
+	@Override
+	public abstract AbstractPointSaladCriterion copy();
 }

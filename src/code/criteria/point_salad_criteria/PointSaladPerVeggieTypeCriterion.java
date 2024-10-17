@@ -27,6 +27,16 @@ public class PointSaladPerVeggieTypeCriterion extends AbstractPointSaladCriterio
 		this.pointsPerVeggieType = pointsPerVeggieType;
 	}
 
+	/**
+	 * Creates a PointSaladPerVeggieTypeCriterion copy of the given criterion.
+	 * 
+	 * @param other The criterion to copy
+	 */
+	public PointSaladPerVeggieTypeCriterion(PointSaladPerVeggieTypeCriterion other) {
+		this.minNumberOfEachVeggie = other.minNumberOfEachVeggie;
+		this.pointsPerVeggieType = other.pointsPerVeggieType;
+	}
+
 	@Override
 	public int computePlayerScore(ArrayList<ICard> playerHand, ArrayList<ArrayList<ICard>> otherHands) {
 		int points = 0;
@@ -46,5 +56,10 @@ public class PointSaladPerVeggieTypeCriterion extends AbstractPointSaladCriterio
 	@Override
 	public String toString() {
 		return pointsPerVeggieType + " / VEGETABLE TYPE >= " + minNumberOfEachVeggie;
+	}
+
+	@Override
+	public PointSaladPerVeggieTypeCriterion copy() {
+		return new PointSaladPerVeggieTypeCriterion(this);
 	}
 }

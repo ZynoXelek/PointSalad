@@ -29,6 +29,16 @@ public class PointSaladCombinationCriterion extends AbstractPointSaladCriterion 
 		this.pointsPerCombination = pointsPerCombination;
 	}
 
+	/**
+	 * Creates a PointSaladCombinationCriterion copy of the given criterion.
+	 * 
+	 * @param other The criterion to copy
+	 */
+	public PointSaladCombinationCriterion(PointSaladCombinationCriterion other) {
+		this.vegetables = new ArrayList<>(other.vegetables);
+		this.pointsPerCombination = other.pointsPerCombination;
+	}
+
 	@Override
 	public int computePlayerScore(ArrayList<AbstractPlayer> players, int playerIndex) throws CriterionException {
 		// Checks if the criterion is empty
@@ -88,5 +98,10 @@ public class PointSaladCombinationCriterion extends AbstractPointSaladCriterion 
 		}
 		criterionDisplay += " = " + pointsPerCombination;
 		return criterionDisplay;
+	}
+
+	@Override
+	public PointSaladCombinationCriterion copy() {
+		return new PointSaladCombinationCriterion(this);
 	}
 }

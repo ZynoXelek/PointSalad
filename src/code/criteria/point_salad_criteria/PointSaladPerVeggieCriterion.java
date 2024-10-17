@@ -43,6 +43,16 @@ public class PointSaladPerVeggieCriterion extends AbstractPointSaladCriterion {
 		this.pointsPerVeggie = pointsPerVeggie;
 	}
 
+	/**
+	 * Creates a PointSaladPerVeggieCriterion copy of the given criterion.
+	 * 
+	 * @param other The criterion to copy
+	 */
+	public PointSaladPerVeggieCriterion(PointSaladPerVeggieCriterion other) {
+		this.vegetables = new ArrayList<>(other.vegetables);
+		this.pointsPerVeggie = new ArrayList<>(other.pointsPerVeggie);
+	}
+
 	public void checkValidCriterion() throws CriterionException {
 		// Checks if the criterion lacks points for some veggies
 		if (pointsPerVeggie.size() < vegetables.size()) {
@@ -93,5 +103,10 @@ public class PointSaladPerVeggieCriterion extends AbstractPointSaladCriterion {
 			}
 		}
 		return criterionString.toString();
+	}
+
+	@Override
+	public PointSaladPerVeggieCriterion copy() {
+		return new PointSaladPerVeggieCriterion(this);
 	}
 }

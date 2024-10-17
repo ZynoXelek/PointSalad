@@ -24,6 +24,15 @@ public class PointSaladCompleteSetCriterion extends AbstractPointSaladCriterion 
 		this.pointsGranted = pointsGranted;
 	}
 
+	/**
+	 * Creates a PointSaladCompleteSetCriterion copy of the given criterion.
+	 * 
+	 * @param other The criterion to copy
+	 */
+	public PointSaladCompleteSetCriterion(PointSaladCompleteSetCriterion other) {
+		this.pointsGranted = other.pointsGranted;
+	}
+
 	@Override
 	public int computePlayerScore(ArrayList<ICard> playerHand, ArrayList<ArrayList<ICard>> otherHands) {
 		ArrayList<PointSaladCard> hand = PointSaladCard.convertHand(playerHand);
@@ -41,5 +50,10 @@ public class PointSaladCompleteSetCriterion extends AbstractPointSaladCriterion 
 	@Override
 	public String toString() {
 		return "COMPLETE SET = " + pointsGranted;
+	}
+
+	@Override
+	public PointSaladCompleteSetCriterion copy() {
+		return new PointSaladCompleteSetCriterion(this);
 	}
 }

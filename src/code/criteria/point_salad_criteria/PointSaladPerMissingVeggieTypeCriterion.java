@@ -24,6 +24,15 @@ public class PointSaladPerMissingVeggieTypeCriterion extends AbstractPointSaladC
 		this.pointsPerMissingVeggieType = pointsPerMissingVeggieType;
 	}
 
+	/**
+	 * Creates a PointSaladPerMissingVeggieTypeCriterion copy of the given criterion.
+	 * 
+	 * @param other The criterion to copy
+	 */
+	public PointSaladPerMissingVeggieTypeCriterion(PointSaladPerMissingVeggieTypeCriterion other) {
+		this.pointsPerMissingVeggieType = other.pointsPerMissingVeggieType;
+	}
+
 	@Override
 	public int computePlayerScore(ArrayList<ICard> playerHand, ArrayList<ArrayList<ICard>> otherHands) {
 		int points = 0;
@@ -43,5 +52,10 @@ public class PointSaladPerMissingVeggieTypeCriterion extends AbstractPointSaladC
 	@Override
 	public String toString() {
 		return pointsPerMissingVeggieType + " / MISSING VEGETABLE TYPE";
+	}
+
+	@Override
+	public PointSaladPerMissingVeggieTypeCriterion copy() {
+		return new PointSaladPerMissingVeggieTypeCriterion(this);
 	}
 }

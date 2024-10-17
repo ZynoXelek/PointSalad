@@ -27,6 +27,16 @@ public class PointSaladMostCriterion extends AbstractPointSaladCriterion {
 		this.pointsGranted = pointsGranted;
 	}
 
+	/**
+	 * Creates a PointSaladMostCriterion copy of the given criterion.
+	 * 
+	 * @param other The criterion to copy
+	 */
+	public PointSaladMostCriterion(PointSaladMostCriterion other) {
+		this.vegetable = other.vegetable;
+		this.pointsGranted = other.pointsGranted;
+	}
+
 	@Override
 	public int computePlayerScore(ArrayList<ICard> playerHand, ArrayList<ArrayList<ICard>> otherHands) {
 		int maxCount = 0;
@@ -58,5 +68,10 @@ public class PointSaladMostCriterion extends AbstractPointSaladCriterion {
 	@Override
 	public String toString() {
 		return "MOST " + vegetable + " = " + pointsGranted;
+	}
+
+	@Override
+	public PointSaladMostCriterion copy() {
+		return new PointSaladMostCriterion(this);
 	}
 }

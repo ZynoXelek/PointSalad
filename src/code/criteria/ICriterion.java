@@ -44,4 +44,11 @@ public interface ICriterion {
 	 * @return The string representation of the criterion
 	 */
 	public String getCriterionDisplay();
+
+	/**
+	 * Creates and returns a copy of the criterion.
+	 * 
+	 * @return A copy of the criterion
+	 */
+	public ICriterion copy();
 }
