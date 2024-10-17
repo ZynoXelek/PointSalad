@@ -23,4 +23,11 @@ public interface ICard {
 	 * @return The string representation of the hand of cards
 	 */
 	public String handToString(ArrayList<ICard> hand);
+
+	/**
+	 * Creates and returns a copy of the card.
+	 * 
+	 * @return A copy of the card
+	 */
+	public ICard copy();
 }

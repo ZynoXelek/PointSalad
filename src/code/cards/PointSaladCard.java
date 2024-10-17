@@ -34,6 +34,18 @@ public class PointSaladCard implements ICard {
 	}
 
 	/**
+	 * Creates a PointSaladCard copy of the given card.
+	 * It uses a deep copy, so the criterion is also copied.
+	 * 
+	 * @param other The card to copy
+	 */
+	public PointSaladCard(PointSaladCard other) {
+		this.vegetable = other.vegetable;
+		this.criterion = other.criterion.copy();
+		this.criterionSideUp = other.criterionSideUp;
+	}
+
+	/**
 	 * Gets the vegetable of the card.
 	 * 
 	 * @return The vegetable of the card
@@ -77,6 +89,11 @@ public class PointSaladCard implements ICard {
 	@Override
 	public String handToString(ArrayList<ICard> hand) {
 		return PointSaladCard.getHandAsString(PointSaladCard.convertHand(hand));
+	}
+
+	@Override
+	public PointSaladCard copy() {
+		return new PointSaladCard(this);
 	}
 
 	/**
@@ -173,6 +190,24 @@ public class PointSaladCard implements ICard {
 	}
 
 	/**
+	 * Converts a hand of PointSaladCard to a hand of ICard.
+	 * 
+	 * @param hand The hand to convert
+	 * 
+	 * @return The hand converted to ICard
+	 */
+	public static ArrayList<ICard> convertToICardHand(ArrayList<PointSaladCard> hand) {
+		ArrayList<ICard> finalHand = new ArrayList<>();
+
+		for (PointSaladCard card: hand)
+		{
+			finalHand.add(card);
+		}
+
+		return finalHand;
+	}
+
+	/**
 	 * Constructs a fancy string representation of a hand of PointSaladCard.
 	 * It will display the criteria and the vegetables in the hand, separately.
 	 * 
@@ -207,5 +242,20 @@ public class PointSaladCard implements ICard {
 		}
 
 		return handString.toString();
+	}
+
+	/**
+	 * Copies the given hand of PointSaladCard.
+	 * 
+	 * @param hand The hand to copy
+	 * 
+	 * @return The copy of the hand
+	 */
+	public static ArrayList<PointSaladCard> copyHand(ArrayList<PointSaladCard> hand) {
+		ArrayList<PointSaladCard> copy = new ArrayList<>();
+		for (PointSaladCard card : hand) {
+			copy.add(card.copy());
+		}
+		return copy;
 	}
 }
