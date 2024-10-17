@@ -20,7 +20,8 @@ import code.states.State;
  * To draft a criterion card, it uses a scorer to select the best current criterion card.
  * To draft a vegetable card, it selects the first two available cards.
  * 
- * On a flipping phase, it flips the worst criterion card, only if it improves its score.
+ * On a flipping phase, if flipping a criterion card would make the bot gain points, it will flip it.
+ * In this cas, it flips the criterion card that makes it score the most points.
  */
 public class PointSaladDefaultBotLogic implements IBotLogic {
 
@@ -224,32 +225,60 @@ public class PointSaladDefaultBotLogic implements IBotLogic {
 		ArrayList<PointSaladCard> convertedHand = PointSaladCard.convertHand(hand);
 		ArrayList<PointSaladCard> criterionCards = PointSaladCard.getCriteriaHand(convertedHand);
 
-		ArrayList<Integer> criterionScores = new ArrayList<Integer>();
+		if (criterionCards.isEmpty()) {
+			// No criterion card to flip
+			return flipString;
+		}
+
+		int currentScore = 0;
+
+		try {
+			currentScore = scorer.calculateScore(hand, otherHands);
+		}
+		catch (Exception e) {
+			throw new BotLogicException("Failed to calculate the current score of the bot.", e);
+		}
+
+		ArrayList<Integer> scores = new ArrayList<Integer>();
 		for (int i = 0; i < criterionCards.size(); i++) {
 			PointSaladCard card = criterionCards.get(i);
+			ArrayList<PointSaladCard> dummyHand = PointSaladCard.copyHand(convertedHand);
+
+			// Flip the card in the dummy hand
+			PointSaladCard cardToFlip = dummyHand.get(convertedHand.indexOf(card));
+			cardToFlip.flip();
+
+			ArrayList<ICard> dummyHandICard = PointSaladCard.convertToICardHand(dummyHand);
 
 			try {
-				int score = card.getCriterion().computePlayerScore(hand, otherHands);
-				criterionScores.add(score);
+				int score = scorer.calculateScore(dummyHandICard, otherHands);
+				scores.add(score);
 			}
 			catch (Exception e) {
 				throw new BotLogicException("Failed to calculate the score of criterion card n°" + (i+1) + " of the bot.", e);
 			}
 		}
 
-		// In increasing order
-		ArrayList<Integer> sortedScores = new ArrayList<Integer>(criterionScores);
-		sortedScores.sort(null);
+		// Get the maximum score and index
+		int maxScore = currentScore;
+		int maxIndex = -1;
 
-		if (sortedScores.size() > 0) {
-			int worstScore = sortedScores.get(0);
-			int worstIndex = criterionScores.indexOf(worstScore);
-
-			if (worstScore < 0) {
-				// Flip the worst criterion card that makes the bot lose points
-				flipString = Integer.toString(worstIndex);
+		for (int i = 0; i < scores.size(); i++) {
+			int score = scores.get(i);
+			if (score > maxScore) {
+				maxScore = score;
+				maxIndex = i;
 			}
 		}
+
+		if (maxIndex != -1) {
+			// The maximum score is the current score of the bot.
+			// Therefore it won't flip any card.
+			return flipString;
+		}
+		
+		// Flip the card that makes the bot score the most points
+		flipString = Integer.toString(maxIndex);
 
 		return flipString;
 	}
