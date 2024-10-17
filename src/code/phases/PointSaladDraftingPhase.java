@@ -32,47 +32,56 @@ public class PointSaladDraftingPhase implements IPhase {
 
 		IMarket market = state.getMarket();
 
+		String instruction = "\n\n****************************************************************\nIt's your turn! Your hand is:\n";
+		instruction += player.handToString();
+		instruction += "\nThe piles are: ";
+		instruction += market.toString();
 
-		if (player.getIsBot()) {
-			// Use Bot Logic
-			IAPlayer bot = null;
-			try {
-				bot = (IAPlayer) player;
-			}
-			catch (ClassCastException e) {
-				throw new DraftingException("Player of index " + currentPlayerIndex + " is not a bot while said so.", e);
-			}
-
-			try {
-				command = bot.getMove(state);
-			}
-			catch (Exception e) {
-				throw new DraftingException("Failed to get move from bot of index " + currentPlayerIndex + ".", e);
-			}
+		try {
+			command = player.getMove(state, instruction);
 		}
-		else {
-			IServer server = state.getServer();
-			int playerID = player.getPlayerID();
-			String message = "\n\n****************************************************************\nIt's your turn! Your hand is:\n";
-			message += player.handToString();
-			message += "\nThe piles are: ";
-			message += market.toString();
-
-			try {
-				server.sendMessageTo(message, playerID);
-			}
-			catch (Exception e) {
-				throw new DraftingException("Failed to send message to player of index " + currentPlayerIndex +
-				", corresponding to Client of index " + playerID + ".", e);
-			}
-			try {
-				command = server.receiveMessageFrom(playerID);
-			}
-			catch (Exception e) {
-				throw new DraftingException("Failed to send message to player of index " + currentPlayerIndex +
-				", corresponding to Client of index " + playerID + ".", e);
-			}
+		catch (Exception e) {
+			throw new DraftingException("Failed to get move from player (Bot? " + player.getIsBot() + ") of index " + currentPlayerIndex + ".", e);
 		}
+
+		//TODO: To be completely removed in the end
+		// if (player.getIsBot()) {
+		// 	// Use Bot Logic
+		// 	IAPlayer bot = null;
+		// 	try {
+		// 		bot = (IAPlayer) player;
+		// 	}
+		// 	catch (ClassCastException e) {
+		// 		throw new DraftingException("Player of index " + currentPlayerIndex + " is not a bot while said so.", e);
+		// 	}
+
+		// 	try {
+		// 		command = bot.getMove(state);
+		// 	}
+		// 	catch (Exception e) {
+		// 		throw new DraftingException("Failed to get move from bot of index " + currentPlayerIndex + ".", e);
+		// 	}
+		// }
+		// else {
+		// 	IServer server = state.getServer();
+		// 	int playerID = player.getPlayerID();
+		// 	String message = 
+
+		// 	try {
+		// 		server.sendMessageTo(message, playerID);
+		// 	}
+		// 	catch (Exception e) {
+		// 		throw new DraftingException("Failed to send message to player of index " + currentPlayerIndex +
+		// 		", corresponding to Client of index " + playerID + ".", e);
+		// 	}
+		// 	try {
+		// 		command = server.receiveMessageFrom(playerID);
+		// 	}
+		// 	catch (Exception e) {
+		// 		throw new DraftingException("Failed to send message to player of index " + currentPlayerIndex +
+		// 		", corresponding to Client of index " + playerID + ".", e);
+		// 	}
+		// }
 
 		return command;
 	}
@@ -94,6 +103,8 @@ public class PointSaladDraftingPhase implements IPhase {
 
 		boolean validCommand = false;
 		IMarket market = state.getMarket();
+		AbstractPlayer player = players.get(currentPlayerIndex);
+		int playerID = player.getPlayerID();
 
 		String command = "";
 
@@ -104,9 +115,8 @@ public class PointSaladDraftingPhase implements IPhase {
 				validCommand = true;
 			}
 
-			if (!validCommand) {
+			if (!validCommand && !player.getIsBot()) {
 				IServer server = state.getServer();
-				int playerID = players.get(currentPlayerIndex).getPlayerID();
 				try {
 					server.sendMessageTo("Invalid draft. Please try again.", playerID);
 				}
@@ -119,7 +129,6 @@ public class PointSaladDraftingPhase implements IPhase {
 
 		try {
 			ArrayList<ICard> cards = market.draftCards(command);
-			AbstractPlayer player = players.get(currentPlayerIndex);
 			player.addCardsToHand(cards);
 		}
 		catch (Exception e) {

@@ -31,45 +31,56 @@ public class PointSaladFlippingPhase implements IPhase {
 		int currentPlayerIndex = state.getPlayerTurnIndex();
 		AbstractPlayer player = state.getPlayers().get(currentPlayerIndex);
 
-		if (player.getIsBot()) {
-			// Use Bot Logic
-			IAPlayer bot = null;
-			try {
-				bot = (IAPlayer) player;
-			}
-			catch (ClassCastException e) {
-				throw new FlippingException("Player of index " + currentPlayerIndex + " is not a bot while said so.", e);
-			}
+		String instruction = "\n";
+		instruction += player.handToString(); //TODO: As said in AbstractPlayer class, may have to redefine this method to make it look nicer
+		instruction += "\nWould you like to turn a criterion card into a veggie card? (Syntax example: n or 2)";
 
-			try {
-				command = bot.getMove(state);
-			}
-			catch (Exception e) {
-				throw new FlippingException("Failed to get move from bot of index " + currentPlayerIndex + ".", e);
-			}
+		try {
+			command = player.getMove(state, instruction);
 		}
-		else {
-			IServer server = state.getServer();
-			int playerID = player.getPlayerID();
-			String message = "\n";
-			message += player.handToString(); //TODO: As said in AbstractPlayer class, may have to redefine this method to make it look nicer
-			message += "\nWould you like to turn a criterion card into a veggie card? (Syntax example: n or 2)";
+		catch (Exception e) {
+			throw new FlippingException("Failed to get move from player (Bot? " + player.getIsBot() + ") of index " + currentPlayerIndex + ".", e);
+		}
 
-			try {
-				server.sendMessageTo(message, playerID);
-			}
-			catch (Exception e) {
-				throw new FlippingException("Failed to send message to player of index " + currentPlayerIndex +
-				", corresponding to Client of index " + playerID + ".", e);
-			}
-			try {
-				command = server.receiveMessageFrom(playerID);
-			}
-			catch (Exception e) {
-				throw new FlippingException("Failed to send message to player of index " + currentPlayerIndex +
-				", corresponding to Client of index " + playerID + ".", e);
-			}
-		}
+		// if (player.getIsBot()) {
+		// 	// Use Bot Logic
+		// 	IAPlayer bot = null;
+		// 	try {
+		// 		bot = (IAPlayer) player;
+		// 	}
+		// 	catch (ClassCastException e) {
+		// 		throw new FlippingException("Player of index " + currentPlayerIndex + " is not a bot while said so.", e);
+		// 	}
+
+		// 	try {
+		// 		command = bot.getMove(state);
+		// 	}
+		// 	catch (Exception e) {
+		// 		throw new FlippingException("Failed to get move from bot of index " + currentPlayerIndex + ".", e);
+		// 	}
+		// }
+		// else {
+		// 	IServer server = state.getServer();
+		// 	int playerID = player.getPlayerID();
+		// 	String message = "\n";
+		// 	message += player.handToString(); //TODO: As said in AbstractPlayer class, may have to redefine this method to make it look nicer
+		// 	message += "\nWould you like to turn a criterion card into a veggie card? (Syntax example: n or 2)";
+
+		// 	try {
+		// 		server.sendMessageTo(message, playerID);
+		// 	}
+		// 	catch (Exception e) {
+		// 		throw new FlippingException("Failed to send message to player of index " + currentPlayerIndex +
+		// 		", corresponding to Client of index " + playerID + ".", e);
+		// 	}
+		// 	try {
+		// 		command = server.receiveMessageFrom(playerID);
+		// 	}
+		// 	catch (Exception e) {
+		// 		throw new FlippingException("Failed to send message to player of index " + currentPlayerIndex +
+		// 		", corresponding to Client of index " + playerID + ".", e);
+		// 	}
+		// }
 
 		return command;
 	}
@@ -117,7 +128,7 @@ public class PointSaladFlippingPhase implements IPhase {
 				validCommand = true;
 			}
 
-			if (!validCommand) {
+			if (!validCommand && !player.getIsBot()) {
 				try {
 					server.sendMessageTo("Invalid answer. Please try again.", playerID);
 				}
@@ -129,12 +140,14 @@ public class PointSaladFlippingPhase implements IPhase {
 		}
 
 		// Player's turn is completed.
-		try {
-			server.sendMessageTo("\nYour turn is completed\n****************************************************************\n\n", playerID);
-		}
-		catch (Exception e) {
-			throw new FlippingException("Failed to send end of turn message to player of index " + currentPlayerIndex +
-			", corresponding to Client of index " + playerID + ".", e);
+		if (!player.getIsBot()) {
+			try {
+				server.sendMessageTo("\nYour turn is completed\n****************************************************************\n\n", playerID);
+			}
+			catch (Exception e) {
+				throw new FlippingException("Failed to send end of turn message to player of index " + currentPlayerIndex +
+				", corresponding to Client of index " + playerID + ".", e);
+			}
 		}
 
 		try {

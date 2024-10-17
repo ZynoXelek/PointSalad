@@ -1,5 +1,9 @@
 package code.players;
 
+import code.exceptions.ServerException;
+import code.network.IServer;
+import code.states.State;
+
 /**
  * Class for a human player.
  */
@@ -13,6 +17,19 @@ public class HumanPlayer extends AbstractPlayer {
 	 */
 	public HumanPlayer(int playerID, String name) {
 		super(playerID, name, false);
+	}
+
+	@Override
+	public String getMove(State state, String instruction) throws ServerException {
+		IServer server = state.getServer();
+		int playerID = this.getPlayerID();
+
+		if (instruction != null && !instruction.isEmpty())
+		{
+			server.sendMessageTo(instruction, playerID);
+		}
+
+		return server.receiveMessageFrom(playerID);
 	}
 
 }

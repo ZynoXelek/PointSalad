@@ -1,6 +1,7 @@
 package code.players;
 
 import code.cards.ICard;
+import code.states.State;
 
 import java.util.ArrayList;
 
@@ -151,6 +152,18 @@ public abstract class AbstractPlayer {
 
 		return handString;
 	}
+
+	/**
+	 * Get the player's move based on the current state and instruction.
+	 * 
+	 * @param state The current state of the game
+	 * @param instruction The instruction to the player
+	 * 
+	 * @return The player's move
+	 * 
+	 * @throws Exception If an error occurs while getting the player's move
+	 */
+	public abstract String getMove(State state, String instruction) throws Exception;
 
 	/**
 	 * Gets the players' hands.
