@@ -47,6 +47,15 @@ public class State {
 	}
 
 	/**
+	 * Copy constructor for the State class.
+	 * 
+	 * @param state The state to copy
+	 */
+	public State copy() {
+		return new State(this.server, this.players, this.playerTurnIndex, this.market, this.phase);
+	}
+
+	/**
 	 * Getter for the server.
 	 * 
 	 * @return The server hosting the game
