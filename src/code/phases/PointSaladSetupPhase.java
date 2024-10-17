@@ -6,33 +6,60 @@ import code.cards.Pile;
 import code.cards.PointSaladCardFactory;
 import code.cards.PointSaladCard;
 import code.cards.PointSaladCard.Vegetable;
+import code.exceptions.ConfigException;
 import code.exceptions.SetupException;
+import code.game.Config;
 import code.game.IMarket;
 import code.game.PointSaladMarket;
 import code.players.AbstractPlayer;
 import code.states.State;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Setup phase for the Point Salad game.
  */
 public class PointSaladSetupPhase implements IPhase {
 
-	// TODO: Make both of them customizable through game config (?)
 	/** The default path used to the Point Salad cards json file. */
-	public static final String DEFAULT_PATH = "src/resources/cards/PointSaladManifest.json";
+	public static final String DEFAULT_PATH;
 	/** The number of each veggie card to be put in the deck, based on the number of players. */
-	public static final HashMap<Integer, Integer> NB_EACH_VEGGIE = new HashMap<Integer, Integer>() {
-		{
-			put(2, 6);
-			put(3, 9);
-			put(4, 12);
-			put(5, 15);
-			put(6, 18);
-		}
-	};
+	public static final Map<Integer, Integer> NB_EACH_VEGGIE;
+
+	static {
+		// Load final variables from the configuration file
+
+		int minPlayers = 2; // Default value
+		int maxPlayers = 6; // Default value
+		String defaultPath = "src/resources/cards/PointSaladManifest.json";
+        int nbCardsPerPlayer = 18; // Default value
+        Map<Integer, Integer> nbEachVeggieMap = new HashMap<>();
+
+        try {
+            Config config = Config.getInstance();
+			minPlayers = config.getInt("PS_minPlayers");
+			maxPlayers = config.getInt("PS_maxPlayers");
+            defaultPath = config.getString("PS_cardsManifest");
+            nbCardsPerPlayer = config.getInt("PS_nbCardsPerPlayer");
+        } catch (ConfigException e) {
+            e.printStackTrace();
+            // Use default values if configuration loading fails
+        }
+
+        DEFAULT_PATH = defaultPath;
+
+		int nbVeggies = Vegetable.values().length;
+        // Calculate the number of each veggie card based on the number of players
+        for (int players = minPlayers; players <= maxPlayers; players++) {
+            int nbEachVeggie = (players * nbCardsPerPlayer) / nbVeggies;
+            nbEachVeggieMap.put(players, nbEachVeggie);
+        }
+
+        NB_EACH_VEGGIE = Collections.unmodifiableMap(nbEachVeggieMap);
+	}
 
 	private String cardsPath;
 	private ICardFactory cardFactory;

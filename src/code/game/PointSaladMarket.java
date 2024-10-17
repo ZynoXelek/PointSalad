@@ -3,6 +3,7 @@ package code.game;
 import code.cards.ICard;
 import code.cards.Pile;
 import code.cards.PointSaladCard;
+import code.exceptions.ConfigException;
 import code.exceptions.MarketException;
 
 import java.util.ArrayList;
@@ -14,15 +15,39 @@ import java.util.ArrayList;
 public class PointSaladMarket implements IMarket {
 
 	/** Number of criterion drawing piles. */
-	static public final int NUM_DRAW_PILES = 3;
+	public static final int NUM_DRAW_PILES;
 	/** Number of vegetable cards. */
-	static public final int NUM_VEGETABLE_CARDS = 6;
+	public static final int NUM_VEGETABLE_CARDS;
 	/** Number of criterion cards to be drafted by a player. */
-	static public final int CRITERION_DRAFT = 1;
+	public static final int CRITERION_DRAFT;
 	/** Number of vegetable cards to be drafted by a player. */
-	static public final int VEGETABLE_DRAFT = 2;
+	public static final int VEGETABLE_DRAFT;
 	/** Alphabet to display the vegetable cards codes. */
-	static public final String ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	public static final String ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+	static {
+		// Load final variables from the configuration file
+		int numDrawPiles = 3;
+        int numVegetableCards = 6;
+        int criterionDraft = 1;
+        int vegetableDraft = 2;
+
+        try {
+            Config config = Config.getInstance();
+            numDrawPiles = config.getInt("PS_numDrawPiles");
+            numVegetableCards = config.getInt("PS_numVegetableCards");
+            criterionDraft = config.getInt("PS_numCriterionDraft");
+            vegetableDraft = config.getInt("PS_numVegetableDraft");
+        } catch (ConfigException e) {
+            e.printStackTrace();
+            // Use default values if configuration loading fails
+        }
+
+        NUM_DRAW_PILES = numDrawPiles;
+        NUM_VEGETABLE_CARDS = numVegetableCards;
+        CRITERION_DRAFT = criterionDraft;
+        VEGETABLE_DRAFT = vegetableDraft;
+	}
 
 	private ArrayList<Pile<PointSaladCard>> criterionPiles;
 	private ArrayList<PointSaladCard> vegetableCards;
