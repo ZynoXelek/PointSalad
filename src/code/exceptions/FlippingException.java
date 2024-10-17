@@ -3,7 +3,7 @@ package code.exceptions;
 /**
  * Exception thrown when an error occurs during the flipping phase.
  */
-public class FlippingException extends Exception {
+public class FlippingException extends PhaseException {
 	
 	/**
 	 * Creates a new flipping exception.

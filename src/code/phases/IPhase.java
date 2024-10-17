@@ -1,5 +1,6 @@
 package code.phases;
 
+import code.exceptions.PhaseException;
 import code.states.State;
 
 /**
@@ -13,9 +14,9 @@ public interface IPhase {
 	 * 
 	 * @param state The current state of the game
 	 * 
-	 * @throws Exception if something goes wrong during the phase processing
+	 * @throws PhaseException if something goes wrong during the phase processing
 	 */
-	public void processPhase(State state) throws Exception;
+	public void processPhase(State state) throws PhaseException;
 
 	/**
 	 * Proceed to the next phase of the game, modifying the state of the game accordingly.
@@ -24,7 +25,7 @@ public interface IPhase {
 	 * 
 	 * @return true if the game changes phase, false otherwise. False means the game is over
 	 * 
-	 * @throws Exception if something goes wrong during the phase transition
+	 * @throws PhaseException if something goes wrong during the phase transition
 	 */
-	public boolean proceedToNextPhase(State state) throws Exception;
+	public boolean proceedToNextPhase(State state) throws PhaseException;
 }

@@ -3,7 +3,7 @@ package code.exceptions;
 /**
  * Exception thrown when there is an error setting up the game.
  */
-public class SetupException extends Exception {
+public class SetupException extends PhaseException {
 	
 	/**
 	 * Creates a new setup exception.

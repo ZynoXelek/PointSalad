@@ -3,7 +3,7 @@ package code.exceptions;
 /**
  * Exception thrown when an error occurs while drafting cards.
  */
-public class DraftingException extends Exception {
+public class DraftingException extends PhaseException {
 	
 	/**
 	 * Creates a new drafting exception.

@@ -3,7 +3,7 @@ package code.exceptions;
 /**
  * Exception thrown when there is an error during the scoring phase.
  */
-public class ScoringException extends Exception {
+public class ScoringException extends PhaseException {
 	
 	/**
 	 * Creates a new scoring exception.
