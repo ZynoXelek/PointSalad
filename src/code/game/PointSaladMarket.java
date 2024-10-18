@@ -15,6 +15,12 @@ import java.util.ArrayList;
  */
 public class PointSaladMarket implements IMarket {
 
+	/** Enum used to detect the type of a player's draft */
+	private enum DraftType {
+		CRITERION,
+		VEGETABLE
+	}
+
 	/** Number of criterion drawing piles. */
 	public static final int NUM_DRAW_PILES;
 	/** Number of vegetable cards. */
@@ -307,17 +313,26 @@ public class PointSaladMarket implements IMarket {
 
 	@Override
 	public String getDraftingInstruction() {
-		return "Please draft either " + CRITERION_DRAFT + " criterion card or " + VEGETABLE_DRAFT +
+		return "Please draft a single type of cards, up to " + CRITERION_DRAFT + " criterion card, or " + VEGETABLE_DRAFT +
 		" vegetable cards, where each should be unique. (e.g: 1 or AC)";
+	}
+
+	private DraftType getDraftType(String cardsString) {
+		DraftType draftType = null;
+		try {
+			Integer.parseInt(cardsString);
+			draftType = DraftType.CRITERION;
+		} catch (NumberFormatException e) {
+			draftType = DraftType.VEGETABLE;
+		}
+		return draftType;
 	}
 
 	@Override
 	public boolean isCardsStringValid(String cardsString) {
 		int length = cardsString.length();
 
-		//TODO: May have to be changed if the number of cards to be drafted is not strict but "up to x cards"
-		// According to the rules, the player must draft either 1 criterion card or 2 vegetable cards though
-		if (length != CRITERION_DRAFT && length != VEGETABLE_DRAFT)
+		if (length <= 0 || length > Integer.max(CRITERION_DRAFT, VEGETABLE_DRAFT))
 		{
 			return false;
 		}
@@ -334,6 +349,41 @@ public class PointSaladMarket implements IMarket {
 			usedChars.add(c);
 		}
 
+		// Verify that only criterion or vegetable cards are drafted at the same time, not a mix of both.
+		// Also verifies if every card is available in the market.
+		DraftType draftType = getDraftType(cardsString);
+
+		if (draftType.equals(DraftType.CRITERION)) {
+			for (String c: usedChars) {
+				try {
+					int index = Integer.parseInt(c);
+					Pile<PointSaladCard> pile = getPile(index);
+					if (pile == null || pile.isEmpty()) {
+						return false;
+					}
+				} catch (NumberFormatException e) {
+					return false;
+				} catch (MarketException e) {
+					return false;
+				}
+			}
+		}
+		
+		else if (draftType.equals(DraftType.VEGETABLE)) {
+			for (String c: usedChars) {
+				try {
+					// Will return -1 if the character is not found, which will detect that the draft is invalid
+					int index = ALPHABET.indexOf(c);
+					PointSaladCard card = getCard(index);
+					if (card == null) {
+						return false;
+					}
+				} catch (MarketException e) {
+					return false;
+				}
+			}
+		}
+
 		return true;
 	}
 
@@ -348,11 +398,16 @@ public class PointSaladMarket implements IMarket {
 		if (!isCardsStringValid(cardsString))
 		{
 			throw new MarketException("Invalid choice. " +
-				"You may either draft " + CRITERION_DRAFT + " criterion card or " + VEGETABLE_DRAFT + " vegetable cards, where each should be unique.");
+				"You may either draft a single type of card, up to " + CRITERION_DRAFT + " criterion card, or " +
+				 VEGETABLE_DRAFT + " vegetable cards, where each should be unique.");
 		}
 
+		// We know the string is valid, so we just need to check the type of draft it is.
+		DraftType draftType = getDraftType(cardsString);
+
+
 		// Process criterion drafting (using numbers)
-		if (length == CRITERION_DRAFT)
+		if (draftType.equals(DraftType.CRITERION))
 		{
 			for (int i = 0; i<length; i++)
 			{
@@ -372,7 +427,7 @@ public class PointSaladMarket implements IMarket {
 		}
 
 		// Process vegetable drafting (using letters)
-		else if (length == VEGETABLE_DRAFT)
+		else if (draftType.equals(DraftType.VEGETABLE))
 		{
 			for (int i = 0; i<length; i++)
 			{
@@ -405,8 +460,11 @@ public class PointSaladMarket implements IMarket {
 				int pileIndex = i % NUM_DRAW_PILES;
 				try {
 					PointSaladCard card = drawCriterionCard(pileIndex);
-					card.flip();
-					this.setCard(i, card);
+					if (card != null)
+					{
+						card.flip();
+						this.setCard(i, card);
+					}
 				}
 				catch (MarketException e)
 				{
@@ -485,7 +543,8 @@ public class PointSaladMarket implements IMarket {
 	 * Updates the market to ensure there are no empty vegetable card slot if it can be refilled,
 	 * and that there are no empty criterion pile if it can be balanced.
 	 */
-	public void updateMarket() {
+	@Override
+	public void refill() {
 		balancePiles();
 		refillVegetables();
 		balancePiles();

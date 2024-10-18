@@ -65,6 +65,7 @@ public class PointSaladDefaultBotLogic implements IBotLogic {
 
 	/**
 	 * Get the best criterion card(s) to draft, based on the current market.
+	 * It always draft the maximum number of cards possible (1 by default).
 	 * 
 	 * @param hand The current hand of the bot
 	 * @param otherHands The hands of the other players
@@ -80,6 +81,7 @@ public class PointSaladDefaultBotLogic implements IBotLogic {
 		ArrayList<Integer> scores = new ArrayList<Integer>();
 
 		ArrayList<PointSaladCard> criterionCards = market.getAvailableCriteria();
+		ArrayList<String> criterionStrings = market.getAvailableCriteriaStrings();
 
 		for (int i = 0; i < criterionCards.size(); i++) {
 			PointSaladCard card = criterionCards.get(i);
@@ -116,10 +118,12 @@ public class PointSaladDefaultBotLogic implements IBotLogic {
 		}
 
 		// Select the best criterion card(s)
+		int nbCardsDrafted = Integer.min(PointSaladMarket.CRITERION_DRAFT, criterionCards.size());
+
 		String draftString = "";
-		for (int i = 0; i < PointSaladMarket.CRITERION_DRAFT; i++) {
+		for (int i = 0; i < nbCardsDrafted; i++) {
 			int index = bestIndices.get(i);
-			draftString += Integer.toString(index);
+			draftString += criterionStrings.get(index);
 		}
 
 		return draftString;
@@ -127,6 +131,8 @@ public class PointSaladDefaultBotLogic implements IBotLogic {
 
 	/**
 	 * Get the vegetable card(s) to draft, based on the current market.
+	 * It will always draft the maximum number of cards possible (2 by default), or 1 if
+	 * there is only 1 card in the market.
 	 * 
 	 * @param market The current market
 	 * 
@@ -138,9 +144,10 @@ public class PointSaladDefaultBotLogic implements IBotLogic {
 		String draftString = "";
 
 		ArrayList<String> availableVegetableStrings = market.getAvailableVegetableStrings();
+		int nbCardsDrafted = Integer.min(PointSaladMarket.VEGETABLE_DRAFT, availableVegetableStrings.size());
 
 		// Select the first two available vegetable cards
-		for (int i = 0; i < PointSaladMarket.VEGETABLE_DRAFT; i++) {
+		for (int i = 0; i < nbCardsDrafted; i++) {
 			draftString += availableVegetableStrings.get(i);
 		}
 
@@ -274,7 +281,7 @@ public class PointSaladDefaultBotLogic implements IBotLogic {
 			}
 		}
 
-		if (maxIndex != -1) {
+		if (maxIndex == -1) {
 			// The maximum score is the current score of the bot.
 			// Therefore it won't flip any card.
 			return flipString;
