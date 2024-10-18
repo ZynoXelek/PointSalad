@@ -116,6 +116,8 @@ public class PointSaladDraftingPhase implements IPhase {
 			}
 		}
 
+		System.out.println(player.getName() + " (Player ID: " + playerID + ") drafted: " + command);
+
 		try {
 			ArrayList<ICard> cards = market.draftCards(command);
 			player.addCardsToHand(cards);

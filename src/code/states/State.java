@@ -186,10 +186,16 @@ public class State {
 		if (playerTurnIndex == -1) {
 			stateString += "No player's turn\n";
 		} else {
-			stateString += "Current player turn (" + playerTurnIndex + "/" + players.size() + "): "
+			stateString += "Current player turn (" + (playerTurnIndex + 1) + "/" + players.size() + "): "
 					+ getCurrentPlayer().getName() + "\n";
 		}
 		stateString += market + "\n";
+
+		for (AbstractPlayer player : players.values()) {
+			stateString += player.getName() + " (Player ID: " + player.getPlayerID() + ") hand is now: \n";
+			stateString += player.getHand() + "\n\n";
+		}
+
 		stateString += " -------------------------- \n";
 
 		return stateString;

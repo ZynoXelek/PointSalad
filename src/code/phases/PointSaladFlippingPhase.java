@@ -126,6 +126,8 @@ public class PointSaladFlippingPhase implements IPhase {
 				}
 			}
 		}
+		
+		System.out.println(player.getName() + " (Player ID: " + playerID + ") flipped: " + command);
 
 		// Player's turn is completed.
 		if (!player.getIsBot()) {
