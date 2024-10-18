@@ -144,6 +144,10 @@ public class Server implements IServer {
 
 	@Override
 	public void sendMessageTo(String message, int clientID) throws ServerException {
+		if (clientID < 0 || clientID >= this.outToClients.size()) {
+			throw new ServerException("Invalid client ID");
+		}
+		
 		try {
 			this.outToClients.get(clientID).writeObject(message);
 		} catch(Exception e) {
