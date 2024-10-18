@@ -1,50 +1,42 @@
-# Variables
-SRC_DIR = src
-CODE_DIR = $(SRC_DIR)/java
-RES_DIR = $(SRC_DIR)/resources
-BIN_DIR = bin
-LIB_DIR = lib
-MAIN_CLASS = PointSalad
-JAVAC = javac
-JAVA = java
+# Command lines examples
+# To compile with Bash (Using Linux or Windows git bash): javac -cp "lib/*" -d bin $(find src/code -name "*.java")
+# To compile under Windows: ?
+# To run under Linux: java -cp "bin:lib/*" code.main.PointSalad
+# To run under Windows: java -cp "bin;lib/*" code.main.PointSalad
+# Be wary about the classpath separator, it is different between Windows and Linux
 
-# Define the classpath to include all .jar files in the lib directory
-CLASSPATH = $(LIB_DIR)/*
+# Directories
+SRC_DIR := src/code
+BIN_DIR := bin
+LIB_DIR := lib
 
-# Detect the operating system
+# Source files
+SOURCES := $(shell find $(SRC_DIR) -name "*.java")
+
+# Detect OS and set path separator
 ifeq ($(OS),Windows_NT)
-	MKDIR = if not exist $(subst /,\,$(dir $@)) mkdir $(subst /,\,$(dir $@))
-	RM = del /Q $(subst /,\,$(BIN_DIR)\*.class)
-	CPSEP = ;
+	PATH_SEPARATOR := ;
 else
-	MKDIR = mkdir -p $(dir $@)
-	RM = rm -rf $(BIN_DIR)/*.class
-	CPSEP = :
+	PATH_SEPARATOR := :
 endif
 
-# Default target: compiles the project
-all: $(BIN_DIR)/$(MAIN_CLASS).class
+# Classpath
+CLASSPATH := $(LIB_DIR)/*
 
-# Compiling .java files in .class files
-$(BIN_DIR)/%.class: $(CODE_DIR)/%.java
-	@$(MKDIR)
-	$(JAVAC) -cp $(CLASSPATH) -d $(BIN_DIR) $<
+# Main class
+MAIN_CLASS := code.main.PointSalad
 
-# Running the project
-run: all
-	$(JAVA) -cp $(BIN_DIR)$(CPSEP)$(CLASSPATH) $(MAIN_CLASS)
+# Targets
+all: compile
 
-# Connecting an online client player
-connect: all
-	$(JAVA) -cp $(BIN_DIR)$(CPSEP)json.jar $(MAIN_CLASS) 127.0.0.1
+compile:
+	javac -cp "$(CLASSPATH)" -d $(BIN_DIR) $(SOURCES)
 
-# Connecting an online client player with a custom IP: "make connect-ip IP=xxx.xxx.xxx.xxx"
-connect-ip: all
-	$(JAVA) -cp $(BIN_DIR)$(CPSEP)json.jar $(MAIN_CLASS) $(IP)
+run:
+	ARGS="$(filter-out $@,$(MAKECMDGOALS))" && \
+	java -cp "$(BIN_DIR)$(PATH_SEPARATOR)$(CLASSPATH)" $(MAIN_CLASS) $$ARGS
 
-# Cleaning the project
 clean:
-	$(RM)
+	rm -rf $(BIN_DIR)/*
 
-# Phony targets to avoid conflicts with files named as the targets
-.PHONY: all clean run
+.PHONY: all compile run clean
