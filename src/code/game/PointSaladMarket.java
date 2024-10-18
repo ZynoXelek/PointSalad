@@ -517,7 +517,7 @@ public class PointSaladMarket implements IMarket {
 
 		for (int i = 0; i<NUM_VEGETABLE_CARDS; i++)
 		{
-			if ((i + 1) % NUM_DRAW_PILES == 0)
+			if (i != 0 && i % NUM_DRAW_PILES == 0)
 			{
 				// Gets to the next line to respect the column display
 				marketString += "\n\t\t";
