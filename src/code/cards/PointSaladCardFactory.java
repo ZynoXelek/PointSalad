@@ -2,6 +2,7 @@ package code.cards;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -105,8 +106,12 @@ public class PointSaladCardFactory implements ICardFactory{
 				cards = createCards(cardsData);
 	
 				return cards;
-		} catch (Exception e) {
+		} catch (FileNotFoundException e) {
 			throw new CardFactoryException("The file does not exist", e);
+		} catch (CardFactoryException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new CardFactoryException("An error occurred while loading the cards", e);
 		}
 	}
 }

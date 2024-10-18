@@ -97,18 +97,21 @@ public class PointSaladCriterionFactory implements ICriterionFactory {
 
 			String[] parts = formattedString.split(" ");
 
+			String veggieString = parts[1];
+			String pointsString = parts[3];
+
 			try {
-				veggie = Vegetable.valueOf(parts[1]);
-			} catch (NumberFormatException e) {
+				veggie = Vegetable.valueOf(veggieString);
+			} catch (IllegalArgumentException e) {
 				throw new CriterionFactoryException("Invalid formatted string '" +
-				formattedString + "': could not parse the vegetable of " + type + "-type criterion.", e);
+				formattedString + "': could not parse the vegetable from '" + veggieString + "' of " + type + "-type criterion.", e);
 			}
 
 			try {
-				points = Integer.parseInt(parts[3]);
+				points = Integer.parseInt(pointsString);
 			} catch (NumberFormatException e) {
 				throw new CriterionFactoryException("Invalid formatted string '" +
-				formattedString + "': could not parse the points of " + type + "-type criterion.", e);
+				formattedString + "': could not parse the points from '" + pointsString + "' of " + type + "-type criterion.", e);
 			}
 
 			if (type == CriterionType.MOST) {
@@ -126,29 +129,29 @@ public class PointSaladCriterionFactory implements ICriterionFactory {
 			
 			String veggieString = formattedString.split(":")[0];
 
-			String[] parts = formattedString.split(" ");
+			String[] parts = formattedString.replace(",", "").split(" ");
 			String evenString = parts[1].split("=")[1];
 			String oddString = parts[2].split("=")[1];
 
 			try {
 				veggie = Vegetable.valueOf(veggieString);
-			} catch (NumberFormatException e) {
+			} catch (IllegalArgumentException e) {
 				throw new CriterionFactoryException("Invalid formatted string '" +
-				formattedString + "': could not parse the vegetable of " + type + "-type criterion.", e);
+				formattedString + "': could not parse the vegetable from '" + veggieString + "' of " + type + "-type criterion.", e);
 			}
 
 			try {
 				evenPoints = Integer.parseInt(evenString);
 			} catch (NumberFormatException e) {
 				throw new CriterionFactoryException("Invalid formatted string '" +
-				formattedString + "': could not parse the even points for even " + type + "-type criterion.", e);
+				formattedString + "': could not parse the even points from '" + evenString + "' for even " + type + "-type criterion.", e);
 			}
 
 			try {
 				oddPoints = Integer.parseInt(oddString);
 			} catch (NumberFormatException e) {
 				throw new CriterionFactoryException("Invalid formatted string '" +
-				formattedString + "': could not parse the odd points for odd " + type + "-type criterion.", e);
+				formattedString + "': could not parse the odd points from '" + oddString + "' for odd " + type + "-type criterion.", e);
 			}
 
 			criterion = new PointSaladEvenOddCriterion(veggie, evenPoints, oddPoints);
@@ -162,22 +165,27 @@ public class PointSaladCriterionFactory implements ICriterionFactory {
 			String[] commaParts = formattedString.split(",");
 			for (int i = 0; i < commaParts.length; i++) {
 				String commaPart = commaParts[i];
-				String[] parts = commaPart.split(" ");
+				String[] parts = commaPart.split("/");
 				Vegetable veggie = null;
 				int veggiePoints = 0;
 
+				String pointsString = parts[0].trim();
+				String veggieString = parts[1].trim();
+
 				try {
-					veggie = Vegetable.valueOf(parts[2]);
-				} catch (NumberFormatException e) {
+					veggie = Vegetable.valueOf(veggieString);
+				} catch (IllegalArgumentException e) {
 					throw new CriterionFactoryException("Invalid formatted string '" +
-					formattedString + "': could not parse the vegetable at index " + i + " of " + type + "-type criterion.", e);
+					formattedString + "': could not parse the vegetable from '" + veggieString + "' in part '" + commaPart + 
+					"' of " + type + "-type criterion.", e);
 				}
 
 				try {
-					veggiePoints = Integer.parseInt(parts[1]);
+					veggiePoints = Integer.parseInt(pointsString);
 				} catch (NumberFormatException e) {
 					throw new CriterionFactoryException("Invalid formatted string '" +
-					formattedString + "': could not parse the points at index " + i + " of " + type + "-type criterion.", e);
+					formattedString + "': could not parse the points from '" + pointsString + "' in part '" + commaPart + 
+					"' of " + type + "-type criterion.", e);
 				}
 
 				veggies.add(veggie);
@@ -199,11 +207,13 @@ public class PointSaladCriterionFactory implements ICriterionFactory {
 			for (int i = 0; i < veggieParts.length; i++) {
 				Vegetable veggie = null;
 
+				String veggieString = veggieParts[i];
+
 				try {
-					veggie = Vegetable.valueOf(veggieParts[i]);
-				} catch (NumberFormatException e) {
+					veggie = Vegetable.valueOf(veggieString);
+				} catch (IllegalArgumentException e) {
 					throw new CriterionFactoryException("Invalid formatted string '" +
-					formattedString + "': could not parse the vegetable at index " + i + " of " + type + "-type criterion.", e);
+					formattedString + "': could not parse the vegetable from '" + veggieString + "' of " + type + "-type criterion.", e);
 				}
 
 				veggies.add(veggie);
@@ -213,7 +223,7 @@ public class PointSaladCriterionFactory implements ICriterionFactory {
 				points = Integer.parseInt(pointsString);
 			} catch (NumberFormatException e) {
 				throw new CriterionFactoryException("Invalid formatted string '" +
-				formattedString + "': could not parse the points of " + type + "-type criterion.", e);
+				formattedString + "': could not parse the points from '" + pointsString + "' of " + type + "-type criterion.", e);
 			}
 
 			criterion = new PointSaladCombinationCriterion(veggies, points);
@@ -231,7 +241,7 @@ public class PointSaladCriterionFactory implements ICriterionFactory {
 				points = Integer.parseInt(pointsString);
 			} catch (NumberFormatException e) {
 				throw new CriterionFactoryException("Invalid formatted string '" +
-				formattedString + "': could not parse the points of " + type + "-type criterion.", e);
+				formattedString + "': could not parse the points from '" + pointsString + "' of " + type + "-type criterion.", e);
 			}
 
 			if (type == CriterionType.MOST_TOTAL) {
@@ -252,7 +262,7 @@ public class PointSaladCriterionFactory implements ICriterionFactory {
 				points = Integer.parseInt(pointsString);
 			} catch (NumberFormatException e) {
 				throw new CriterionFactoryException("Invalid formatted string '" +
-				formattedString + "': could not parse the points of " + type + "-type criterion.", e);
+				formattedString + "': could not parse the points from '" + pointsString + "' of " + type + "-type criterion.", e);
 			}
 
 			criterion = new PointSaladCompleteSetCriterion(points);
@@ -269,7 +279,7 @@ public class PointSaladCriterionFactory implements ICriterionFactory {
 				points = Integer.parseInt(pointsString);
 			} catch (NumberFormatException e) {
 				throw new CriterionFactoryException("Invalid formatted string '" +
-				formattedString + "': could not parse the points of " + type + "-type criterion.", e);
+				formattedString + "': could not parse the points from '" + pointsString + "' of " + type + "-type criterion.", e);
 			}
 
 			criterion = new PointSaladPerMissingVeggieTypeCriterion(points);
@@ -289,14 +299,14 @@ public class PointSaladCriterionFactory implements ICriterionFactory {
 				pointsPerVeggieType = Integer.parseInt(pointsString);
 			} catch (NumberFormatException e) {
 				throw new CriterionFactoryException("Invalid formatted string '" +
-				formattedString + "': could not parse the points of " + type + "-type criterion.", e);
+				formattedString + "': could not parse the points from '" + pointsString + "' of " + type + "-type criterion.", e);
 			}
 
 			try {
 				minNumberOfEachVeggie = Integer.parseInt(nbString);
 			} catch (NumberFormatException e) {
 				throw new CriterionFactoryException("Invalid formatted string '" +
-				formattedString + "': could not parse the minimum number of each vegetable of " + type + "-type criterion.", e);
+				formattedString + "': could not parse the minimum number of each vegetable from '" + nbString + "' of " + type + "-type criterion.", e);
 			}
 
 			criterion = new PointSaladPerVeggieTypeCriterion(minNumberOfEachVeggie, pointsPerVeggieType);
