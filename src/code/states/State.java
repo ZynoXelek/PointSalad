@@ -147,9 +147,9 @@ public class State {
 
 	/**
 	 * Returns a string representation of the state.
-	 * This representation only covers the phase and the player turn index for it
-	 * to be readable for the user.
-	 * 
+	 * This representation only covers the phase, the player's turn and the market
+	 * so that it is readable in the host's terminal.
+	 *  
 	 * @return A string representation of the state
 	 */
 	@Override
