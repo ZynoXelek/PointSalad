@@ -124,6 +124,8 @@ public class PointSaladDraftingPhase implements IPhase {
 			// Should never happen since the command has been verified first.
 			throw new DraftingException("Failed to draft cards with the given command '" + command + "'.", e);
 		}
+
+		market.refill();
 	}
 
 	@Override

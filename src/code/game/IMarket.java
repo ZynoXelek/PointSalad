@@ -51,4 +51,9 @@ public interface IMarket {
 	 * @throws MarketException If the cardsString is invalid
 	 */
 	public ArrayList<ICard> draftCards(String cardsString) throws MarketException;
+
+	/**
+	 * Refills the market to get it ready for a draft.
+	 */
+	public void refill();
 }
