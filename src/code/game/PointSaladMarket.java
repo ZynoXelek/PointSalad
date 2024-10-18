@@ -5,6 +5,7 @@ import code.cards.Pile;
 import code.cards.PointSaladCard;
 import code.exceptions.ConfigException;
 import code.exceptions.MarketException;
+import code.tools.Config;
 
 import java.util.ArrayList;
 

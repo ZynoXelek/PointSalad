@@ -1,7 +1,6 @@
 package code.main;
 
 import code.exceptions.ServerException;
-import code.game.Config;
 import code.game.IMarket;
 import code.game.PointSaladMarket;
 import code.network.IServer;
@@ -15,9 +14,10 @@ import code.players.PointSaladDefaultBotLogic;
 import code.states.IStateManager;
 import code.states.PointSaladStateManager;
 import code.states.State;
+import code.tools.Config;
+import code.tools.TerminalInput;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 /**
  * This class is responsible for the PointSalad game hosting.
@@ -182,13 +182,12 @@ public class PointSaladHost extends AbstractHost {
 	 */
 	public static int getValidNumberOfPlayersFromTerminal() {
 		System.out.println("Enter the number of players (between " + MIN_NB_PLAYERS + " and " + MAX_NB_PLAYERS + "):");
-		Scanner scanner = new Scanner(System.in);
 
 		boolean validInput = false;
 		int nbPlayers = 0;
 
 		while (!validInput) {
-			nbPlayers = scanner.nextInt();
+			nbPlayers = TerminalInput.nextInt();
 			if (isNumberOfPlayersValid(nbPlayers)) {
 				validInput = true;
 			} else {
@@ -196,7 +195,6 @@ public class PointSaladHost extends AbstractHost {
 			}
 		}
 
-		scanner.close();
 		return nbPlayers;
 	}
 
@@ -206,13 +204,12 @@ public class PointSaladHost extends AbstractHost {
 	 */
 	public static int getValidNumberOfBotsFromTerminal(int nbPlayers) {
 		System.out.println("Enter the number of bots (between 0 and the number of players):");
-		Scanner scanner = new Scanner(System.in);
 
 		boolean validInput = false;
 		int nbBots = 0;
 
 		while (!validInput) {
-			nbBots = scanner.nextInt();
+			nbBots = TerminalInput.nextInt();
 			if (isNumberOfBotsValid(nbBots, nbPlayers)) {
 				validInput = true;
 			} else {
@@ -220,7 +217,6 @@ public class PointSaladHost extends AbstractHost {
 			}
 		}
 
-		scanner.close();
 		return nbBots;
 	}
 

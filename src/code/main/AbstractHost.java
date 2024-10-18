@@ -1,8 +1,9 @@
 package code.main;
 
-import code.game.Config;
 import code.network.IServer;
 import code.states.IStateManager;
+import code.tools.Config;
+import code.tools.TerminalInput;
 
 /**
  * Abstract class responsible for the game hosting.
@@ -98,7 +99,7 @@ public abstract class AbstractHost {
 			try {
 				gameManager.update();
 			} catch (Exception e) {
-				System.out.println("An error occurred while running the game, exiting here.");
+				System.err.println("An error occurred while running the game, exiting here. (Error message: " + e.getMessage() + ")");
 				stopGame(1);
 			}
 		}
@@ -118,8 +119,9 @@ public abstract class AbstractHost {
 		} catch (Exception e) {
 			System.out.println("An error occurred while stopping the server, exiting here.");
 			System.exit(-1);
+		} finally {
+			TerminalInput.closeScanner();
+			System.exit(status);
 		}
-
-		System.exit(status);
 	}
 }

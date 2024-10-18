@@ -2,6 +2,7 @@ package code.main;
 
 import code.exceptions.ClientException;
 import code.network.IClientConnection;
+import code.tools.TerminalInput;
 
 import java.util.Scanner;
 import java.util.regex.Pattern;
@@ -24,7 +25,7 @@ public abstract class AbstractClient {
 	 */
 	public AbstractClient(IClientConnection connection) throws ClientException {
 		this.connection = connection;
-		this.scanner = new Scanner(System.in);
+		this.scanner = TerminalInput.getScanner();
 
 		connect();
 
@@ -95,7 +96,7 @@ public abstract class AbstractClient {
 	public void quit() throws ClientException {
 		System.out.println("Stopping the client...");
 		connection.disconnect();
-		scanner.close();
+		TerminalInput.closeScanner();
 		System.out.println("Client stopped.");
 
 		System.exit(0);
@@ -133,13 +134,12 @@ public abstract class AbstractClient {
 	 * @return A valid host String from the terminal
 	 */
 	public static String getValidHostFromTerminal() {
-		Scanner scanner = new Scanner(System.in);
 		String host = null;
 		boolean isValid = false;
 
 		while (!isValid) {
 			System.out.print("Enter the host of the server: ");
-			host = scanner.nextLine();
+			host = TerminalInput.nextLine();
 			
 			if (host == null || host.isEmpty()) {
 				System.out.println("The host cannot be empty.");
@@ -150,7 +150,6 @@ public abstract class AbstractClient {
 			}
 		}
 		
-		scanner.close();
 		return host;
 	}
 
@@ -160,13 +159,12 @@ public abstract class AbstractClient {
 	 * @return A valid port from the terminal
 	 */
 	public static int getValidPortFromTerminal() {
-		Scanner scanner = new Scanner(System.in);
 		int port = 0;
 		boolean isValid = false;
 		
 		while (!isValid) {
 			System.out.print("Enter the port of the server: ");
-			String portString = scanner.nextLine();
+			String portString = TerminalInput.nextLine();
 			
 			try {
 				port = Integer.parseInt(portString);
@@ -181,7 +179,6 @@ public abstract class AbstractClient {
 			}
 		}
 		
-		scanner.close();
 		return port;
 	}
 }

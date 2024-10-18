@@ -2,6 +2,8 @@ package code.main;
 
 import java.util.Scanner;
 
+import code.tools.TerminalInput;
+
 /**
  * Main class for the PointSalad game. This class contains the main method and is the entry point for the game.
  */
@@ -41,15 +43,26 @@ public class PointSalad {
 			}
 		} else if (len == 3) {
 			int gameMode = Integer.parseInt(args[0]);
-			String host = args[1];
-			int port = Integer.parseInt(args[2]);
 			if (gameMode == JOINING) {
+				String host = args[1];
+				int port = Integer.parseInt(args[2]);
 				try {
 					joinGame(host, port);
 				} catch (Exception e) {
 					System.err.println("Error while joining the game: " + e.getMessage());
 					System.err.println(getDummyExample());
 				}
+			} else if (gameMode == HOSTING) {
+				int nbPlayers = Integer.parseInt(args[1]);
+				int nbBots = Integer.parseInt(args[2]);
+				try {
+					hostServer(PointSaladHost.DEFAULT_PORT, nbPlayers, nbBots);
+				} catch (Exception e) {
+					System.err.println("Error while hosting the server: " + e.getMessage());
+					System.err.println(getDummyExample());
+				}
+			} else {
+				System.err.println(getDummyExample());
 			}
 		} else if (len == 4) {
 			int gameMode = Integer.parseInt(args[0]);
@@ -76,7 +89,7 @@ public class PointSalad {
 	 * @return The selected game mode
 	 */
 	public static int askGameMode() {
-		Scanner scanner = new Scanner(System.in);
+		Scanner scanner = TerminalInput.getScanner();
 		
 		int gameMode = -1;
 		boolean valid = false;
@@ -97,8 +110,6 @@ public class PointSalad {
 			}
 		}
 
-		scanner.close();
-
 		return gameMode;
 	}
 
@@ -110,7 +121,7 @@ public class PointSalad {
 	public static String getDummyExample() {
 		String errorMessage = "Please enter a valid command line argument.\n";
 		errorMessage += "java PointSalad [gameMode]\n";
-		errorMessage += "1 to host a game, then you can add [port] [numPlayers] [numBots]\n";
+		errorMessage += "1 to host a game, then you can add ([port], optional) [numPlayers] [numBots]\n";
 		errorMessage += "2 to join a game, then you can add [host] [port]\n";
 		return errorMessage;
 	}
@@ -168,6 +179,10 @@ public class PointSalad {
 			new PointSalad(args);
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+		finally {
+			// Close the terminal scanner on program exit
+			TerminalInput.closeScanner();
 		}
 	}
 }

@@ -8,12 +8,12 @@ import code.cards.PointSaladCard;
 import code.cards.PointSaladCard.Vegetable;
 import code.exceptions.ConfigException;
 import code.exceptions.SetupException;
-import code.game.Config;
 import code.game.IMarket;
 import code.game.PointSaladMarket;
 import code.network.IServer;
 import code.players.AbstractPlayer;
 import code.states.State;
+import code.tools.Config;
 
 import java.util.ArrayList;
 import java.util.Collections;
