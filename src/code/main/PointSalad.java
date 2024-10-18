@@ -132,7 +132,8 @@ public class PointSalad {
 	 * @throws Exception If an error occurs while hosting the server
 	 */
 	public static void hostServer() throws Exception {
-		PointSaladHost.createHostFromTerminal();
+		AbstractHost host = PointSaladHost.createHostFromTerminal();
+		host.run();
 	}
 
 	/**
@@ -145,7 +146,8 @@ public class PointSalad {
 	 * @throws Exception If an error occurs while hosting the server
 	 */
 	public static void hostServer(int port, int numPlayers, int numBots) throws Exception {
-		new PointSaladHost(port, numPlayers, numBots);
+		AbstractHost host = new PointSaladHost(port, numPlayers, numBots);
+		host.run();
 	}
 
 	/**
@@ -154,7 +156,8 @@ public class PointSalad {
 	 * @throws Exception If an error occurs while joining the game
 	 */
 	public static void joinGame() throws Exception {
-		PointSaladClient.createFromTerminal();
+		AbstractClient client = PointSaladClient.createFromTerminal();
+		client.run();
 	}
 
 	/**
@@ -166,7 +169,8 @@ public class PointSalad {
 	 * @throws Exception If an error occurs while joining the game
 	 */
 	public static void joinGame(String host, int port) throws Exception {
-		new PointSaladClient(host, port);
+		AbstractClient client = new PointSaladClient(host, port);
+		client.run();
 	}
 
 	/**

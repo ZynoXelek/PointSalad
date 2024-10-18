@@ -40,12 +40,6 @@ public abstract class AbstractHost {
 	 */
 	public AbstractHost(IServer server) throws Exception {
 		this.server = server;
-
-		buildGame();
-
-		startGame();
-
-		stopGame();
 	}
 
 	/**
@@ -91,6 +85,17 @@ public abstract class AbstractHost {
 	public abstract boolean isGameReady();
 
 	/**
+	 * Runs the game.
+	 * 
+	 * @throws Exception If an error occurs while running the game
+	 */
+	public void run() throws Exception {
+		buildGame();
+		startGame();
+		stopGame();
+	}
+
+	/**
 	 * Starts the game.
 	 */
 	public void startGame() {
@@ -100,6 +105,7 @@ public abstract class AbstractHost {
 				gameManager.update();
 			} catch (Exception e) {
 				System.err.println("An error occurred while running the game, exiting here. (Error message: " + e.getMessage() + ")");
+				e.printStackTrace();
 				stopGame(1);
 			}
 		}

@@ -26,12 +26,6 @@ public abstract class AbstractClient {
 	public AbstractClient(IClientConnection connection) throws ClientException {
 		this.connection = connection;
 		this.scanner = TerminalInput.getScanner();
-
-		connect();
-
-		play();
-
-		quit();
 	}
 
 	/**
@@ -71,6 +65,17 @@ public abstract class AbstractClient {
 	}
 
 	/**
+	 * Runs the client.
+	 * 
+	 * @throws ClientException If an error occurs while running the client
+	 */
+	public void run() throws ClientException {
+		connect();
+		play();
+		quit();
+	}
+
+	/**
 	 * Connects the client.
 	 * 
 	 * @throws ClientException If an error occurs while connecting the client
@@ -104,12 +109,21 @@ public abstract class AbstractClient {
 
 	/**
 	 * Checks if a host is valid.
+	 * The given host should either be "localhost" or a valid IPv4 address with the format X.X.X.X
+	 * where X is a number between 0 and 255.
 	 * 
 	 * @param host The host to check
 	 * 
 	 * @return True if the host is valid, false otherwise
 	 */
 	public static boolean isHostValid(String host) {
+		if (host == null || host.isEmpty()) {
+			return false;
+		}
+		else if (host.equals("localhost")) {
+			return true;
+		}
+
 		String ipPartRegex = "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)";
 		String hostRegex = "^(" + ipPartRegex + "\\.){3}" + ipPartRegex + "$";
 		Pattern pattern = Pattern.compile(hostRegex);
@@ -144,7 +158,8 @@ public abstract class AbstractClient {
 			if (host == null || host.isEmpty()) {
 				System.out.println("The host cannot be empty.");
 			} else if (!isHostValid(host)) {
-				System.out.println("The host must be a valid IPv4 address, meaning it must be in the form of X.X.X.X where each X is between 0 and 255.");
+				System.out.println("The host must be either 'localhost' or a valid IPv4 address,"+
+				" meaning it must be in the form of X.X.X.X where each X is between 0 and 255.");
 			} else {
 				isValid = true;
 			}
@@ -163,19 +178,25 @@ public abstract class AbstractClient {
 		boolean isValid = false;
 		
 		while (!isValid) {
-			System.out.print("Enter the port of the server: ");
+			System.out.print("Enter the port of the server (Do not enter anything to use the default port " + AbstractHost.DEFAULT_PORT + "): ");
 			String portString = TerminalInput.nextLine();
-			
-			try {
-				port = Integer.parseInt(portString);
-				
-				if (!isPortValid(port)) {
-					System.out.println("The port must be between 0 and 65535.");
-				} else {
-					isValid = true;
+
+			if (portString == null || portString.isEmpty()) {
+				port = AbstractHost.DEFAULT_PORT;
+				isValid = true;
+				System.out.println("Using the default port " + port + ".");
+			} else {
+				try {
+					port = Integer.parseInt(portString);
+					
+					if (!isPortValid(port)) {
+						System.out.println("The port must be between 0 and 65535.");
+					} else {
+						isValid = true;
+					}
+				} catch(NumberFormatException e) {
+					System.out.println("The port must be an integer.");
 				}
-			} catch(NumberFormatException e) {
-				System.out.println("The port must be an integer.");
 			}
 		}
 		
