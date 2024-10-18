@@ -76,7 +76,17 @@ public class ClientConnection implements IClientConnection {
 	}
 
 	@Override
+	public boolean isConnected() {
+		return this.isConnected;
+	}
+
+	@Override
 	public void connect() throws ClientException {
+		if (this.isConnected) {
+			System.err.println("Already connected to the server. Can't connect again.");
+			return;
+		}
+
 		try {
 			this.clientSocket = new Socket(this.host, this.port);
 			this.outToServer = new ObjectOutputStream(this.clientSocket.getOutputStream());
@@ -85,10 +95,16 @@ public class ClientConnection implements IClientConnection {
 		} catch(Exception e) {
 			throw new ClientException("Could not connect to the server", e);
 		}
+		System.out.println("Connect() end");
 	}
 
 	@Override
 	public void disconnect() throws ClientException {
+		if (!this.isConnected) {
+			System.err.println("Not connected to the server. Can't disconnect.");
+			return;
+		}
+
 		try {
 			this.outToServer.close();
 			this.inFromServer.close();
@@ -103,7 +119,7 @@ public class ClientConnection implements IClientConnection {
 	public void sendMessage(String message) throws ClientException {
 		// tries to connect if not connected yet.
 		if (!this.isConnected) {
-			this.connect();
+			throw new ClientException("Not connected to the server. Can't send message.");
 		}
 
 		if (this.isConnected) {
@@ -119,18 +135,14 @@ public class ClientConnection implements IClientConnection {
 	public String readMessage() throws ClientException {
 		// tries to connect if not connected yet.
 		if (!this.isConnected) {
-			this.connect();
+			throw new ClientException("Not connected to the server. Can't read message.");
 		}
 
-		if (this.isConnected) {
-			try {
-				return (String) this.inFromServer.readObject();
-			} catch(Exception e) {
-				throw new ClientException("Could not read message from the server", e);
-			}
+		try {
+			return (String) this.inFromServer.readObject();
+		} catch(Exception e) {
+			throw new ClientException("Could not read message from the server", e);
 		}
-
-		return null;
 	}
 
 }

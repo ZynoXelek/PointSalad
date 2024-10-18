@@ -81,9 +81,14 @@ public abstract class AbstractClient {
 	 * @throws ClientException If an error occurs while connecting the client
 	 */
 	public void connect() throws ClientException {
-		System.out.println("Connecting to the host...");
-		connection.connect();
-		System.out.println("Connected to the host.");
+		if (connection == null) {
+			throw new ClientException("The client connection object is null.");
+		}
+		if (!connection.isConnected()) {
+			System.out.println("Connecting to the host...");
+			connection.connect();
+			System.out.println("Connected to the host.");
+		}
 	}
 
 	/**

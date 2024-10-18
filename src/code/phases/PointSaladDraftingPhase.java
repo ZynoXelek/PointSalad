@@ -1,7 +1,6 @@
 package code.phases;
 
 import code.players.AbstractPlayer;
-import code.players.IAPlayer;
 import code.cards.ICard;
 import code.exceptions.DraftingException;
 import code.game.IMarket;
@@ -35,7 +34,7 @@ public class PointSaladDraftingPhase implements IPhase {
 		instruction += player.handToString();
 		instruction += "\nThe piles are: ";
 		instruction += market.toString();
-		instruction += market.getDraftingInstruction() + ":\n";
+		instruction += "\n" + market.getDraftingInstruction() + ":\n";
 
 		try {
 			command = player.getMove(state, instruction);
@@ -44,45 +43,6 @@ public class PointSaladDraftingPhase implements IPhase {
 			throw new DraftingException("Failed to get move from player (Bot? " + player.getIsBot() + ") of ID " + player.getPlayerID() + ".", e);
 		}
 
-		//TODO: To be completely removed in the end
-		// if (player.getIsBot()) {
-		// 	// Use Bot Logic
-		// 	IAPlayer bot = null;
-		// 	try {
-		// 		bot = (IAPlayer) player;
-		// 	}
-		// 	catch (ClassCastException e) {
-		// 		throw new DraftingException("Player of index " + currentPlayerIndex + " is not a bot while said so.", e);
-		// 	}
-
-		// 	try {
-		// 		command = bot.getMove(state);
-		// 	}
-		// 	catch (Exception e) {
-		// 		throw new DraftingException("Failed to get move from bot of index " + currentPlayerIndex + ".", e);
-		// 	}
-		// }
-		// else {
-		// 	IServer server = state.getServer();
-		// 	int playerID = player.getPlayerID();
-		// 	String message = 
-
-		// 	try {
-		// 		server.sendMessageTo(message, playerID);
-		// 	}
-		// 	catch (Exception e) {
-		// 		throw new DraftingException("Failed to send message to player of index " + currentPlayerIndex +
-		// 		", corresponding to Client of index " + playerID + ".", e);
-		// 	}
-		// 	try {
-		// 		command = server.receiveMessageFrom(playerID);
-		// 	}
-		// 	catch (Exception e) {
-		// 		throw new DraftingException("Failed to send message to player of index " + currentPlayerIndex +
-		// 		", corresponding to Client of index " + playerID + ".", e);
-		// 	}
-		// }
-
 		return command;
 	}
 
@@ -90,6 +50,7 @@ public class PointSaladDraftingPhase implements IPhase {
 
 	@Override
 	public void processPhase(State state) throws DraftingException {
+		IServer server = state.getServer();
 		boolean validCommand = false;
 		IMarket market = state.getMarket();
 		AbstractPlayer player = state.getCurrentPlayer();
@@ -105,7 +66,6 @@ public class PointSaladDraftingPhase implements IPhase {
 			}
 
 			if (!validCommand && !player.getIsBot()) {
-				IServer server = state.getServer();
 				try {
 					server.sendMessageTo("Invalid draft. Please try again.", playerID);
 				}

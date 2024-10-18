@@ -31,7 +31,7 @@ public class PointSaladFlippingPhase implements IPhase {
 
 		String instruction = "\n";
 		instruction += player.handToString(); //TODO: As said in AbstractPlayer class, may have to redefine this method to make it look nicer
-		instruction += "\nWould you like to turn a criterion card into a veggie card? Please use the following syntax: n or 2\n";
+		instruction += "\nWould you like to turn a criterion card into a veggie card? (Syntax examples: 'n' or '0', '1'...)\n";
 
 		try {
 			command = player.getMove(state, instruction);
@@ -39,47 +39,6 @@ public class PointSaladFlippingPhase implements IPhase {
 		catch (Exception e) {
 			throw new FlippingException("Failed to get move from player (Bot? " + player.getIsBot() + ") of ID " + player.getPlayerID() + ".", e);
 		}
-
-		//TODO: To be completely removed in the end
-		// if (player.getIsBot()) {
-		// 	// Use Bot Logic
-		// 	IAPlayer bot = null;
-		// 	try {
-		// 		bot = (IAPlayer) player;
-		// 	}
-		// 	catch (ClassCastException e) {
-		// 		throw new FlippingException("Player of index " + currentPlayerIndex + " is not a bot while said so.", e);
-		// 	}
-
-		// 	try {
-		// 		command = bot.getMove(state);
-		// 	}
-		// 	catch (Exception e) {
-		// 		throw new FlippingException("Failed to get move from bot of index " + currentPlayerIndex + ".", e);
-		// 	}
-		// }
-		// else {
-		// 	IServer server = state.getServer();
-		// 	int playerID = player.getPlayerID();
-		// 	String message = "\n";
-		// 	message += player.handToString(); //TODO: As said in AbstractPlayer class, may have to redefine this method to make it look nicer
-		// 	message += "\nWould you like to turn a criterion card into a veggie card? (Syntax example: n or 2)";
-
-		// 	try {
-		// 		server.sendMessageTo(message, playerID);
-		// 	}
-		// 	catch (Exception e) {
-		// 		throw new FlippingException("Failed to send message to player of index " + currentPlayerIndex +
-		// 		", corresponding to Client of index " + playerID + ".", e);
-		// 	}
-		// 	try {
-		// 		command = server.receiveMessageFrom(playerID);
-		// 	}
-		// 	catch (Exception e) {
-		// 		throw new FlippingException("Failed to send message to player of index " + currentPlayerIndex +
-		// 		", corresponding to Client of index " + playerID + ".", e);
-		// 	}
-		// }
 
 		return command;
 	}
@@ -91,43 +50,46 @@ public class PointSaladFlippingPhase implements IPhase {
 		ArrayList<PointSaladCard> pointSaladHand = PointSaladCard.convertHand(hand);
 		ArrayList<PointSaladCard> criteriaHand = PointSaladCard.getCriteriaHand(pointSaladHand);
 
-		boolean validCommand = false;
-		String command = "";
-
 		IServer server = state.getServer();
 		int playerID = player.getPlayerID();
 
-		while (!validCommand) {
-			command = getPlayerCommand(state);
 
-			// Logic for a valid flipping command
-			if (command.matches("\\d")) {
-				int cardIndex = Integer.parseInt(command);
-				if (cardIndex >= 0 && cardIndex < criteriaHand.size()) {
-					PointSaladCard card = criteriaHand.get(cardIndex);
-					if (card.isCriterionSideUp())
-					{
-						card.flip();
-						validCommand = true;
+		if (!criteriaHand.isEmpty()) {
+			boolean validCommand = false;
+			String command = "";
+
+			while (!validCommand) {
+				command = getPlayerCommand(state);
+
+				// Logic for a valid flipping command
+				if (command.matches("\\d")) {
+					int cardIndex = Integer.parseInt(command);
+					if (cardIndex >= 0 && cardIndex < criteriaHand.size()) {
+						PointSaladCard card = criteriaHand.get(cardIndex);
+						if (card.isCriterionSideUp())
+						{
+							card.flip();
+							validCommand = true;
+						}
+					}
+				}
+				else if (command.equals("n")) {
+					validCommand = true;
+				}
+
+				if (!validCommand && !player.getIsBot()) {
+					try {
+						server.sendMessageTo("Invalid answer. Please try again.", playerID);
+					}
+					catch (Exception e) {
+						throw new FlippingException("Failed to send message to player of ID " + player.getPlayerID() +
+						", corresponding to Client of index " + playerID + ".", e);
 					}
 				}
 			}
-			else if (command.equals("n")) {
-				validCommand = true;
-			}
-
-			if (!validCommand && !player.getIsBot()) {
-				try {
-					server.sendMessageTo("Invalid answer. Please try again.", playerID);
-				}
-				catch (Exception e) {
-					throw new FlippingException("Failed to send message to player of ID " + player.getPlayerID() +
-					", corresponding to Client of index " + playerID + ".", e);
-				}
-			}
+			
+			System.out.println(player.getName() + " (Player ID: " + playerID + ") flipped: " + command);
 		}
-		
-		System.out.println(player.getName() + " (Player ID: " + playerID + ") flipped: " + command);
 
 		// Player's turn is completed.
 		if (!player.getIsBot()) {
@@ -141,8 +103,8 @@ public class PointSaladFlippingPhase implements IPhase {
 		}
 
 		try {
-			String message = "Player " + playerID + "'s hand is now: \n" + player.handToString() + "\n";
-			server.sendMessageToAll(message);
+			String message = player.getName() + "'s hand is now: \n" + player.handToString() + "\n";
+			server.sendMessageToAllExceptId(message, playerID);
 		}
 		catch (Exception e) {
 			throw new FlippingException("Failed to send updated hand message to all players.", e);

@@ -44,6 +44,16 @@ public interface IServer {
 	public void sendMessageToAll(String message) throws ServerException;
 
 	/**
+	 * Sends a message to all clients except the one specified with its ID.
+	 * 
+	 * @param message The message to send to all clients
+	 * @param clientID The ID of the client to exclude
+	 * 
+	 * @throws ServerException If an error occurs while sending the message
+	 */
+	public void sendMessageToAllExceptId(String message, int clientID) throws ServerException;
+
+	/**
 	 * Sends a message to a client.
 	 * 
 	 * @param message The message to send

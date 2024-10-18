@@ -133,12 +133,17 @@ public class Server implements IServer {
 	@Override
 	public void sendMessageToAll(String message) throws ServerException {
 		for (int i = 0; i < this.outToClients.size(); i++) {
-			try {
-				this.outToClients.get(i).writeObject(message);
-			} catch(Exception e) {
-				// Should still continue sending the message to other clients
-				System.err.println("Could not send the message to client " + i + ": " + e.getMessage());
+			sendMessageTo(message, i);
+		}
+	}
+
+	@Override
+	public void sendMessageToAllExceptId(String message, int clientID) throws ServerException {
+		for (int i = 0; i < this.outToClients.size(); i++) {
+			if (i == clientID) {
+				continue;
 			}
+			sendMessageTo(message, i);
 		}
 	}
 

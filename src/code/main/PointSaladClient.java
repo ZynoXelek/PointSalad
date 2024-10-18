@@ -51,7 +51,7 @@ public class PointSaladClient extends AbstractClient {
 		while (!receivedMessage.contains("winner")) {
 			receivedMessage = connection.readMessage();
 			System.out.println(receivedMessage);
-			if (receivedMessage.contains("Please")) {
+			if (receivedMessage.contains("example")) {
 				answer = getScanner().nextLine();
 				connection.sendMessage(answer);
 			}

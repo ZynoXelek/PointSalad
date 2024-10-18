@@ -314,7 +314,7 @@ public class PointSaladMarket implements IMarket {
 	@Override
 	public String getDraftingInstruction() {
 		return "Please draft a single type of cards, up to " + CRITERION_DRAFT + " criterion card, or " + VEGETABLE_DRAFT +
-		" vegetable cards, where each should be unique. (e.g: 1 or AC)";
+		" vegetable cards, where each should be unique. (examples: '1' or 'AC', 'B')";
 	}
 
 	private DraftType getDraftType(String cardsString) {

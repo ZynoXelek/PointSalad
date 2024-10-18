@@ -8,7 +8,6 @@ import code.network.IServer;
 import code.players.AbstractPlayer;
 import code.states.State;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -83,22 +82,25 @@ public class PointSaladScoringPhase implements IPhase {
 			int playerID = player.getPlayerID();
 
 			System.out.println(player.getName() + " (Player ID: " + playerID + ") has a score of " + scores.get(playerID) + ".");
-			
-			if (!player.getIsBot()) {
-				if(player.getPlayerID() == winnerId) {
-					try {
-						server.sendMessageTo("\nCongratulations! Your are the winner with a score of " + maxScore, playerID);
-					} catch (Exception e) {
-						throw new ScoringException("Failed to send message to player " + player.getName() + " (PlayerID: " + playerID + ").", e);
-					}
-				} else {
-					try {
-						server.sendMessageTo("\nYou lost with a score of " + scores.get(playerID) + "... " + winningPlayer.getName() + " (Player ID: " +
-						winningPlayer.getPlayerID() + ") is the winner with a score of " + maxScore + ".", playerID);
-					} catch (Exception e) {
-						throw new ScoringException("Failed to send message to player " + player.getName() + " (PlayerID: " + playerID + ").", e);
-					}
-				}
+
+			if (playerID == winnerId) {
+				continue;
+			}
+			try {
+				server.sendMessageTo("\nYou lost with a score of " + scores.get(playerID) + "... " + winningPlayer.getName() + " (Player ID: " +
+				winningPlayer.getPlayerID() + ") is the winner with a score of " + maxScore + ".", playerID);
+			} catch (Exception e) {
+				throw new ScoringException("Failed to send message to player " + player.getName() + " (PlayerID: " + playerID + ").", e);
+			}
+		}
+		System.out.println();
+		
+		if (!winningPlayer.getIsBot()) {
+			try {
+				server.sendMessageTo("\nCongratulations! Your are the winner with a score of " + maxScore, winningPlayer.getPlayerID());
+			} catch (Exception e) {
+				throw new ScoringException("Failed to send message to player " + winningPlayer.getName() +
+				" (PlayerID: " + winningPlayer.getPlayerID() + ").", e);
 			}
 		}
 

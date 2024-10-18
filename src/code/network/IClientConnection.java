@@ -22,6 +22,13 @@ public interface IClientConnection {
 	public void disconnect() throws ClientException;
 
 	/**
+	 * Checks if the client is connected to the server.
+	 * 
+	 * @return True if the client is connected, false otherwise
+	 */
+	public boolean isConnected();
+
+	/**
 	 * Sends a message to the server.
 	 * 
 	 * @param message The message to send
