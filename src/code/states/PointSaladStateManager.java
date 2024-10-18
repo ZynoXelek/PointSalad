@@ -35,6 +35,7 @@ public class PointSaladStateManager implements IStateManager {
 
 		while (!finished) {
 			IPhase phase = gameState.getPhase();
+			System.out.println("Current state of the game:\n" + gameState);
 			phase.processPhase(gameState);
 			finished = !phase.proceedToNextPhase(gameState);
 		}

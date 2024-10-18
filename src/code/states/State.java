@@ -145,4 +145,26 @@ public class State {
 		this.phase = phase;
 	}
 
+	/**
+	 * Returns a string representation of the state.
+	 * This representation only covers the phase and the player turn index for it
+	 * to be readable for the user.
+	 * 
+	 * @return A string representation of the state
+	 */
+	@Override
+	public String toString() {
+		String stateString = " ---------- State ---------- \n";
+		stateString += "Current phase of the game: " + phase.getClass().getSimpleName() + "\n";
+		if (playerTurnIndex == -1) {
+			stateString += "No player's turn\n";
+		} else {
+			stateString += "Current player turn (" + playerTurnIndex + "/" + players.size() + "): "
+					+ players.get(playerTurnIndex).getName() + "\n";
+		}
+		stateString += market + "\n";
+		stateString += " -------------------------- \n";
+
+		return stateString;
+	}
 }
