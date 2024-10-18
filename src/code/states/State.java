@@ -6,6 +6,7 @@ import code.phases.IPhase;
 import code.players.AbstractPlayer;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * The State class represents the state of the game.
@@ -13,8 +14,8 @@ import java.util.ArrayList;
 public class State {
 
 	private IServer server;
-	private ArrayList<AbstractPlayer> players;
-	private int playerTurnIndex;
+	private HashMap<Integer, AbstractPlayer> players; // Keys are player IDs
+	private int playerTurnIndex; // Index of the key of the player's turn
 	private IMarket market;
 	private IPhase phase;
 
@@ -33,12 +34,12 @@ public class State {
 	 * Constructor for the State class.
 	 * 
 	 * @param server The server hosting the game
-	 * @param players The players in the game
+	 * @param players The players in the game, with their IDs as keys
 	 * @param playerTurnIndex The index of the player whose turn it is. A value of -1 means it is not any player's turn
 	 * @param market The market in the game
 	 * @param phase The phase of the game
 	 */
-	public State(IServer server, ArrayList<AbstractPlayer> players, int playerTurnIndex, IMarket market, IPhase phase) {
+	public State(IServer server, HashMap<Integer, AbstractPlayer> players, int playerTurnIndex, IMarket market, IPhase phase) {
 		this.server = server;
 		this.players = players;
 		this.playerTurnIndex = playerTurnIndex;
@@ -78,7 +79,7 @@ public class State {
 	 * 
 	 * @return The players in the game
 	 */
-	public ArrayList<AbstractPlayer> getPlayers() {
+	public HashMap<Integer, AbstractPlayer> getPlayers() {
 		return this.players;
 	}
 
@@ -87,8 +88,34 @@ public class State {
 	 * 
 	 * @param players The players in the game
 	 */
-	public void setPlayers(ArrayList<AbstractPlayer> players) {
+	public void setPlayers(HashMap<Integer, AbstractPlayer> players) {
 		this.players = players;
+	}
+
+	/**
+	 * Getter for the player whose turn it is.
+	 * 
+	 * @return The player whose turn it is
+	 */
+	public AbstractPlayer getCurrentPlayer() {
+		if (playerTurnIndex == -1 || playerTurnIndex >= players.size()) {
+			return null;
+		}
+		int currentPlayerId = (int) players.keySet().toArray()[playerTurnIndex];
+		return players.get(currentPlayerId);
+	}
+
+	/**
+	 * Getter for the players list.
+	 * 
+	 * @return The list of players in the game
+	 */
+	public ArrayList<AbstractPlayer> getPlayersList() {
+		ArrayList<AbstractPlayer> playersList = new ArrayList<AbstractPlayer>();
+		for (AbstractPlayer player : players.values()) {
+			playersList.add(player);
+		}
+		return playersList;
 	}
 
 	/**

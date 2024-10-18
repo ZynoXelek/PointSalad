@@ -91,20 +91,9 @@ public class PointSaladDraftingPhase implements IPhase {
 
 	@Override
 	public void processPhase(State state) throws DraftingException {
-		ArrayList<AbstractPlayer> players = state.getPlayers();
-		int currentPlayerIndex = state.getPlayerTurnIndex();
-
-		if (currentPlayerIndex == -1) {
-			throw new DraftingException("It is not a player's turn.");
-		}
-
-		if (currentPlayerIndex < 0 || currentPlayerIndex >= players.size()) {
-			throw new DraftingException("Invalid player index.");
-		}
-
 		boolean validCommand = false;
 		IMarket market = state.getMarket();
-		AbstractPlayer player = players.get(currentPlayerIndex);
+		AbstractPlayer player = state.getCurrentPlayer();
 		int playerID = player.getPlayerID();
 
 		String command = "";
@@ -122,7 +111,7 @@ public class PointSaladDraftingPhase implements IPhase {
 					server.sendMessageTo("Invalid draft. Please try again.", playerID);
 				}
 				catch (Exception e) {
-					throw new DraftingException("Failed to send message to player of index " + currentPlayerIndex +
+					throw new DraftingException("Failed to send message to player of ID " + player.getPlayerID() +
 					", corresponding to Client of index " + playerID + ".", e);
 				}
 			}

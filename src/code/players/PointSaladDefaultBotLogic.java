@@ -1,6 +1,7 @@
 package code.players;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import code.cards.ICard;
 import code.cards.PointSaladCard;
@@ -108,7 +109,7 @@ public class PointSaladDefaultBotLogic implements IBotLogic {
 		// In decreasing order
 		int nbScores = scores.size();
 		ArrayList<Integer> bestIndices = new ArrayList<Integer>();
-		for (int i = nbScores; i >= 0; i--) {
+		for (int i = nbScores - 1; i >= 0; i--) {
 			int currentScore = sortedScores.get(i);
 			int j = scores.indexOf(currentScore);
 			bestIndices.add(j);
@@ -168,10 +169,11 @@ public class PointSaladDefaultBotLogic implements IBotLogic {
 			throw new BotLogicException("The market is not a PointSaladMarket.", e);
 		}
 
-		ArrayList<AbstractPlayer> players = state.getPlayers();
+		HashMap<Integer, AbstractPlayer> players = state.getPlayers();
+		ArrayList<AbstractPlayer> playersList = state.getPlayersList();
 
 		ArrayList<ICard> hand = players.get(botPlayerId).getHand();
-		ArrayList<ArrayList<ICard>> otherHands = AbstractPlayer.getOtherHands(players, botPlayerId);
+		ArrayList<ArrayList<ICard>> otherHands = AbstractPlayer.getOtherHands(playersList, botPlayerId);
 
 		int choice = (int) (Math.random() * 2);
 
@@ -218,9 +220,10 @@ public class PointSaladDefaultBotLogic implements IBotLogic {
 		// By default, won't flip any card
 		String flipString = "n";
 
-		ArrayList<AbstractPlayer> players = state.getPlayers();
+		HashMap<Integer, AbstractPlayer> players = state.getPlayers();
+		ArrayList<AbstractPlayer> playersList = state.getPlayersList();
 		ArrayList<ICard> hand = players.get(botPlayerId).getHand();
-		ArrayList<ArrayList<ICard>> otherHands = AbstractPlayer.getOtherHands(players, botPlayerId);
+		ArrayList<ArrayList<ICard>> otherHands = AbstractPlayer.getOtherHands(playersList, botPlayerId);
 
 		ArrayList<PointSaladCard> convertedHand = PointSaladCard.convertHand(hand);
 		ArrayList<PointSaladCard> criterionCards = PointSaladCard.getCriteriaHand(convertedHand);

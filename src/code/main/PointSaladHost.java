@@ -18,6 +18,7 @@ import code.tools.Config;
 import code.tools.TerminalInput;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * This class is responsible for the PointSalad game hosting.
@@ -228,7 +229,7 @@ public class PointSaladHost extends AbstractHost {
 		System.out.println("Preparing the game...");
 
 		IServer server = getServer();
-		ArrayList<AbstractPlayer> players = new ArrayList<AbstractPlayer>();
+		HashMap<Integer, AbstractPlayer> players = new HashMap<Integer, AbstractPlayer>();
 
 		// Wait for the clients to connect
 		int nbHumans = numberOfPlayers - numberOfBots;
@@ -240,17 +241,18 @@ public class PointSaladHost extends AbstractHost {
 		System.out.println("Creating the players...");
 		int maxClientID = 0;
 		// Create the human players
-		for (int i: clientIDs) {
-			if (i > maxClientID) {
-				maxClientID = i;
+		for (int playerID: clientIDs) {
+			if (playerID > maxClientID) {
+				maxClientID = playerID;
 			}
-			AbstractPlayer player = new HumanPlayer(i, "Player " + i);
-			players.add(player);
+			AbstractPlayer player = new HumanPlayer(playerID, "Player " + playerID);
+			players.put(playerID, player);
 		}
 		// Create the bot players
 		for (int i = 0; i < numberOfBots; i++) {
-			AbstractPlayer player = new IAPlayer(maxClientID + 1 + i, "Bot Player " + i, new PointSaladDefaultBotLogic());
-			players.add(player);
+			int botID = maxClientID + 1 + i;
+			AbstractPlayer player = new IAPlayer(botID, "Bot Player " + i, new PointSaladDefaultBotLogic());
+			players.put(botID, player);
 		}
 
 		int playerTurnIndex = -1; // It is no player turn at the start of the game
@@ -286,7 +288,7 @@ public class PointSaladHost extends AbstractHost {
 			return false;
 		}
 
-		ArrayList<AbstractPlayer> players = state.getPlayers();
+		HashMap<Integer, AbstractPlayer> players = state.getPlayers();
 		IMarket market = state.getMarket();
 
 		if (players == null || market == null) {

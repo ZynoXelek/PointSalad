@@ -11,7 +11,6 @@ import code.exceptions.SetupException;
 import code.game.IMarket;
 import code.game.PointSaladMarket;
 import code.network.IServer;
-import code.players.AbstractPlayer;
 import code.states.State;
 import code.tools.Config;
 
@@ -156,7 +155,6 @@ public class PointSaladSetupPhase implements IPhase {
 
 	@Override
 	public void processPhase(State state) throws SetupException {
-		ArrayList<AbstractPlayer> players = state.getPlayers();
 		IMarket market = state.getMarket();
 
 		if (market == null) {
@@ -165,8 +163,8 @@ public class PointSaladSetupPhase implements IPhase {
 			state.setMarket(market);
 		}
 
-		// Setup phase for Point Salad is preparing the market
-		int nbPlayers = players.size();
+		// Setup phase for Point Salad consists of preparing the market
+		int nbPlayers = state.getPlayers().size();
 
 		if (!NB_EACH_VEGGIE.containsKey(nbPlayers)) {
 			throw new SetupException("Invalid number of players for Point Salad: " + nbPlayers);

@@ -186,15 +186,16 @@ public abstract class AbstractPlayer {
 	 * Gets the other players in the game.
 	 * 
 	 * @param players The list of players
-	 * @param playerIndex The index of the player to be excluded from the created list
+	 * @param playerID The ID of the player to be excluded from the created list
 	 * 
 	 * @return The other players in the game
 	 */
-	public static ArrayList<AbstractPlayer> getOtherPlayers(ArrayList<AbstractPlayer> players, int playerIndex) {
+	public static ArrayList<AbstractPlayer> getOtherPlayers(ArrayList<AbstractPlayer> players, int playerID) {
 		ArrayList<AbstractPlayer> otherPlayers = new ArrayList<AbstractPlayer>();
 
 		for (int i = 0; i < players.size(); i++) {
-			if (i != playerIndex) {
+			AbstractPlayer player = players.get(i);
+			if (player.getPlayerID() != playerID) {
 				otherPlayers.add(players.get(i));
 			}
 		}
@@ -206,12 +207,12 @@ public abstract class AbstractPlayer {
 	 * Gets the hands of the other players in the game.
 	 * 
 	 * @param players The list of players
-	 * @param playerIndex The index of the player to exclude from the created list
+	 * @param playerID The ID of the player to exclude from the created list
 	 * 
 	 * @return The hands of the other players in the game
 	 */
-	public static ArrayList<ArrayList<ICard>> getOtherHands(ArrayList<AbstractPlayer> players, int playerIndex) {
-		ArrayList<AbstractPlayer> otherPlayers = getOtherPlayers(players, playerIndex);
+	public static ArrayList<ArrayList<ICard>> getOtherHands(ArrayList<AbstractPlayer> players, int playerID) {
+		ArrayList<AbstractPlayer> otherPlayers = getOtherPlayers(players, playerID);
 		return getHands(otherPlayers);
 	}
 }

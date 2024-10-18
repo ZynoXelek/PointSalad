@@ -9,6 +9,7 @@ import code.players.AbstractPlayer;
 import code.states.State;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Scoring phase for the Point Salad game.
@@ -36,9 +37,9 @@ public class PointSaladScoringPhase implements IPhase {
 
 	@Override
 	public void processPhase(State state) throws ScoringException {
-		ArrayList<AbstractPlayer> players = state.getPlayers();
+		HashMap<Integer, AbstractPlayer> players = state.getPlayers();
 
-		for (AbstractPlayer player : players) {
+		for (AbstractPlayer player : players.values()) {
 			try {
 				player.setScore(scorer.calculateScore(players, player.getPlayerID()));
 			}
@@ -73,13 +74,13 @@ public class PointSaladScoringPhase implements IPhase {
 				try {
 					server.sendMessageTo("\nCongratulations! Your are the winner with a score of " + maxScore, playerID);
 				} catch (Exception e) {
-					throw new ScoringException("Failed to send message to player of index " + i + ", corresponding to client of index " + playerID + ".", e);
+					throw new ScoringException("Failed to send message to player of index " + i + ", corresponding to client ID " + playerID + ".", e);
 				}
 			} else {
 				try {
 					server.sendMessageTo("\nPlayer " + player.getPlayerID() + " is the winner with a score of " + maxScore, playerID);
 				} catch (Exception e) {
-					throw new ScoringException("Failed to send message to player of index " + i + ", corresponding to client of index " + playerID + ".", e);
+					throw new ScoringException("Failed to send message to player of index " + i + ", corresponding to client ID " + playerID + ".", e);
 				}
 			}
 		}

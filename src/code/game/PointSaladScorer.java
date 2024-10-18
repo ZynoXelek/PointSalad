@@ -7,6 +7,7 @@ import code.exceptions.ScorerException;
 import code.players.AbstractPlayer;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Scorer for the Point Salad game.
@@ -15,9 +16,10 @@ import java.util.ArrayList;
 public class PointSaladScorer implements IScorer {
 
 	@Override
-	public int calculateScore(ArrayList<AbstractPlayer> players, int playerID) throws ScorerException {
+	public int calculateScore(HashMap<Integer, AbstractPlayer> players, int playerID) throws ScorerException {
 		AbstractPlayer player = players.get(playerID);
-		ArrayList<AbstractPlayer> otherPlayers = AbstractPlayer.getOtherPlayers(players, playerID);
+		ArrayList<AbstractPlayer> everyPlayers = new ArrayList<>(players.values());
+		ArrayList<AbstractPlayer> otherPlayers = AbstractPlayer.getOtherPlayers(everyPlayers, playerID);
 		ArrayList<ICard> hand = player.getHand();
 		ArrayList<ArrayList<ICard>> otherHands = AbstractPlayer.getHands(otherPlayers);
 

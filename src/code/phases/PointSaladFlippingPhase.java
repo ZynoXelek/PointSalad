@@ -6,7 +6,6 @@ import code.exceptions.FlippingException;
 import code.game.IMarket;
 import code.network.IServer;
 import code.players.AbstractPlayer;
-import code.players.IAPlayer;
 import code.states.State;
 
 import java.util.ArrayList;
@@ -88,18 +87,7 @@ public class PointSaladFlippingPhase implements IPhase {
 	
 	@Override
 	public void processPhase(State state) throws FlippingException {
-		ArrayList<AbstractPlayer> players = state.getPlayers();
-		int currentPlayerIndex = state.getPlayerTurnIndex();
-
-		if (currentPlayerIndex == -1) {
-			throw new FlippingException("It is not a player's turn.");
-		}
-
-		if (currentPlayerIndex < 0 || currentPlayerIndex >= players.size()) {
-			throw new FlippingException("Invalid player index.");
-		}
-
-		AbstractPlayer player = players.get(currentPlayerIndex);
+		AbstractPlayer player = state.getCurrentPlayer();
 		ArrayList<ICard> hand = player.getHand();
 		ArrayList<PointSaladCard> pointSaladHand = PointSaladCard.convertHand(hand);
 		ArrayList<PointSaladCard> criteriaHand = PointSaladCard.getCriteriaHand(pointSaladHand);
@@ -134,7 +122,7 @@ public class PointSaladFlippingPhase implements IPhase {
 					server.sendMessageTo("Invalid answer. Please try again.", playerID);
 				}
 				catch (Exception e) {
-					throw new FlippingException("Failed to send message to player of index " + currentPlayerIndex +
+					throw new FlippingException("Failed to send message to player of ID " + player.getPlayerID() +
 					", corresponding to Client of index " + playerID + ".", e);
 				}
 			}
@@ -146,7 +134,7 @@ public class PointSaladFlippingPhase implements IPhase {
 				server.sendMessageTo("\nYour turn is completed\n****************************************************************\n\n", playerID);
 			}
 			catch (Exception e) {
-				throw new FlippingException("Failed to send end of turn message to player of index " + currentPlayerIndex +
+				throw new FlippingException("Failed to send end of turn message to player of ID " + player.getPlayerID() +
 				", corresponding to Client of index " + playerID + ".", e);
 			}
 		}

@@ -1,6 +1,7 @@
 package code.game;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import code.cards.ICard;
 import code.exceptions.ScorerException;
@@ -14,14 +15,14 @@ public interface IScorer {
 	/**
 	 * Calculates the score of a player. It may depend on other players' hands.
 	 * 
-	 * @param players The list of players
+	 * @param players The HashMap of players
 	 * @param playerID The ID of the player to calculate the score for
 	 * 
 	 * @return The score of the player
 	 * 
 	 * @throws ScorerException If there is an error during the scoring process
 	 */
-	public int calculateScore(ArrayList<AbstractPlayer> players, int playerID) throws ScorerException;
+	public int calculateScore(HashMap<Integer, AbstractPlayer> players, int playerID) throws ScorerException;
 
 	/**
 	 * Calculates the score of a hand. It may depend on other players' hands.
