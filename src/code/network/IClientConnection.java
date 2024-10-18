@@ -3,9 +3,9 @@ package code.network;
 import code.exceptions.ClientException;
 
 /**
- * Interface for a client.
+ * Interface for a client connection.
  */
-public interface IClient {
+public interface IClientConnection {
 
 	/**
 	 * Connects to the server.

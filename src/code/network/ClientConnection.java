@@ -7,9 +7,9 @@ import java.io.ObjectOutputStream;
 import java.io.ObjectInputStream;
 
 /**
- * Class for a client.
+ * Basic implementation of a client connection.
  */
-public class Client implements IClient {
+public class ClientConnection implements IClientConnection {
 	
 	private String host;
 	private int port;
@@ -24,7 +24,7 @@ public class Client implements IClient {
 	 * @param host The host of the server
 	 * @param port The port of the server
 	 */
-	public Client(String host, int port) {
+	public ClientConnection(String host, int port) {
 		this.host = host;
 		this.port = port;
 		this.isConnected = false;
@@ -35,7 +35,7 @@ public class Client implements IClient {
 		try {
 			this.connect();
 		} catch(Exception e) {
-			System.err.println("Client could not connect to the server: " + e.getMessage());
+			System.err.println("ClientConnection could not connect to the server: " + e.getMessage());
 		}
 	}
 
