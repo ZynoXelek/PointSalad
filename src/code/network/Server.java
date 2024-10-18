@@ -61,6 +61,7 @@ public class Server implements IServer {
 	public void startServer() throws ServerException {
 		if (this.serverSocket != null) {
 			// Server is already running
+			System.err.println("Server is already running");
 			return;
 		}
 
@@ -75,10 +76,18 @@ public class Server implements IServer {
 	public void stopServer() throws ServerException {
 		if (this.serverSocket == null) {
 			// Server is not running
+			System.err.println("Server is not running");
 			return;
 		}
 
 		try {
+			// Close the communication with the clients
+			for (int i = 0; i < this.clientSockets.size(); i++) {
+				this.outToClients.get(i).close();
+				this.inFromClients.get(i).close();
+				this.clientSockets.get(i).close();
+			}
+
 			this.serverSocket.close();
 
 			// Reset client-related parameters
@@ -127,7 +136,8 @@ public class Server implements IServer {
 			try {
 				this.outToClients.get(i).writeObject(message);
 			} catch(Exception e) {
-				throw new ServerException("Could not send the message to the client of id '" + i + "'", e);
+				// Should still continue sending the message to other clients
+				System.err.println("Could not send the message to client " + i + ": " + e.getMessage());
 			}
 		}
 	}

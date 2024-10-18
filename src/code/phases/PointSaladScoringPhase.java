@@ -59,6 +59,11 @@ public class PointSaladScoringPhase implements IPhase {
 		}
 		
 		IServer server = state.getServer();
+		try {
+			server.sendMessageToAll("The game is over! Computing the final scores...");
+		} catch (Exception e) {
+			throw new ScoringException("Failed to send message to all players.", e);
+		}
 
 		for (int i = 0; i < players.size(); i++) {
 			AbstractPlayer player = players.get(i);

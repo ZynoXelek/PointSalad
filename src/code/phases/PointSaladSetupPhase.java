@@ -11,6 +11,7 @@ import code.exceptions.SetupException;
 import code.game.Config;
 import code.game.IMarket;
 import code.game.PointSaladMarket;
+import code.network.IServer;
 import code.players.AbstractPlayer;
 import code.states.State;
 
@@ -158,6 +159,12 @@ public class PointSaladSetupPhase implements IPhase {
 		ArrayList<AbstractPlayer> players = state.getPlayers();
 		IMarket market = state.getMarket();
 
+		if (market == null) {
+			System.err.println("Market is not initialized in SetupPhase. By default, create a new PointSaladMarket.");
+			market = new PointSaladMarket();
+			state.setMarket(market);
+		}
+
 		// Setup phase for Point Salad is preparing the market
 		int nbPlayers = players.size();
 
@@ -206,7 +213,7 @@ public class PointSaladSetupPhase implements IPhase {
 	}
 
 	@Override
-	public boolean proceedToNextPhase(State state) {
+	public boolean proceedToNextPhase(State state) throws SetupException {
 		// The next Phase for the PointSalad game is the Drafting Phase for the first player
 
 		// Randomly chooses the first player
@@ -214,6 +221,13 @@ public class PointSaladSetupPhase implements IPhase {
 		state.setPlayerTurnIndex(startingPlayerIndex);
 		
 		state.setPhase(new PointSaladDraftingPhase());
+
+		IServer server = state.getServer();
+		try {
+			server.sendMessageToAll("The game is starting!");
+		} catch (Exception e) {
+			throw new SetupException("Failed to send message to all clients", e);
+		}
 
 		return true;
 	}
