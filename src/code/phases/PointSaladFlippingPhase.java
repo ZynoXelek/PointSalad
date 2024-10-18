@@ -33,7 +33,7 @@ public class PointSaladFlippingPhase implements IPhase {
 
 		String instruction = "\n";
 		instruction += player.handToString(); //TODO: As said in AbstractPlayer class, may have to redefine this method to make it look nicer
-		instruction += "\nWould you like to turn a criterion card into a veggie card? (Syntax example: n or 2)";
+		instruction += "\nWould you like to turn a criterion card into a veggie card? Please use the following syntax: n or 2\n";
 
 		try {
 			command = player.getMove(state, instruction);
@@ -42,6 +42,7 @@ public class PointSaladFlippingPhase implements IPhase {
 			throw new FlippingException("Failed to get move from player (Bot? " + player.getIsBot() + ") of index " + currentPlayerIndex + ".", e);
 		}
 
+		//TODO: To be completely removed in the end
 		// if (player.getIsBot()) {
 		// 	// Use Bot Logic
 		// 	IAPlayer bot = null;

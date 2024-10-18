@@ -305,6 +305,12 @@ public class PointSaladMarket implements IMarket {
 	}
 
 	@Override
+	public String getDraftingInstruction() {
+		return "Please draft either " + CRITERION_DRAFT + " criterion card or " + VEGETABLE_DRAFT +
+		" vegetable cards, where each should be unique. (e.g: 1 or AC)";
+	}
+
+	@Override
 	public boolean isCardsStringValid(String cardsString) {
 		int length = cardsString.length();
 

@@ -36,6 +36,7 @@ public class PointSaladDraftingPhase implements IPhase {
 		instruction += player.handToString();
 		instruction += "\nThe piles are: ";
 		instruction += market.toString();
+		instruction += market.getDraftingInstruction() + ":\n";
 
 		try {
 			command = player.getMove(state, instruction);

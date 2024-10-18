@@ -19,6 +19,13 @@ public interface IMarket {
 	public String toString();
 
 	/**
+	 * Gets the drafting instruction for the market.
+	 * 
+	 * @return The drafting instruction for the market
+	 */
+	public String getDraftingInstruction();
+
+	/**
 	 * Checks if the market is empty.
 	 * 
 	 * @return True if the market is empty, false otherwise
