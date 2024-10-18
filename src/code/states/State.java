@@ -187,7 +187,7 @@ public class State {
 			stateString += "No player's turn\n";
 		} else {
 			stateString += "Current player turn (" + playerTurnIndex + "/" + players.size() + "): "
-					+ players.get(playerTurnIndex).getName() + "\n";
+					+ getCurrentPlayer().getName() + "\n";
 		}
 		stateString += market + "\n";
 		stateString += " -------------------------- \n";
