@@ -1,4 +1,4 @@
-package code.game;
+package code.tools;
 
 import java.util.Properties;
 import java.io.InputStream;
