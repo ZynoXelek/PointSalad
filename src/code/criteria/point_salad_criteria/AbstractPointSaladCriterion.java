@@ -1,6 +1,7 @@
 package code.criteria.point_salad_criteria;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import code.cards.ICard;
 import code.criteria.ICriterion;
@@ -34,9 +35,10 @@ public abstract class AbstractPointSaladCriterion implements ICriterion {
 	}
 
 	@Override
-	public int computePlayerScore(ArrayList<AbstractPlayer> players, int playerIndex) throws CriterionException {
-		AbstractPlayer player = players.get(playerIndex);
-		ArrayList<AbstractPlayer> otherPlayers = AbstractPlayer.getOtherPlayers(players, playerIndex);
+	public int computePlayerScore(HashMap<Integer, AbstractPlayer> players, int playerID) throws CriterionException {
+		AbstractPlayer player = players.get(playerID);
+		ArrayList<AbstractPlayer> playersList = new ArrayList<>(players.values());
+		ArrayList<AbstractPlayer> otherPlayers = AbstractPlayer.getOtherPlayers(playersList, playerID);
 		ArrayList<ICard> hand = player.getHand();
 		ArrayList<ArrayList<ICard>> otherHands = AbstractPlayer.getHands(otherPlayers);
 

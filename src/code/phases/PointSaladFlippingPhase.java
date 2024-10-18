@@ -27,8 +27,7 @@ public class PointSaladFlippingPhase implements IPhase {
 	public String getPlayerCommand(State state) throws FlippingException {
 		String command = "";
 
-		int currentPlayerIndex = state.getPlayerTurnIndex();
-		AbstractPlayer player = state.getPlayers().get(currentPlayerIndex);
+		AbstractPlayer player = state.getCurrentPlayer();
 
 		String instruction = "\n";
 		instruction += player.handToString(); //TODO: As said in AbstractPlayer class, may have to redefine this method to make it look nicer
@@ -38,7 +37,7 @@ public class PointSaladFlippingPhase implements IPhase {
 			command = player.getMove(state, instruction);
 		}
 		catch (Exception e) {
-			throw new FlippingException("Failed to get move from player (Bot? " + player.getIsBot() + ") of index " + currentPlayerIndex + ".", e);
+			throw new FlippingException("Failed to get move from player (Bot? " + player.getIsBot() + ") of ID " + player.getPlayerID() + ".", e);
 		}
 
 		//TODO: To be completely removed in the end

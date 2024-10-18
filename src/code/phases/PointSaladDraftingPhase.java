@@ -27,8 +27,7 @@ public class PointSaladDraftingPhase implements IPhase {
 	public String getPlayerCommand(State state) throws DraftingException {
 		String command = "";
 
-		int currentPlayerIndex = state.getPlayerTurnIndex();
-		AbstractPlayer player = state.getPlayers().get(currentPlayerIndex);
+		AbstractPlayer player = state.getCurrentPlayer();
 
 		IMarket market = state.getMarket();
 
@@ -42,7 +41,7 @@ public class PointSaladDraftingPhase implements IPhase {
 			command = player.getMove(state, instruction);
 		}
 		catch (Exception e) {
-			throw new DraftingException("Failed to get move from player (Bot? " + player.getIsBot() + ") of index " + currentPlayerIndex + ".", e);
+			throw new DraftingException("Failed to get move from player (Bot? " + player.getIsBot() + ") of ID " + player.getPlayerID() + ".", e);
 		}
 
 		//TODO: To be completely removed in the end

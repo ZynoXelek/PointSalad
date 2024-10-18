@@ -61,7 +61,7 @@ public class PointSaladPerVeggieCriterion extends AbstractPointSaladCriterion {
 	}
 	
 	@Override
-	public int computePlayerScore(ArrayList<AbstractPlayer> players, int playerIndex) throws CriterionException {
+	public int computePlayerScore(HashMap<Integer, AbstractPlayer> players, int playerIndex) throws CriterionException {
 		checkValidCriterion();
 
 		// Checks if the criterion is empty

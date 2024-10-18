@@ -5,6 +5,7 @@ import code.exceptions.CriterionException;
 import code.players.AbstractPlayer;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Interface for scoring criteria.
@@ -16,14 +17,14 @@ public interface ICriterion {
 	 * This score can depend on the other players in the game.
 	 * It should NOT update the player's score.
 	 * 
-	 * @param players The list of players in the game
-	 * @param playerIndex The index of the player to compute the score for
+	 * @param players The hash map of players in the game
+	 * @param playerID The ID of the player to compute the score for
 	 * 
 	 * @return The score of the player
 	 * 
 	 * @throws CriterionException If the criterion object is not correctly initialized
 	 */
-	public int computePlayerScore(ArrayList<AbstractPlayer> players, int playerIndex) throws CriterionException;
+	public int computePlayerScore(HashMap<Integer, AbstractPlayer> players, int playerID) throws CriterionException;
 
 	/**
 	 * Computes the score of a player based on the criterion.
