@@ -1,4 +1,4 @@
-package main.java.exceptions;
+package exceptions;
 
 /**
  * Exception thrown when an error occurs during the processing of a phase.

@@ -1,7 +1,7 @@
-package main.java.main;
+package main;
 
-import main.java.exceptions.ClientException;
-import main.java.network.ClientConnection;
+import exceptions.ClientException;
+import network.ClientConnection;
 
 /**
  * This class is the main class on the player side to join a PointSalad game as a Client and play the game.

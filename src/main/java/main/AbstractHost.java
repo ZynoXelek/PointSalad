@@ -1,9 +1,9 @@
-package main.java.main;
+package main;
 
-import main.java.network.IServer;
-import main.java.states.IStateManager;
-import main.java.tools.Config;
-import main.java.tools.TerminalInput;
+import network.IServer;
+import states.IStateManager;
+import tools.Config;
+import tools.TerminalInput;
 
 /**
  * Abstract class responsible for the game hosting.

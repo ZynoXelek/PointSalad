@@ -1,9 +1,9 @@
-package main.java.players;
+package players;
 
 import java.util.ArrayList;
 
-import main.java.cards.ICard;
-import main.java.states.State;
+import cards.ICard;
+import states.State;
 
 /**
  * Abstract base class for players.

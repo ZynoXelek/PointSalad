@@ -1,7 +1,7 @@
-package main.java.phases;
+package phases;
 
-import main.java.exceptions.PhaseException;
-import main.java.states.State;
+import exceptions.PhaseException;
+import states.State;
 
 /**
  * Interface for the phases of the game.

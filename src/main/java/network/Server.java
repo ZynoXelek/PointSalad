@@ -1,8 +1,8 @@
-package main.java.network;
+package network;
 
 import java.util.ArrayList;
 
-import main.java.exceptions.ServerException;
+import exceptions.ServerException;
 
 import java.net.Socket;
 import java.net.ServerSocket;

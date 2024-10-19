@@ -1,8 +1,8 @@
-package main.java.main;
+package main;
 
 import java.util.Scanner;
 
-import main.java.tools.TerminalInput;
+import tools.TerminalInput;
 
 /**
  * Main class for the PointSalad game. This class contains the main method and is the entry point for the game.

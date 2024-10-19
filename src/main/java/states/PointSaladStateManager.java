@@ -1,7 +1,7 @@
-package main.java.states;
+package states;
 
-import main.java.exceptions.PhaseException;
-import main.java.phases.IPhase;
+import exceptions.PhaseException;
+import phases.IPhase;
 
 /**
  * Manages the state of the game for the Point Salad game.
@@ -34,7 +34,7 @@ public class PointSaladStateManager implements IStateManager {
 		boolean finished = false;
 
 		while (!finished) {
-			System.out.println("#".repeat(100));
+			System.out.println("##########################################################################################");
 			IPhase phase = gameState.getPhase();
 			System.out.println("\nCurrent phase of the game:\n" + phase.getClass().getSimpleName());
 			phase.processPhase(gameState);

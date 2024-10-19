@@ -1,12 +1,12 @@
-package main.java.criteria.point_salad_criteria;
+package criteria.point_salad_criteria;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import main.java.cards.ICard;
-import main.java.criteria.ICriterion;
-import main.java.exceptions.CriterionException;
-import main.java.players.AbstractPlayer;
+import cards.ICard;
+import criteria.ICriterion;
+import exceptions.CriterionException;
+import players.AbstractPlayer;
 
 /**
  * Abstract Class to hold criteria for the Point Salad card.

@@ -1,6 +1,6 @@
-package main.java.states;
+package states;
 
-import main.java.exceptions.PhaseException;
+import exceptions.PhaseException;
 
 /**
  * Interface for the state manager.

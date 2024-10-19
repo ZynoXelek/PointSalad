@@ -1,8 +1,8 @@
-package main.java.cards;
+package cards;
 
 import java.util.ArrayList;
 
-import main.java.exceptions.CardFactoryException;
+import exceptions.CardFactoryException;
 
 /**
  * Interface for a card factory.

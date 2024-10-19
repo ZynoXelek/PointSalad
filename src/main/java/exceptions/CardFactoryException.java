@@ -1,4 +1,4 @@
-package main.java.exceptions;
+package exceptions;
 
 /**
  * Custom exception for card factory-related errors.

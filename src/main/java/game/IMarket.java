@@ -1,9 +1,9 @@
-package main.java.game;
+package game;
 
 import java.util.ArrayList;
 
-import main.java.cards.ICard;
-import main.java.exceptions.MarketException;
+import cards.ICard;
+import exceptions.MarketException;
 
 /**
  * Interface for a market.

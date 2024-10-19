@@ -1,11 +1,11 @@
-package main.java.criteria;
+package criteria;
 
 import java.util.ArrayList;
 
-import main.java.cards.PointSaladCard.Vegetable;
-import main.java.criteria.point_salad_criteria.*;
-import main.java.criteria.point_salad_criteria.AbstractPointSaladCriterion.CriterionType;
-import main.java.exceptions.CriterionFactoryException;
+import cards.PointSaladCard.Vegetable;
+import criteria.point_salad_criteria.*;
+import criteria.point_salad_criteria.AbstractPointSaladCriterion.CriterionType;
+import exceptions.CriterionFactoryException;
 
 /**
  * Factory for creating criteria for the Point Salad game.

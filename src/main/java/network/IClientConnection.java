@@ -1,6 +1,6 @@
-package main.java.network;
+package network;
 
-import main.java.exceptions.ClientException;
+import exceptions.ClientException;
 
 /**
  * Interface for a client connection.

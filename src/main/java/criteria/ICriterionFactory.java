@@ -1,6 +1,6 @@
-package main.java.criteria;
+package criteria;
 
-import main.java.exceptions.CriterionFactoryException;
+import exceptions.CriterionFactoryException;
 
 /**
  * Interface for criteria factories.

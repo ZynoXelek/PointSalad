@@ -1,4 +1,4 @@
-package main.java.cards;
+package cards;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -9,10 +9,10 @@ import java.util.Scanner;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import main.java.criteria.ICriterion;
-import main.java.criteria.ICriterionFactory;
-import main.java.criteria.PointSaladCriterionFactory;
-import main.java.exceptions.CardFactoryException;
+import criteria.ICriterion;
+import criteria.ICriterionFactory;
+import criteria.PointSaladCriterionFactory;
+import exceptions.CardFactoryException;
 
 /**
  * Factory for creating Point Salad cards.
@@ -96,7 +96,7 @@ public class PointSaladCardFactory implements ICardFactory{
 		ArrayList<ICard> cards = new ArrayList<ICard>();
 
 		// Reads the content of the given file
-        try (InputStream fInputStream = new FileInputStream("src/resources/PointSaladManifest.json");
+        try (InputStream fInputStream = new FileInputStream(filename);
              Scanner scanner = new Scanner(fInputStream, "UTF-8").useDelimiter("\\A")) {
 
 				String jsonString = scanner.hasNext() ? scanner.next() : "";

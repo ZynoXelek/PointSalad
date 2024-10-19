@@ -1,8 +1,8 @@
-package main.java.network;
+package network;
 
 import java.util.ArrayList;
 
-import main.java.exceptions.ServerException;
+import exceptions.ServerException;
 
 /**
  * Interface for a server.

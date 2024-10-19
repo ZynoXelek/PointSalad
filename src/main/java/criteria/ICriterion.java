@@ -1,11 +1,11 @@
-package main.java.criteria;
+package criteria;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import main.java.cards.ICard;
-import main.java.exceptions.CriterionException;
-import main.java.players.AbstractPlayer;
+import cards.ICard;
+import exceptions.CriterionException;
+import players.AbstractPlayer;
 
 /**
  * Interface for scoring criteria.

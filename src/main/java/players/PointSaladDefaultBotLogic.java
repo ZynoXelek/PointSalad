@@ -1,18 +1,18 @@
-package main.java.players;
+package players;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import main.java.cards.ICard;
-import main.java.cards.PointSaladCard;
-import main.java.exceptions.BotLogicException;
-import main.java.game.IScorer;
-import main.java.game.PointSaladMarket;
-import main.java.game.PointSaladScorer;
-import main.java.phases.IPhase;
-import main.java.phases.PointSaladDraftingPhase;
-import main.java.phases.PointSaladFlippingPhase;
-import main.java.states.State;
+import cards.ICard;
+import cards.PointSaladCard;
+import exceptions.BotLogicException;
+import game.IScorer;
+import game.PointSaladMarket;
+import game.PointSaladScorer;
+import phases.IPhase;
+import phases.PointSaladDraftingPhase;
+import phases.PointSaladFlippingPhase;
+import states.State;
 
 /**
  * Default bot logic for the Point Salad game.

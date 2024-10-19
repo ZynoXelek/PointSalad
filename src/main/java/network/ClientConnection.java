@@ -1,8 +1,8 @@
-package main.java.network;
+package network;
 
 import java.net.Socket;
 
-import main.java.exceptions.ClientException;
+import exceptions.ClientException;
 
 import java.io.ObjectOutputStream;
 import java.io.ObjectInputStream;

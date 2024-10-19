@@ -1,11 +1,11 @@
-package main.java.criteria.point_salad_criteria;
+package criteria.point_salad_criteria;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import main.java.cards.ICard;
-import main.java.cards.PointSaladCard;
-import main.java.cards.PointSaladCard.Vegetable;
+import cards.ICard;
+import cards.PointSaladCard;
+import cards.PointSaladCard.Vegetable;
 
 /**
  * Criterion for the most of a certain type of vegetable card.

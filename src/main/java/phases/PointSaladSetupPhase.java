@@ -1,23 +1,23 @@
-package main.java.phases;
+package phases;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import main.java.cards.ICard;
-import main.java.cards.ICardFactory;
-import main.java.cards.Pile;
-import main.java.cards.PointSaladCard;
-import main.java.cards.PointSaladCardFactory;
-import main.java.cards.PointSaladCard.Vegetable;
-import main.java.exceptions.ConfigException;
-import main.java.exceptions.SetupException;
-import main.java.game.IMarket;
-import main.java.game.PointSaladMarket;
-import main.java.network.IServer;
-import main.java.states.State;
-import main.java.tools.Config;
+import cards.ICard;
+import cards.ICardFactory;
+import cards.Pile;
+import cards.PointSaladCard;
+import cards.PointSaladCardFactory;
+import cards.PointSaladCard.Vegetable;
+import exceptions.ConfigException;
+import exceptions.SetupException;
+import game.IMarket;
+import game.PointSaladMarket;
+import network.IServer;
+import states.State;
+import tools.Config;
 
 /**
  * Setup phase for the Point Salad game.
@@ -34,7 +34,7 @@ public class PointSaladSetupPhase implements IPhase {
 
 		int minPlayers = 2; // Default value
 		int maxPlayers = 6; // Default value
-		String defaultPath = "src/resources/cards/PointSaladManifest.json";
+		String defaultPath = "src/main/resources/PointSaladManifest.json";
         int nbCardsPerPlayer = 18; // Default value
         Map<Integer, Integer> nbEachVeggieMap = new HashMap<>();
 

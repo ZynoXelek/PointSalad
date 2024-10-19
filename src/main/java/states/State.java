@@ -1,12 +1,12 @@
-package main.java.states;
+package states;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import main.java.game.IMarket;
-import main.java.network.IServer;
-import main.java.phases.IPhase;
-import main.java.players.AbstractPlayer;
+import game.IMarket;
+import network.IServer;
+import phases.IPhase;
+import players.AbstractPlayer;
 
 /**
  * The State class represents the state of the game.

@@ -1,11 +1,11 @@
-package main.java.game;
+package game;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import main.java.cards.ICard;
-import main.java.exceptions.ScorerException;
-import main.java.players.AbstractPlayer;
+import cards.ICard;
+import exceptions.ScorerException;
+import players.AbstractPlayer;
 
 /**
  * Interface for the scoring logic of a game.

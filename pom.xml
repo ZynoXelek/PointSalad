@@ -28,13 +28,11 @@
             <version>1.3</version>
             <scope>test</scope>
         </dependency>
-        <!-- Include additional libraries from the lib folder: json.jar -->
+        <!-- JSON library dependency -->
         <dependency>
-            <groupId>io.github.ZynoXelek</groupId>
-            <artifactId>external-libs</artifactId>
-            <version>1.0</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/json.jar</systemPath>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20210307</version>
         </dependency>
     </dependencies>
 
@@ -67,7 +65,7 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>3.0.0</version>
                 <configuration>
-                    <mainClass>main.java.main.PointSalad</mainClass>
+                    <mainClass>main.PointSalad</mainClass>
                 </configuration>
             </plugin>
         </plugins>

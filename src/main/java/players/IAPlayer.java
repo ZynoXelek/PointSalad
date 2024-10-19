@@ -1,7 +1,7 @@
-package main.java.players;
+package players;
 
-import main.java.exceptions.BotLogicException;
-import main.java.states.State;
+import exceptions.BotLogicException;
+import states.State;
 
 /**
  * Class for a bot player.

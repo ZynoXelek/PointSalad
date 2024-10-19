@@ -1,14 +1,14 @@
-package main.java.phases;
+package phases;
 
 import java.util.HashMap;
 
-import main.java.exceptions.ScorerException;
-import main.java.exceptions.ScoringException;
-import main.java.game.IScorer;
-import main.java.game.PointSaladScorer;
-import main.java.network.IServer;
-import main.java.players.AbstractPlayer;
-import main.java.states.State;
+import exceptions.ScorerException;
+import exceptions.ScoringException;
+import game.IScorer;
+import game.PointSaladScorer;
+import network.IServer;
+import players.AbstractPlayer;
+import states.State;
 
 /**
  * Scoring phase for the Point Salad game.
@@ -83,7 +83,7 @@ public class PointSaladScoringPhase implements IPhase {
 
 			System.out.println(player.getName() + " (Player ID: " + playerID + ") has a score of " + scores.get(playerID) + ".");
 
-			if (playerID == winnerId) {
+			if (playerID == winnerId || player.getIsBot()) {
 				continue;
 			}
 			try {

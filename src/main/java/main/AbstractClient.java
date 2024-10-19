@@ -1,11 +1,11 @@
-package main.java.main;
+package main;
 
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
-import main.java.exceptions.ClientException;
-import main.java.network.IClientConnection;
-import main.java.tools.TerminalInput;
+import exceptions.ClientException;
+import network.IClientConnection;
+import tools.TerminalInput;
 
 import java.util.regex.Matcher;
 

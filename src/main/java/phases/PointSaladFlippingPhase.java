@@ -1,14 +1,14 @@
-package main.java.phases;
+package phases;
 
 import java.util.ArrayList;
 
-import main.java.cards.ICard;
-import main.java.cards.PointSaladCard;
-import main.java.exceptions.FlippingException;
-import main.java.game.IMarket;
-import main.java.network.IServer;
-import main.java.players.AbstractPlayer;
-import main.java.states.State;
+import cards.ICard;
+import cards.PointSaladCard;
+import exceptions.FlippingException;
+import game.IMarket;
+import network.IServer;
+import players.AbstractPlayer;
+import states.State;
 
 /**
  * Flipping phase for the Point Salad game, where a player can flip a criterion card back to a vegetable.

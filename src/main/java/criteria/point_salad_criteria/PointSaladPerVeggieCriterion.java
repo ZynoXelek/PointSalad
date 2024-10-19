@@ -1,13 +1,13 @@
-package main.java.criteria.point_salad_criteria;
+package criteria.point_salad_criteria;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import main.java.cards.ICard;
-import main.java.cards.PointSaladCard;
-import main.java.cards.PointSaladCard.Vegetable;
-import main.java.exceptions.CriterionException;
-import main.java.players.AbstractPlayer;
+import cards.ICard;
+import cards.PointSaladCard;
+import cards.PointSaladCard.Vegetable;
+import exceptions.CriterionException;
+import players.AbstractPlayer;
 
 /**
  * Criterion for a number of points per vegetable. It can be used for single or multiple vegetables.

@@ -1,13 +1,13 @@
-package main.java.game;
+package game;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import main.java.cards.ICard;
-import main.java.cards.PointSaladCard;
-import main.java.exceptions.CriterionException;
-import main.java.exceptions.ScorerException;
-import main.java.players.AbstractPlayer;
+import cards.ICard;
+import cards.PointSaladCard;
+import exceptions.CriterionException;
+import exceptions.ScorerException;
+import players.AbstractPlayer;
 
 /**
  * Scorer for the Point Salad game.

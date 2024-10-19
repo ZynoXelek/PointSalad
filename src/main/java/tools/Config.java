@@ -1,8 +1,8 @@
-package main.java.tools;
+package tools;
 
 import java.util.Properties;
 
-import main.java.exceptions.ConfigException;
+import exceptions.ConfigException;
 
 import java.io.InputStream;
 import java.io.FileInputStream;

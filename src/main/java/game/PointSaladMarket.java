@@ -1,13 +1,13 @@
-package main.java.game;
+package game;
 
 import java.util.ArrayList;
 
-import main.java.cards.ICard;
-import main.java.cards.Pile;
-import main.java.cards.PointSaladCard;
-import main.java.exceptions.ConfigException;
-import main.java.exceptions.MarketException;
-import main.java.tools.Config;
+import cards.ICard;
+import cards.Pile;
+import cards.PointSaladCard;
+import exceptions.ConfigException;
+import exceptions.MarketException;
+import tools.Config;
 
 
 /**

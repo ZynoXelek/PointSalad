@@ -1,8 +1,8 @@
-package main.java.players;
+package players;
 
-import main.java.exceptions.ServerException;
-import main.java.network.IServer;
-import main.java.states.State;
+import exceptions.ServerException;
+import network.IServer;
+import states.State;
 
 /**
  * Class for a human player.

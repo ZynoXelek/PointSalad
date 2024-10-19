@@ -1,9 +1,9 @@
-package main.java.cards;
+package cards;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import main.java.criteria.ICriterion;
+import criteria.ICriterion;
 
 /**
  * A card for the PointSalad game.

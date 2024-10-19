@@ -1,24 +1,24 @@
-package main.java.main;
+package main;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import main.java.exceptions.ServerException;
-import main.java.game.IMarket;
-import main.java.game.PointSaladMarket;
-import main.java.network.IServer;
-import main.java.network.Server;
-import main.java.phases.IPhase;
-import main.java.phases.PointSaladSetupPhase;
-import main.java.players.AbstractPlayer;
-import main.java.players.HumanPlayer;
-import main.java.players.IAPlayer;
-import main.java.players.PointSaladDefaultBotLogic;
-import main.java.states.IStateManager;
-import main.java.states.PointSaladStateManager;
-import main.java.states.State;
-import main.java.tools.Config;
-import main.java.tools.TerminalInput;
+import exceptions.ServerException;
+import game.IMarket;
+import game.PointSaladMarket;
+import network.IServer;
+import network.Server;
+import phases.IPhase;
+import phases.PointSaladSetupPhase;
+import players.AbstractPlayer;
+import players.HumanPlayer;
+import players.IAPlayer;
+import players.PointSaladDefaultBotLogic;
+import states.IStateManager;
+import states.PointSaladStateManager;
+import states.State;
+import tools.Config;
+import tools.TerminalInput;
 
 /**
  * This class is responsible for the PointSalad game hosting.

@@ -1,13 +1,13 @@
-package main.java.phases;
+package phases;
 
 import java.util.ArrayList;
 
-import main.java.cards.ICard;
-import main.java.exceptions.DraftingException;
-import main.java.game.IMarket;
-import main.java.network.IServer;
-import main.java.players.AbstractPlayer;
-import main.java.states.State;
+import cards.ICard;
+import exceptions.DraftingException;
+import game.IMarket;
+import network.IServer;
+import players.AbstractPlayer;
+import states.State;
 
 /**
  * Drafting phase for the Point Salad game.
