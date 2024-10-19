@@ -25,6 +25,7 @@ public class PointSalad {
 		int len = args.length;
 
 		if (len == 0) {
+			// Ask the user to select a game mode
 			int gameMode = askGameMode();
 			if (gameMode == HOSTING) {
 				hostServer();
@@ -32,6 +33,7 @@ public class PointSalad {
 				joinGame();
 			}
 		} else if (len == 1) {
+			// Interpret the first argument as the game mode
 			int gameMode = Integer.parseInt(args[0]);
 			if (gameMode == HOSTING) {
 				hostServer();
@@ -41,7 +43,22 @@ public class PointSalad {
 			else {
 				System.out.println(getDummyExample());
 			}
+		} else if (len == 2) {
+			// Interpret arguments as game mode + host for the client (use default port) only
+			int gameMode = Integer.parseInt(args[0]);
+			if (gameMode == JOINING) {
+				String host = args[1];
+				try {
+					joinGame(host, PointSaladHost.DEFAULT_PORT);
+				} catch (Exception e) {
+					System.err.println("Error while joining the game: " + e.getMessage());
+					System.err.println(getDummyExample());
+				}
+			} else {
+				System.err.println(getDummyExample());
+			}
 		} else if (len == 3) {
+			// Interpret arguments as game mode + (host, port) for the client, and (nbPlayers, nbBots) for the server
 			int gameMode = Integer.parseInt(args[0]);
 			if (gameMode == JOINING) {
 				String host = args[1];
@@ -65,6 +82,7 @@ public class PointSalad {
 				System.err.println(getDummyExample());
 			}
 		} else if (len == 4) {
+			// Interpret arguments as game mode + (port, nbPlayers, nbBots) for the server only
 			int gameMode = Integer.parseInt(args[0]);
 			int port = Integer.parseInt(args[1]);
 			int numPlayers = Integer.parseInt(args[2]);
@@ -122,7 +140,7 @@ public class PointSalad {
 		String errorMessage = "Please enter a valid command line argument.\n";
 		errorMessage += "java PointSalad [gameMode]\n";
 		errorMessage += "1 to host a game, then you can add ([port], optional) [numPlayers] [numBots]\n";
-		errorMessage += "2 to join a game, then you can add [host] [port]\n";
+		errorMessage += "2 to join a game, then you can add [host] ([port], optional)\n";
 		return errorMessage;
 	}
 
