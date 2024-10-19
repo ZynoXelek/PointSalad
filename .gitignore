@@ -22,6 +22,16 @@
 *.tar.gz
 *.rar
 
+# Maven build directory (compiled classes)
+target/
+
+# Maven POM files (during release and version change)
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+
 # Keep lib files
 !lib/*.jar
 
