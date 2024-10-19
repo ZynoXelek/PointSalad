@@ -12,3 +12,5 @@ Home Exam of the Software Engineering course at LTU
 Additionally, you can run these commands:
 - `mvn clean install`: To clean and install the project, ensuring that all dependencies are correctly downloaded and included.
 - `mvn package`: To package the compiled code in a jar file. It goes through `compile` and `test` first. The resulting `.jar` file is located in the `target/` directory.
+
+Passing arguments through the command line is not supported on my machine. `mvn exec:java -Dexec.mainClass="main.PointSalad" -Dexec.args="arg1 arg2 ..."` should be the right way to do it but it does not work.
