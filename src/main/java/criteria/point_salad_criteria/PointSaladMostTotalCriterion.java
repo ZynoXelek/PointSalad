@@ -35,8 +35,6 @@ public class PointSaladMostTotalCriterion extends AbstractPointSaladCriterion {
 
 	@Override
 	public int computePlayerScore(ArrayList<ICard> playerHand, ArrayList<ArrayList<ICard>> otherHands) {
-		int maxTotalCount = 0;
-
 		// Player processing
 		ArrayList<PointSaladCard> playerHandConverted = PointSaladCard.convertHand(playerHand);
 		HashMap<Vegetable, Integer> playerVeggieCount = PointSaladCard.countVeggiesInHand(playerHandConverted);
@@ -44,6 +42,8 @@ public class PointSaladMostTotalCriterion extends AbstractPointSaladCriterion {
 		for (Vegetable veggie : playerVeggieCount.keySet()) {
 			playerTotalCount += playerVeggieCount.getOrDefault(veggie, 0);
 		}
+
+		int maxTotalCount = playerTotalCount;
 
 		// Other players processing
 		for (int i = 0; i < otherHands.size(); i++) {

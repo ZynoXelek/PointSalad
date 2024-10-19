@@ -39,12 +39,12 @@ public class PointSaladFewestCriterion extends AbstractPointSaladCriterion {
 
 	@Override
 	public int computePlayerScore(ArrayList<ICard> playerHand, ArrayList<ArrayList<ICard>> otherHands) {
-		int minCount = Integer.MAX_VALUE;
-
 		// Player processing
 		ArrayList<PointSaladCard> playerHandConverted = PointSaladCard.convertHand(playerHand);
 		HashMap<Vegetable, Integer> playerVeggieCount = PointSaladCard.countVeggiesInHand(playerHandConverted);
 		int playerCount = playerVeggieCount.getOrDefault(vegetable , 0);
+
+		int minCount = playerCount;
 
 		// Other players processing
 		for (int i = 0; i < otherHands.size(); i++) {
