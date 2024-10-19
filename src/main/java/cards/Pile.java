@@ -27,6 +27,20 @@ public class Pile<T extends ICard> {
 	}
 
 	/**
+	 * Creates a copy of the given pile.
+	 * 
+	 * @param pile The pile to copy
+	 */
+	public Pile(Pile<T> pile) {
+		this.cards = new ArrayList<T>();
+		for (T card : pile.cards) {
+			// Card is of type T. card.copy() returns a card of type T as well.
+			T copiedCard = (T) card.copy();
+			this.cards.add(copiedCard);
+		}
+	}
+
+	/**
 	 * Checks if the pile is empty.
 	 * 
 	 * @return True if the pile is empty, false otherwise
@@ -190,6 +204,15 @@ public class Pile<T extends ICard> {
 	}
 
 	/**
+	 * Creates a copy of the pile.
+	 * 
+	 * @return The copy of the pile
+	 */
+	public Pile<T> copy() {
+		return new Pile<T>(this);
+	}
+
+	/**
 	 * Flips all the cards in the pile.
 	 */
 	public void flip() {
@@ -204,5 +227,17 @@ public class Pile<T extends ICard> {
 	public void shuffle() {
 		
 		Collections.shuffle(cards);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if(obj == this) {
+			return true;
+		}
+		if(!(obj instanceof Pile)) {
+			return false;
+		}
+		Pile<?> pile = (Pile<?>) obj;
+		return cards.equals(pile.cards);
 	}
 }
