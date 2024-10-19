@@ -118,6 +118,7 @@ public class PointSaladFlippingPhase implements IPhase {
 		IMarket market = state.getMarket();
 		if (market.isEmpty()) {
 			state.setPhase(new PointSaladScoringPhase());
+			state.setPlayerTurnIndex(-1); // It is not a player's turn anymore
 		}
 		else {
 			int nbPlayers = state.getPlayers().size();

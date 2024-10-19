@@ -136,8 +136,6 @@ public class PointSaladSetupPhase implements IPhase {
 		}
 
 		return piles;
-
-		// return extractVeggiePiles(pointSaladCards);
 	}
 
 	/**
@@ -153,14 +151,55 @@ public class PointSaladSetupPhase implements IPhase {
 		return extractVeggiePiles(pile.getCards());
 	}
 
+	/**
+	 * Shuffles the piles and removes extra cards to have the correct number of cards.
+	 * The piles are modified in place.
+	 * 
+	 * @param veggiePiles The list of piles to shuffle and remove cards from
+	 * @param nbVeggieCards The number of cards to keep in each pile
+	 */
+	public static void shuffleAndRemoveExtraCards(ArrayList<Pile<PointSaladCard>> veggiePiles, int nbVeggieCards) {
+		for (Pile<PointSaladCard> pile : veggiePiles) {
+			// Shuffle the pile to be sure to remove random cards
+			pile.shuffle();
+			// Remove the correct number of cards from each pile
+			int removeNumber = pile.size() - nbVeggieCards;
+			pile.draw(removeNumber);
+		}
+	}
+
+	/**
+	 * Get the initial deck of cards for the Point Salad game from the full set of cards.
+	 * This method removes the right amount of random vegetable cards of each type to have the correct number of cards.
+	 * It then shuffles the deck and flips it to the criterion side.
+	 * 
+	 * @param cards The full set of cards to extract the initial deck from
+	 * 
+	 * @return The initial deck of cards
+	 */
+	public static Pile<PointSaladCard> getInitialDeck(ArrayList<ICard> cards, int nbPlayers) {
+		int nbVeggieCards = NB_EACH_VEGGIE.get(nbPlayers);
+
+		// Get piles containing cards of a single type of Vegetable
+		ArrayList<Pile<PointSaladCard>> veggiePiles = extractVeggiePiles(cards);
+
+		// Shuffle the piles and removes extra cards
+		shuffleAndRemoveExtraCards(veggiePiles, nbVeggieCards);
+
+		// Prepare the initial deck
+		Pile<PointSaladCard> deck = new Pile<PointSaladCard>().concatenates(veggiePiles);
+		deck.shuffle();
+		deck.flip();
+
+		return deck;
+	}
+
 	@Override
 	public void processPhase(State state) throws SetupException {
 		IMarket market = state.getMarket();
 
 		if (market == null) {
-			System.err.println("Market is not initialized in SetupPhase. By default, create a new PointSaladMarket.");
-			market = new PointSaladMarket();
-			state.setMarket(market);
+			throw new SetupException("Market is not set in the state");
 		}
 
 		// Setup phase for Point Salad consists of preparing the market
@@ -170,7 +209,6 @@ public class PointSaladSetupPhase implements IPhase {
 			throw new SetupException("Invalid number of players for Point Salad: " + nbPlayers);
 		}
 
-		int nbVeggieCards = NB_EACH_VEGGIE.get(nbPlayers);
 		ArrayList<ICard> cards = null;
 		try {
 			cards = this.cardFactory.loadCards(this.cardsPath);
@@ -178,34 +216,26 @@ public class PointSaladSetupPhase implements IPhase {
 			throw new SetupException("Failed to load cards from path '" + this.cardsPath + "'", e);
 		}
 
-		// Get piles containing cards of a single type of Vegetable
-		ArrayList<Pile<PointSaladCard>> veggiePiles = extractVeggiePiles(cards);
+		// Get the initial deck of cards
+		Pile<PointSaladCard> deck = getInitialDeck(cards, nbPlayers);
 
-		for (Pile<PointSaladCard> pile : veggiePiles) {
-			// Remove the correct number of cards from each pile
-			int removeNumber = pile.size() - nbVeggieCards;
-			pile.draw(removeNumber);
-		}
-
-		// Prepare the initial deck
-		Pile<PointSaladCard> deck = new Pile<PointSaladCard>().concatenates(veggiePiles);
-		deck.shuffle();
-		deck.flip();
-
-		// Split it in three criteriion piles
+		// Split it in three criterion piles
 		ArrayList<Pile<PointSaladCard>> criterionPiles = deck.splitIn(PointSaladMarket.NUM_DRAW_PILES);
 
 		// Put the final piles in the market
 		PointSaladMarket pointSaladMarket = (PointSaladMarket) market;
-		for (int i = 0; i < PointSaladMarket.NUM_DRAW_PILES; i++) {
-			try {
-				pointSaladMarket.setPile(i, criterionPiles.get(i));
-			} catch (Exception e) {
-				// Print the error message in the terminal. May happen during testing. Will never happen once the project is completed.
-				System.err.println("Index error at PointSaladSetupPhase.processPhase() with error message:\n" + 
-								e.getMessage());
-			}
-		}
+		pointSaladMarket.setCriterionPiles(criterionPiles);
+		
+		// TODO: To be fully removed in the end
+		// for (int i = 0; i < PointSaladMarket.NUM_DRAW_PILES; i++) {
+		// 	try {
+		// 		pointSaladMarket.setPile(i, criterionPiles.get(i));
+		// 	} catch (Exception e) {
+		// 		// Print the error message in the terminal. May happen during testing. Will never happen once the project is completed.
+		// 		System.err.println("Index error at PointSaladSetupPhase.processPhase() with error message:\n" + 
+		// 						e.getMessage());
+		// 	}
+		// }
 
 		pointSaladMarket.refillVegetables();
 	}
