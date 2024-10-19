@@ -24,6 +24,13 @@ public interface IServer {
 	public void stopServer() throws ServerException;
 
 	/**
+	 * Checks if the server is running.
+	 * 
+	 * @return True if the server is running, false otherwise
+	 */
+	public boolean isRunning();
+
+	/**
 	 * Waits for a specified number of clients to connect.
 	 * 
 	 * @param numClients The number of clients to wait for

@@ -60,7 +60,7 @@ public class Server implements IServer {
 
 	@Override
 	public void startServer() throws ServerException {
-		if (this.serverSocket != null) {
+		if (isRunning()) {
 			// Server is already running
 			System.err.println("Server is already running");
 			return;
@@ -75,7 +75,7 @@ public class Server implements IServer {
 
 	@Override
 	public void stopServer() throws ServerException {
-		if (this.serverSocket == null) {
+		if (!isRunning()) {
 			// Server is not running
 			System.err.println("Server is not running");
 			return;
@@ -98,6 +98,11 @@ public class Server implements IServer {
 		} catch(Exception e) {
 			throw new ServerException("Could not stop the server", e);
 		}
+	}
+
+	@Override
+	public boolean isRunning() {
+		return this.serverSocket != null;
 	}
 	
 	/**
