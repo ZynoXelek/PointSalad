@@ -3,6 +3,7 @@ package states;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import cards.ICard;
 import game.IMarket;
 import network.IServer;
 import phases.IPhase;
@@ -192,8 +193,16 @@ public class State {
 		stateString += market + "\n";
 
 		for (AbstractPlayer player : players.values()) {
-			stateString += player.getName() + " (Player ID: " + player.getPlayerID() + ") hand is now: \n";
-			stateString += player.getHand() + "\n\n";
+			stateString += player.getName() + " (Player ID: " + player.getPlayerID() + ") hand is now: ";
+			ArrayList<ICard> hand = player.getHand();
+			if (hand.size() > 0) {
+				stateString += "\n";
+				ICard card = hand.get(0);
+				stateString += card.handToString(hand) + "\n\n";
+			}
+			else {
+				stateString += "Empty...\n\n";
+			}
 		}
 
 		stateString += " -------------------------- \n";
