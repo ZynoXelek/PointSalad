@@ -15,7 +15,7 @@ import players.HumanPlayer;
 import players.IAPlayer;
 import players.PointSaladDefaultBotLogic;
 import states.IStateManager;
-import states.PointSaladStateManager;
+import states.StateManager;
 import states.State;
 import tools.Config;
 import tools.TerminalInput;
@@ -263,7 +263,7 @@ public class PointSaladHost extends AbstractHost {
 
 
 		State initialState = new State(server, players, playerTurnIndex, market, initialPhase);
-		IStateManager gameManager = new PointSaladStateManager(initialState);
+		IStateManager gameManager = new StateManager(initialState);
 
 		setGameManager(gameManager);
 

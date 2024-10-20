@@ -4,9 +4,9 @@ import exceptions.PhaseException;
 import phases.IPhase;
 
 /**
- * Manages the state of the game for the Point Salad game.
+ * Manages the state of the game.
  */
-public class PointSaladStateManager implements IStateManager {
+public class StateManager implements IStateManager {
 
 	private State gameState;
 
@@ -15,7 +15,7 @@ public class PointSaladStateManager implements IStateManager {
 	 * 
 	 * @param gameState The game state to initialize the manager with.
 	 */
-	public PointSaladStateManager(State gameState) {
+	public StateManager(State gameState) {
 		this.gameState = gameState;
 	}
 
