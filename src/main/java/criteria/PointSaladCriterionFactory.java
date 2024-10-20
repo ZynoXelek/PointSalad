@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import cards.PointSaladCard.Vegetable;
 import criteria.point_salad_criteria.*;
 import criteria.point_salad_criteria.AbstractPointSaladCriterion.CriterionType;
+import exceptions.CriterionException;
 import exceptions.CriterionFactoryException;
 
 /**
@@ -226,7 +227,24 @@ public class PointSaladCriterionFactory implements ICriterionFactory {
 				formattedString + "': could not parse the points from '" + pointsString + "' of " + type + "-type criterion.", e);
 			}
 
-			criterion = new PointSaladCombinationCriterion(veggies, points);
+			if (veggies.size() < 1) {
+				throw new CriterionFactoryException("Invalid formatted string '" +
+				formattedString + "': a combination criterion should have at least two vegetables.");
+			} else if (veggies.size() == 1) {
+				System.err.println("Warning: a combination criterion should have at least two vegetables. Creating a PointSaladPerVeggieCriterion instead.");
+				ArrayList<Integer> pointsList = new ArrayList<>();
+				pointsList.add(points);
+				criterion = new PointSaladPerVeggieCriterion(veggies, pointsList);
+			}
+			else {
+				try {
+					criterion = new PointSaladCombinationCriterion(veggies, points);
+				} catch (CriterionException e) {
+					// Should never happen thanks to the check above
+					throw new CriterionFactoryException("Invalid formatted string '" +
+					formattedString + "' for a Combination criterion: " + e.getMessage(), e);
+				}
+			}
 		}
 		
 		else if (type == CriterionType.MOST_TOTAL || type == CriterionType.FEWEST_TOTAL) {

@@ -11,6 +11,8 @@ import players.AbstractPlayer;
 
 /**
  * Criterion for a combination of vegetables.
+ * There should be a minimum of two vegetables in the combination.
+ * If you want to create a criterion for a single vegetable, use the PointSaladPerVeggieCriterion instead.
  * Examples: "LETTUCE + LETTUCE = 5",    "CABBAGE + ONION = 5",    "CARROT + CARROT + CARROT = 8"
  */
 public class PointSaladCombinationCriterion extends AbstractPointSaladCriterion {
@@ -20,11 +22,19 @@ public class PointSaladCombinationCriterion extends AbstractPointSaladCriterion 
 
 	/**
 	 * Creates a PointSaladCombinationCriterion with the given vegetables and points per combination.
+	 * There should be a minimum of two vegetables in the combination.
+	 * If you want to create a criterion for a single vegetable, use the PointSaladPerVeggieCriterion instead.
 	 * 
 	 * @param vegetables The vegetables required for the combination
 	 * @param pointsPerCombination The points granted by the combination
+	 * 
+	 * @throws CriterionException if the list of vegetables is empty or contains only one vegetable
 	 */
-	public PointSaladCombinationCriterion(ArrayList<Vegetable> vegetables, int pointsPerCombination) {
+	public PointSaladCombinationCriterion(ArrayList<Vegetable> vegetables, int pointsPerCombination) throws CriterionException {
+		if (vegetables.size() < 2) {
+			throw new CriterionException("A combination criterion should have at least two vegetables.");
+		}
+
 		this.vegetables = vegetables;
 		this.pointsPerCombination = pointsPerCombination;
 	}
