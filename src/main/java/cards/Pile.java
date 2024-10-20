@@ -35,6 +35,8 @@ public class Pile<T extends ICard> {
 		this.cards = new ArrayList<T>();
 		for (T card : pile.cards) {
 			// Card is of type T. card.copy() returns a card of type T as well.
+			// Therefore, we can safely cast it to T.
+			@SuppressWarnings("unchecked")
 			T copiedCard = (T) card.copy();
 			this.cards.add(copiedCard);
 		}
