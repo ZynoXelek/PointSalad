@@ -38,6 +38,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This class is meant for testing the 14 PointSalad game requirements.
+ */
 public class RequirementsTest {
 
 	private int minPlayers;
