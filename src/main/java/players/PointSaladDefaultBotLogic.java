@@ -17,7 +17,7 @@ import states.State;
 /**
  * Default bot logic for the Point Salad game.
  * 
- * On a drafting phase, it randomly decide whether to draft a criterion or a vegetable card. 
+ * On a drafting phase, it randomly decide whether to draft a criterion or a vegetable card.
  * To draft a criterion card, it uses a scorer to select the best current criterion card.
  * To draft a vegetable card, it selects the first two available cards.
  * 
@@ -26,13 +26,26 @@ import states.State;
  */
 public class PointSaladDefaultBotLogic implements IBotLogic {
 
+	private double criterionDraftChance = 0.5;
 	private IScorer scorer;
 
 	/**
 	 * Default constructor.
 	 * By default, it uses a PointSaladScorer to score the cards.
+	 * The chance to draft a criterion card is 0.5.
 	 */
 	public PointSaladDefaultBotLogic() {
+		this.scorer = new PointSaladScorer();
+	}
+
+	/**
+	 * Constructor with a custom criterion draft chance.
+	 * By default, it uses a PointSaladScorer to score the cards.
+	 * 
+	 * @param criterionDraftChance The chance to draft a criterion card, between 0 and 1.
+	 */
+	public PointSaladDefaultBotLogic(double criterionDraftChance) {
+		this.criterionDraftChance = criterionDraftChance;
 		this.scorer = new PointSaladScorer();
 	}
 
@@ -43,6 +56,35 @@ public class PointSaladDefaultBotLogic implements IBotLogic {
 	 */
 	public PointSaladDefaultBotLogic(IScorer scorer) {
 		this.scorer = scorer;
+	}
+	
+	/**
+	 * Constructor with a custom criterion draft chance and scorer.
+	 * 
+	 * @param criterionDraftChance The chance to draft a criterion card, between 0 and 1.
+	 * @param scorer The scorer to use to score the cards.
+	 */
+	public PointSaladDefaultBotLogic(double criterionDraftChance, IScorer scorer) {
+		this.criterionDraftChance = criterionDraftChance;
+		this.scorer = scorer;
+	}
+
+	/**
+	 * Get the chance to draft a criterion card.
+	 * 
+	 * @return The chance to draft a criterion card, between 0 and 1.
+	 */
+	public double getCriterionDraftChance() {
+		return criterionDraftChance;
+	}
+
+	/**
+	 * Set the chance to draft a criterion card.
+	 * 
+	 * @param criterionDraftChance The chance to draft a criterion card, between 0 and 1.
+	 */
+	public void setCriterionDraftChance(double criterionDraftChance) {
+		this.criterionDraftChance = criterionDraftChance;
 	}
 
 	/**
@@ -182,7 +224,12 @@ public class PointSaladDefaultBotLogic implements IBotLogic {
 		ArrayList<ICard> hand = players.get(botPlayerId).getHand();
 		ArrayList<ArrayList<ICard>> otherHands = AbstractPlayer.getOtherHands(playersList, botPlayerId);
 
-		int choice = (int) (Math.random() * 2);
+		int choice;
+		if (Math.random() < criterionDraftChance) {
+			choice = 0;
+		} else {
+			choice = 1;
+		}
 
 		if (choice == 0) {
 			draftString = getCriterionDraft(hand, otherHands, market);
