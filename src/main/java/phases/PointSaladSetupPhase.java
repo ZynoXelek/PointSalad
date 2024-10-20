@@ -225,17 +225,6 @@ public class PointSaladSetupPhase implements IPhase {
 		// Put the final piles in the market
 		PointSaladMarket pointSaladMarket = (PointSaladMarket) market;
 		pointSaladMarket.setCriterionPiles(criterionPiles);
-		
-		// TODO: To be fully removed in the end
-		// for (int i = 0; i < PointSaladMarket.NUM_DRAW_PILES; i++) {
-		// 	try {
-		// 		pointSaladMarket.setPile(i, criterionPiles.get(i));
-		// 	} catch (Exception e) {
-		// 		// Print the error message in the terminal. May happen during testing. Will never happen once the project is completed.
-		// 		System.err.println("Index error at PointSaladSetupPhase.processPhase() with error message:\n" + 
-		// 						e.getMessage());
-		// 	}
-		// }
 
 		pointSaladMarket.refillVegetables();
 	}

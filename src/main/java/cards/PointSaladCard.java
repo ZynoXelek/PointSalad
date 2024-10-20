@@ -24,6 +24,7 @@ public class PointSaladCard implements ICard {
 
 	/**
 	 * Creates a PointSaladCard with the given vegetable and criterion.
+	 * By default, it is on its Vegetable side.
 	 * 
 	 * @param vegetable The vegetable of the card
 	 * @param criterion The criterion of the card
