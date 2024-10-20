@@ -41,7 +41,12 @@ public class PointSaladCard implements ICard {
 	 */
 	public PointSaladCard(PointSaladCard other) {
 		this.vegetable = other.vegetable;
-		this.criterion = other.criterion.copy();
+		if (other.criterion == null) {
+			this.criterion = null;
+		} else {
+			// Deep copy of the criterion
+			this.criterion = other.criterion.copy();
+		}
 		this.criterionSideUp = other.criterionSideUp;
 	}
 
