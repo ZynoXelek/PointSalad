@@ -30,7 +30,7 @@ public class PointSaladFlippingPhase implements IPhase {
 		AbstractPlayer player = state.getCurrentPlayer();
 
 		String instruction = "\n";
-		instruction += player.handToString(); //TODO: As said in AbstractPlayer class, may have to redefine this method to make it look nicer
+		instruction += player.handToString();
 		instruction += "\nWould you like to turn a criterion card into a veggie card? (Syntax examples: 'n' or '0', '1'...)\n";
 
 		try {

@@ -552,8 +552,6 @@ public class PointSaladMarket implements IMarket {
 
 	@Override
 	public String toString() {
-		// TODO: Update this method with a StringFormatter to ensure the columns are aligned
-
 		String marketString = "Market:\n";
 
 		marketString += "Point cards:\t";

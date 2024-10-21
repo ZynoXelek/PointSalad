@@ -11,7 +11,6 @@ import states.State;
 public abstract class AbstractPlayer {
 	
 	private int playerID;
-	// TODO: implement name support
 	private String name;
 	private boolean isBot;
 	private int score;
@@ -142,7 +141,6 @@ public abstract class AbstractPlayer {
 	 * @return The player's hand as a string
 	 */
 	public String handToString() {
-		//TODO: may change this implementation if it is not good looking
 		String handString = "Empty Hand";
 
 		if (hand.size() > 0) {

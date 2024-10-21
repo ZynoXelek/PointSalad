@@ -205,8 +205,6 @@ public class RequirementsTest {
 
 	//? Requirement 3: Decks should contain the right amount of cards when setting up the game.
 	//? Moreover, removed cards should not be revealed.
-	//TODO: How to check the second? Thought of verifying that my `shuffleAndRemoveExtraCards` method was of void type but I can't.
-	// Should we check if a message is sent to the players?
 
 	@Test
 	public void testReq3NbCardsInGame() {
@@ -222,21 +220,26 @@ public class RequirementsTest {
 		}
 	}
 
-	// @Test
-	// public void testReq3RemovedCardsNotRevealed() {
-	// 	// Create dummy veggiePiles
-	// 	ArrayList<Pile<PointSaladCard>> veggiePiles = new ArrayList<>();
-	// 	for (int i = 0; i < 6; i++) {
-	// 		Pile<PointSaladCard> pile = new Pile<>();
-	// 		for (int j = 0; j < 18; j++) {
-	// 			pile.addCard(new PointSaladCard(Vegetable.values()[i], null));
-	// 		}
-	// 		veggiePiles.add(pile);
-	// 	}
+
+	// TODO: How to check the second part of this requirement? Thought of verifying that the `shuffleAndRemoveExtraCards()` method was of void type but I can't.
+	// Should we check if a message is sent to the players?
+
+	//@Test
+	//public void testReq3RemovedCardsNotRevealed() {
+	//	// Create dummy veggiePiles
+	//	ArrayList<Pile<PointSaladCard>> veggiePiles = new ArrayList<>();
+	//	for (int i = 0; i < 6; i++) {
+	//		Pile<PointSaladCard> pile = new Pile<>();
+	//		for (int j = 0; j < 18; j++) {
+	//			pile.addCard(new PointSaladCard(Vegetable.values()[i], null));
+	//		}
+	//		veggiePiles.add(pile);
+	//	}
 
 	// 	// Assert that we have no way to know which cards were removed
-	// 	assertNull(PointSaladSetupPhase.shuffleAndRemoveExtraCards(veggiePiles, 6));
-	// }
+	//	assertNull(PointSaladSetupPhase.shuffleAndRemoveExtraCards(veggiePiles, 6));
+	//}
+
 
 
 	//? Requirement 4:
@@ -658,7 +661,7 @@ public class RequirementsTest {
 	}
 
 	//? Requirement 9: Other players should see the hand of the current player.
-	// TODO: How can I test this? Should I test the receiving of a message from the client?
+	// TODO: How can I test this? Should I test the receiving of a message from the client? Should we detect the message printed in the local terminal?
 	// Or is playing a full turn on a local game enough? Maybe just showing that printing the state shows hands even if it is not the exact thing that is sent to clients?
 
 
@@ -767,6 +770,26 @@ public class RequirementsTest {
 	//? Requirement 12: Keep going as long as there are cards in the market.
 
 	@Test
+	public void testReq12GoToFlippingState() {
+		// In order to check if the turns go on as they should, we will check if the drafting phase leads to the flipping phase.
+		// To do so, we do not need to initialize properly everything in the state.
+
+		PointSaladDraftingPhase draftingPhase = new PointSaladDraftingPhase();
+
+		State state = new State(null, null, 0, null, draftingPhase);
+
+		// Process the phase transition
+		try {
+			draftingPhase.proceedToNextPhase(state);
+			assertEquals(PointSaladFlippingPhase.class, state.getPhase().getClass(), "Next phase should be a flipping phase.");
+			assertEquals(0, state.getPlayerTurnIndex(), "Player turn should not have changed.");
+		} catch (Exception e) {
+			// Make test fail
+			fail("Exception thrown when proceeding to the next phase: " + e.getMessage());
+		}
+	}
+
+	@Test
 	public void testReq12GoToNextTurn() {
 		// Create a dummy market
 		setupMarket();
@@ -776,7 +799,7 @@ public class RequirementsTest {
 
 		// Create a dummy flipping state, which is the one determining the next phase on turn end:
 		// It is either a new drafting phase for the next player, or the scoring phase if the market is empty.
-		// In this case, it should therefore be a new drafting phase.
+		// In this case, it should therefore be a new drafting phase for the next player.
 		PointSaladFlippingPhase flippingPhase = new PointSaladFlippingPhase();
 
 		int nbPlayers = 3;
@@ -830,15 +853,13 @@ public class RequirementsTest {
 		}
 	}
 
-	// TODO: Add full verification with custom StateManager?
-
 	//? Requirement 13: Compute the score of each player.
-	//! Please look at the test/java/main/criteria/point_salad_criteria to see the scoring tests of each criterion.
+	//! Please look at the test/java/main/criteria/point_salad_criteria to see the scoring tests of each criterion individually.
 
 	@Test
 	public void testReq13ScoreEachPlayer() {
 		// Testing that a score is given to each player
-		// Create a dummy scoring score
+		// Create a dummy scoring phase
 		PointSaladScoringPhase scoringPhase = new PointSaladScoringPhase();
 
 		IServer server = prepareDummyServer();
@@ -909,6 +930,6 @@ public class RequirementsTest {
 	}
 
 	//? Requirement 14: Announcing the winner
-	// TODO: How to do it? should we detect the message sent to clients?
+	// TODO: How to do it? should we detect the message sent to clients? Should we detect the message printed in the local terminal?
 	// Or should a simple local bot game be enough to show that the winner is announced?
 }
