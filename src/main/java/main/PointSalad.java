@@ -106,7 +106,7 @@ public class PointSalad {
 	}
 
 	/**
-	 * Asks the user to select a game mode.
+	 * Asks the user to select whether it is hosting or joining a game.
 	 * 
 	 * @return The selected game mode
 	 */
