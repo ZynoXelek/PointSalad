@@ -1,4 +1,4 @@
-package game;
+package game.scorer;
 
 import java.util.ArrayList;
 import java.util.HashMap;

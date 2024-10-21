@@ -2,6 +2,10 @@ package main;
 
 import java.util.Scanner;
 
+import main.Client.AbstractClient;
+import main.Client.PointSaladClient;
+import main.Host.AbstractHost;
+import main.Host.PointSaladHost;
 import tools.TerminalInput;
 
 /**
@@ -106,7 +110,7 @@ public class PointSalad {
 	 * 
 	 * @return The selected game mode
 	 */
-	public static int askGameMode() {
+	private static int askGameMode() {
 		Scanner scanner = TerminalInput.getScanner();
 		
 		int gameMode = -1;
@@ -136,7 +140,7 @@ public class PointSalad {
 	 * 
 	 * @return A dummy example of how to use the PointSalad game
 	 */
-	public static String getDummyExample() {
+	private static String getDummyExample() {
 		String errorMessage = "Please enter a valid command line argument.\n";
 		errorMessage += "java PointSalad [gameMode]\n";
 		errorMessage += "1 to host a game, then you can add ([port], optional) [numPlayers] [numBots]\n";

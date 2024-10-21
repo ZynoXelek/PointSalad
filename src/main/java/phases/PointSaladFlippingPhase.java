@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import cards.ICard;
 import cards.PointSaladCard;
 import exceptions.FlippingException;
-import game.IMarket;
+import game.market.IMarket;
 import network.IServer;
 import players.AbstractPlayer;
 import states.State;
@@ -24,7 +24,7 @@ public class PointSaladFlippingPhase implements IPhase {
 	 * 
 	 * @throws FlippingException if an error occurs while getting the command from the player
 	 */
-	public String getPlayerCommand(State state) throws FlippingException {
+	private String getPlayerCommand(State state) throws FlippingException {
 		String command = "";
 
 		AbstractPlayer player = state.getCurrentPlayer();

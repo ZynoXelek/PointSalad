@@ -7,7 +7,6 @@ import cards.ICardFactory;
 import cards.Pile;
 import cards.PointSaladCard;
 import cards.PointSaladCardFactory;
-import game.PointSaladMarket;
 import cards.PointSaladCard.Vegetable;
 import criteria.ICriterion;
 import criteria.point_salad_criteria.PointSaladCompleteSetCriterion;
@@ -18,7 +17,8 @@ import criteria.point_salad_criteria.PointSaladPerMissingVeggieTypeCriterion;
 import exceptions.BotLogicException;
 import exceptions.FlippingException;
 import exceptions.MarketException;
-import main.PointSaladHost;
+import game.market.PointSaladMarket;
+import main.Host.PointSaladHost;
 import network.IServer;
 import network.Server;
 import phases.PointSaladDraftingPhase;
@@ -253,7 +253,7 @@ public class RequirementsTest {
 		int nbVeggieCards = nbEachVeggie.get(nbPlayers);
 
 		// Get piles containing cards of a single type of Vegetable
-		ArrayList<Pile<PointSaladCard>> veggiePiles = PointSaladSetupPhase.extractVeggiePiles(cards);
+		ArrayList<Pile<PointSaladCard>> veggiePiles = PointSaladCard.extractVeggiePiles(cards);
 		// Shuffle the piles and removes extra cards
 		PointSaladSetupPhase.shuffleAndRemoveExtraCards(veggiePiles, nbVeggieCards);
 

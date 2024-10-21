@@ -1,4 +1,4 @@
-package main;
+package main.Client;
 
 import exceptions.ClientException;
 import network.ClientConnection;

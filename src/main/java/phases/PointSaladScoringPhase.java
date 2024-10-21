@@ -4,8 +4,8 @@ import java.util.HashMap;
 
 import exceptions.ScorerException;
 import exceptions.ScoringException;
-import game.IScorer;
-import game.PointSaladScorer;
+import game.scorer.IScorer;
+import game.scorer.PointSaladScorer;
 import network.IServer;
 import players.AbstractPlayer;
 import states.State;

@@ -53,7 +53,7 @@ public class PointSaladPerVeggieCriterion extends AbstractPointSaladCriterion {
 		this.pointsPerVeggie = new ArrayList<>(other.pointsPerVeggie);
 	}
 
-	public void checkValidCriterion() throws CriterionException {
+	private void checkValidCriterion() throws CriterionException {
 		// Checks if the criterion lacks points for some veggies
 		if (pointsPerVeggie.size() < vegetables.size()) {
 			throw new CriterionException("The number of points per vegetable must be specified for each vegetable.");

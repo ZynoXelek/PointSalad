@@ -173,6 +173,51 @@ public class PointSaladCard implements ICard {
 
 		return veggieCount;
 	}
+	
+	/**
+	 * Extracts the Vegetable cards from a list of cards and build several piles,
+	 * each containing a single type of Vegetable cards.
+	 * 
+	 * @param cards The list of cards to extract the Vegetable cards from
+	 * 
+	 * @return The list of piles, each containing a single type of Vegetable cards
+	 */
+	public static ArrayList<Pile<PointSaladCard>> extractVeggiePiles(ArrayList<ICard> cards) {
+		ArrayList<PointSaladCard> pointSaladCards = convertHand(cards);
+
+		ArrayList<Pile<PointSaladCard>> piles = new ArrayList<Pile<PointSaladCard>>();
+		HashMap<Vegetable, Pile<PointSaladCard>> veggiePiles = new HashMap<Vegetable, Pile<PointSaladCard>>();
+
+		for (Vegetable veggie : Vegetable.values()) {
+			Pile<PointSaladCard> pile = new Pile<PointSaladCard>();
+			veggiePiles.put(veggie, pile);
+		}
+
+		for (PointSaladCard card : pointSaladCards) {
+			Pile<PointSaladCard> pile = veggiePiles.get(card.getVegetable());
+			pile.addCard(card);
+		}
+
+		for (Vegetable veggie : Vegetable.values()) {
+			Pile<PointSaladCard> pile = veggiePiles.get(veggie);
+			piles.add(pile);
+		}
+
+		return piles;
+	}
+
+	/**
+	 * Extracts the Vegetable cards from a pile and build several piles,
+	 * each containing a single type of Vegetable cards.
+	 * 
+	 * @param pile The pile to extract the Vegetable cards from
+	 * 
+	 * @return The list of piles, each containing a single type of Vegetable cards
+	 */
+	public static ArrayList<Pile<PointSaladCard>> extractVeggiePiles(Pile<ICard> pile) {
+		
+		return extractVeggiePiles(pile.getCards());
+	}
 
 	/**
 	 * Converts a hand of ICard to a hand of PointSaladCard.

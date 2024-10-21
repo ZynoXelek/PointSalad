@@ -45,7 +45,7 @@ public class PointSaladCardFactory implements ICardFactory{
 	 * 
 	 * @throws CardFactoryException If the card data is not formatted correctly
 	 */
-	public ArrayList<ICard> createCardsFromSingleId(JSONObject cardData) throws CardFactoryException {
+	private ArrayList<ICard> createCardsFromSingleId(JSONObject cardData) throws CardFactoryException {
 		ArrayList<ICard> cards = new ArrayList<ICard>();
 		JSONObject criteriaObject = cardData.getJSONObject("criteria");
 
@@ -72,7 +72,7 @@ public class PointSaladCardFactory implements ICardFactory{
 	 * 
 	 * @throws CardFactoryException If the card data is not formatted correctly
 	 */
-	public ArrayList<ICard> createCards(JSONObject cardsData) throws CardFactoryException {
+	private ArrayList<ICard> createCards(JSONObject cardsData) throws CardFactoryException {
 		ArrayList<ICard> cards = new ArrayList<ICard>();
 
 		JSONArray JSONcards = cardsData.getJSONArray("cards");

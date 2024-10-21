@@ -20,7 +20,7 @@ public class PointSaladCriterionFactory implements ICriterionFactory {
 	 * 
 	 * @return The criterion type of the formatted string
 	 */
-	public CriterionType getCriterionType(String formattedString) {
+	private CriterionType getCriterionType(String formattedString) {
 		// First determines the criterion type
 		CriterionType type = null;
 
@@ -81,12 +81,14 @@ public class PointSaladCriterionFactory implements ICriterionFactory {
 	 * 
 	 * @throws CriterionFactoryException If the formatted string is invalid
 	 */
-	public AbstractPointSaladCriterion createCriterionOfType(String formattedString, CriterionType type) throws CriterionFactoryException {
+	private AbstractPointSaladCriterion createCriterionOfType(String formattedString, CriterionType type) throws CriterionFactoryException {
 		// TODO: If a clean way to move this code in each criterion class is found, it should be done.
 		// I have not found a "clean" way to do it yet, as static methods can not be abstract nor overridden.
 		// A possible solution would be to create an instance method which creates a new criterion based on the formatted string, but it
 		// requires to first create a "blank" instance of the corresponding criterion class, which is not ideal.
 
+
+		
 		AbstractPointSaladCriterion criterion = null;
 
 		if (type == CriterionType.MOST || type == CriterionType.FEWEST) {

@@ -1,11 +1,11 @@
-package main;
+package main.Host;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import exceptions.ServerException;
-import game.IMarket;
-import game.PointSaladMarket;
+import game.market.IMarket;
+import game.market.PointSaladMarket;
 import network.IServer;
 import network.Server;
 import phases.IPhase;

@@ -1,9 +1,10 @@
-package main;
+package main.Client;
 
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
 import exceptions.ClientException;
+import main.Host.AbstractHost;
 import network.IClientConnection;
 import tools.TerminalInput;
 

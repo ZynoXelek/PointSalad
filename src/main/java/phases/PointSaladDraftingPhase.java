@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import cards.ICard;
 import exceptions.DraftingException;
-import game.IMarket;
+import game.market.IMarket;
 import network.IServer;
 import players.AbstractPlayer;
 import states.State;
@@ -23,7 +23,7 @@ public class PointSaladDraftingPhase implements IPhase {
 	 * 
 	 * @throws DraftingException if an error occurs while getting the command from the player
 	 */
-	public String getPlayerCommand(State state) throws DraftingException {
+	private String getPlayerCommand(State state) throws DraftingException {
 		String command = "";
 
 		AbstractPlayer player = state.getCurrentPlayer();

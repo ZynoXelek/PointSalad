@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import cards.ICard;
-import game.IMarket;
+import game.market.IMarket;
 import network.IServer;
 import phases.IPhase;
 import players.AbstractPlayer;

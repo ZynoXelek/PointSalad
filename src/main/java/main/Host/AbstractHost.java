@@ -1,4 +1,4 @@
-package main;
+package main.Host;
 
 import network.IServer;
 import states.IStateManager;
@@ -30,6 +30,7 @@ public abstract class AbstractHost {
 
 	private IServer server;
 	private IStateManager gameManager;
+	private boolean gameRunning = false;
 
 	/**
 	 * Creates a host with the given server.
@@ -70,6 +71,15 @@ public abstract class AbstractHost {
 	}
 
 	/**
+	 * Checks if the game is running.
+	 * 
+	 * @return True if the game is running, false otherwise
+	 */
+	public boolean isGameRunning() {
+		return gameRunning;
+	}
+
+	/**
 	 * Gets the game ready for play.
 	 * It should wait for the players to join the game, build the initial game state, and build the game manager.
 	 * 
@@ -100,7 +110,13 @@ public abstract class AbstractHost {
 	 */
 	public void startGame() {
 		if (isGameReady()) {
+			if (gameRunning) {
+				System.out.println("The game is already running.");
+				return;
+			}
+
 			System.out.println("Starting the game...");
+			gameRunning = true;
 			try {
 				gameManager.update();
 			} catch (Exception e) {
@@ -119,7 +135,13 @@ public abstract class AbstractHost {
 	}
 
 	private void stopGame(int status) {
+		if (!gameRunning) {
+			System.out.println("The game is not running.");
+			return;
+		}
+		
 		System.out.println("Stopping the game...");
+		gameRunning = false;
 		try {
 			server.stopServer();
 		} catch (Exception e) {

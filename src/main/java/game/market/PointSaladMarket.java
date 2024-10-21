@@ -1,4 +1,4 @@
-package game;
+package game.market;
 
 import java.util.ArrayList;
 
@@ -283,7 +283,7 @@ public class PointSaladMarket implements IMarket {
 	 * 
 	 * @throws MarketException If the card index is invalid
 	 */
-	public PointSaladCard drawVegetableCard(int cardIndex) throws MarketException {
+	private PointSaladCard drawVegetableCard(int cardIndex) throws MarketException {
 		if (cardIndex < 0 || cardIndex >= NUM_VEGETABLE_CARDS)
 		{
 			throw new MarketException("Invalid card index");
@@ -301,7 +301,7 @@ public class PointSaladMarket implements IMarket {
 	 * 
 	 * @throws MarketException If the pile index is invalid
 	 */
-	public PointSaladCard drawCriterionCard(int pileIndex) throws MarketException {
+	private PointSaladCard drawCriterionCard(int pileIndex) throws MarketException {
 		if (pileIndex < 0 || pileIndex >= NUM_DRAW_PILES)
 		{
 			throw new MarketException("Invalid pile index");
@@ -508,7 +508,7 @@ public class PointSaladMarket implements IMarket {
 	 * 
 	 * @throws MarketException If the pile index is invalid
 	 */
-	public void refillPileAt(int pileIndex) throws MarketException {
+	private void refillPileAt(int pileIndex) throws MarketException {
 		if (pileIndex < 0 || pileIndex >= NUM_DRAW_PILES)
 		{
 			throw new MarketException("Invalid pile index");
