@@ -102,6 +102,4 @@ In order for their testing class to be correctly detected as a testing class, an
 
 The requirements are all tested in the same file, which is the `RequirementsTest` class. Additionally, I added unit testing for every criterion to be sure the scores of each player are correctly computed. I have also added unit testing for the bot logic to verify it correctly drafts the best criterion card when it can, and flips one of its point cards only if it could win points by doing so.
 
-About the requirements unit-test, visual requirements (9 and 14) are not tested in this file because I did not know how to test terminal printing.
-Therefore, it should be done manually by creating a game of 2 players with 2 bots.
-Similarly, I did not know how to write a test ensuring that removed cards from the market are not shown to players. I wanted to test that the designated method was of void type, but I could not.
+About the requirements unit-test, I did not know how to write a test ensuring that removed cards from the market are not shown to players (Requirement 3). I wanted to test that the designated method was of void type, but I could not.
