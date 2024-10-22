@@ -38,6 +38,7 @@ public class PointSaladScoringPhase implements IPhase {
 	public void processPhase(State state) throws ScoringException {
 		
 		// Locally, to track the game state
+		System.out.println("\n ----------------------------------------------------------------- ");
 		System.out.println("The game is over! Computing the final scores...");
 		
 		IServer server = state.getServer();
@@ -81,7 +82,8 @@ public class PointSaladScoringPhase implements IPhase {
 		for (AbstractPlayer player : players.values()) {
 			int playerID = player.getPlayerID();
 
-			System.out.println(player.getName() + " (Player ID: " + playerID + ") has a score of " + scores.get(playerID) + ".");
+			System.out.println(player.getName() + " (Player ID: " + playerID + ") has a score of " + scores.get(playerID) +
+			 " with the following hand:\n" + player.handToString() + "\n");
 
 			if (playerID == winnerId || player.getIsBot()) {
 				continue;

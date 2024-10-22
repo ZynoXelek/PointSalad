@@ -58,6 +58,11 @@ public class PointSaladDraftingPhase implements IPhase {
 
 		String command = "";
 
+		System.out.println("\n ----------------------------------------------------------------- ");
+		System.out.println("Turn of " + player.getName() + " (Player ID: " + playerID + ")\n");
+		System.out.println("Player's hand:\n" + player.handToString() + "\n");
+		System.out.println("Current " + market.toString() + "\n");
+
 		while (!validCommand) {
 			command = getPlayerCommand(state);
 

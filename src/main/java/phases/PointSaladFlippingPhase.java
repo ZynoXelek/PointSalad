@@ -88,7 +88,7 @@ public class PointSaladFlippingPhase implements IPhase {
 				}
 			}
 			
-			System.out.println(player.getName() + " (Player ID: " + playerID + ") flipped: " + command);
+			System.out.println(player.getName() + " (Player ID: " + playerID + ") flipped: " + command + "\n");
 		}
 
 		// Player's turn is completed.
@@ -102,8 +102,10 @@ public class PointSaladFlippingPhase implements IPhase {
 			}
 		}
 
+		String message = player.getName() + "'s hand is now: \n" + player.handToString() + "\n";
+		System.out.println(message);
+
 		try {
-			String message = player.getName() + "'s hand is now: \n" + player.handToString() + "\n";
 			server.sendMessageToAllExceptId(message, playerID);
 		}
 		catch (Exception e) {
