@@ -156,7 +156,7 @@ public class PointSaladDefaultBotLogicTest {
 		double experimentalProbability = (double) nbCriterionDraft / nbTries;
 		double diff = Math.abs(experimentalProbability - botLogic.getCriterionDraftChance());
 
-		System.out.println("Found Experimental probability: " + experimentalProbability);
+		//System.out.println("Found Experimental probability: " + experimentalProbability);
 
 		assertTrue(diff < epsilon, "The bot's criterion draft chance is not correct for " + nbTries + " tries and epsilon " + epsilon +
 		". Found a probability of " + experimentalProbability + " instead of " + botLogic.getCriterionDraftChance());
