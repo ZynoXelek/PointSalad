@@ -153,7 +153,7 @@ public class RequirementsTest {
 
 
 
-	//? Requirement 1: The game must be able to host a game with a valid number of players.
+	//? ###################### Requirement 1: The game must be able to host a game with a valid number of players.
 
 	@Test
 	public void testReq1NbPlayers() {
@@ -192,7 +192,7 @@ public class RequirementsTest {
 		System.out.println(" -------------------------------------------------------------------- ");
 	}
 
-	//? Requirement 2:
+	//? ###################### Requirement 2:
 	//? - The deck consists of 108 cards.
 	//?	- A card has two sides: a vegetable and a criterion.
 	//? - There are 6 vegetables.
@@ -230,7 +230,7 @@ public class RequirementsTest {
 		}
 	}
 
-	//? Requirement 3: Decks should contain the right amount of cards when setting up the game.
+	//? ###################### Requirement 3: Decks should contain the right amount of cards when setting up the game.
 	//? Moreover, removed cards should not be revealed.
 
 	@Test
@@ -269,7 +269,7 @@ public class RequirementsTest {
 
 
 
-	//? Requirement 4:
+	//? ###################### Requirement 4:
 	//? - Deck should be shuffle before setting up the market.
 	//? - The three piles should be roughly equal.
 	//? - The drawing piles should be flipped to the criterion side.
@@ -356,7 +356,7 @@ public class RequirementsTest {
 		}
 	}
 
-	//? Requirement 5: Two cards of each draw pile should be flipped to vegetable side.
+	//? ###################### Requirement 5: Two cards of each draw pile should be flipped to vegetable side.
 
 	@Test
 	public void testReq5TwoCardsFlipped() {
@@ -398,7 +398,7 @@ public class RequirementsTest {
 		}
 	}
 
-	//? Requirement 6: Start player should be randomly chosen.
+	//? ###################### Requirement 6: Start player should be randomly chosen.
 
 	@Test
 	public void testReq6RandomStartPlayer() {
@@ -449,7 +449,7 @@ public class RequirementsTest {
 		}
 	}
 
-	//? Requirement 7: On a player's turn, one should be able to either:
+	//? ###################### Requirement 7: On a player's turn, one should be able to either:
 	//? - draft a vegetable card.
 	//? - draft two vegetable cards.
 	//? - draft a criterion card.
@@ -588,7 +588,7 @@ public class RequirementsTest {
 					"Drafting two cards should throw an exception.");
 	}
 
-	//? Requirement 8: A player may decide to turn a point card into a vegetable card.
+	//? ###################### Requirement 8: A player may decide to turn a point card into a vegetable card.
 
 	@Test
 	public void testReq8TurnCriterionIntoVegetable() {
@@ -687,7 +687,7 @@ public class RequirementsTest {
 					"Flipping an invalid card should throw an exception.");
 	}
 
-	//? Requirement 9: Other players should see the hand of the current player.
+	//? ###################### Requirement 9: Other players should see the hand of the current player.
 
 	@Test
 	public void testReq9ShowHand() {
@@ -750,7 +750,7 @@ public class RequirementsTest {
 	}
 
 
-	//? Requirement 10: The market should be refilled with the missing vegetables
+	//? ###################### Requirement 10: The market should be refilled with the missing vegetables
 
 	@Test
 	public void testReq10MarketRefill() {
@@ -796,7 +796,7 @@ public class RequirementsTest {
 		assertNotEquals(newTopCard2, topCard2, "Top card of pile 2 should have been removed.");
 	}
 
-	//? Requirement 11: If a draw pile runs out of cards, it should be refilled by half the cards of the most filled pile.
+	//? ###################### Requirement 11: If a draw pile runs out of cards, it should be refilled by half the cards of the most filled pile.
 
 	@Test
 	public void testReq11PileRefill() {
@@ -852,7 +852,7 @@ public class RequirementsTest {
 		assertEquals(newBottomCard1, bottomCard3, "Bottom of pile 3 should have been used to refill pile1. Bottom card 1 should be the same as the old bottom card 3.");
 	}
 
-	//? Requirement 12: Keep going as long as there are cards in the market.
+	//? ###################### Requirement 12: Keep going as long as there are cards in the market.
 
 	@Test
 	public void testReq12GoToFlippingState() {
@@ -938,7 +938,7 @@ public class RequirementsTest {
 		}
 	}
 
-	//? Requirement 13: Compute the score of each player.
+	//? ###################### Requirement 13: Compute the score of each player.
 	//! Please look at the test/java/main/criteria/point_salad_criteria to see the scoring tests of each criterion individually.
 
 	@Test
@@ -1014,7 +1014,7 @@ public class RequirementsTest {
 		assertEquals(7, players.get(2).getScore(), "Player 2 should have a score of 7 after the scoring phase.");
 	}
 
-	//? Requirement 14: Announcing the winner
+	//? ###################### Requirement 14: Announcing the winner
 	
 	@Test
 	public void testReq14WinnerAnnouncement() {
