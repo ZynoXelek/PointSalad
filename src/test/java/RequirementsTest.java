@@ -1,5 +1,7 @@
 
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import cards.ICard;
@@ -29,11 +31,14 @@ import players.AbstractPlayer;
 import players.HumanPlayer;
 import players.IAPlayer;
 import players.IBotLogic;
+import players.PointSaladDefaultBotLogic;
 import states.State;
 import tools.Config;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -42,6 +47,11 @@ import java.util.Map;
  * This class is meant for testing the 14 PointSalad game requirements.
  */
 public class RequirementsTest {
+
+	private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+	private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
+	private final PrintStream originalOut = System.out;
+	private final PrintStream originalErr = System.err;
 
 	private int minPlayers;
 	private int maxPlayers;
@@ -69,6 +79,23 @@ public class RequirementsTest {
 			cardsManifest = "src/main/resources/PointSaladManifest.json";
 		}
 	}
+
+
+
+	@BeforeEach
+	public void setUpStreams() {
+		System.setOut(new PrintStream(outContent));
+		System.setErr(new PrintStream(errContent));
+	}
+
+
+
+	@AfterEach
+	public void restoreStreams() {
+		System.setOut(originalOut);
+		System.setErr(originalErr);
+	}
+
 
 
 	// Helper methods
@@ -222,7 +249,7 @@ public class RequirementsTest {
 
 
 	// TODO: How to check the second part of this requirement? Thought of verifying that the `shuffleAndRemoveExtraCards()` method was of void type but I can't.
-	// Should we check if a message is sent to the players?
+	// Should we check that a message is NOT sent to the players?
 
 	//@Test
 	//public void testReq3RemovedCardsNotRevealed() {
@@ -586,7 +613,7 @@ public class RequirementsTest {
 				if (timesAdked > 10) {
 					throw new BotLogicException("Too many times asked for a command.");
 				}
-				System.out.println("Bot asked " + timesAdked + " times.");
+				//System.out.println("Bot asked " + timesAdked + " times.");
 				return command;
 			}
 		}
@@ -661,8 +688,66 @@ public class RequirementsTest {
 	}
 
 	//? Requirement 9: Other players should see the hand of the current player.
-	// TODO: How can I test this? Should I test the receiving of a message from the client? Should we detect the message printed in the local terminal?
-	// Or is playing a full turn on a local game enough? Maybe just showing that printing the state shows hands even if it is not the exact thing that is sent to clients?
+
+	@Test
+	public void testReq9ShowHand() {
+		// Create a dummy flipping state to test the end of a player's turn
+
+		// first create hands
+		ICriterion criterion1 = new PointSaladCompleteSetCriterion(10);
+		PointSaladCard card1 = new PointSaladCard(Vegetable.CABBAGE, criterion1);
+		card1.flip();
+		PointSaladCard card2 = new PointSaladCard(Vegetable.LETTUCE, null);
+		PointSaladCard card3 = new PointSaladCard(Vegetable.CARROT, null);
+
+		ArrayList<ICard> hand0 = new ArrayList<>();
+		ArrayList<ICard> hand1 = new ArrayList<>();
+		hand1.add(card1);
+		hand1.add(card2);
+		hand1.add(card3);
+
+		// Create a dummy market which is not empty
+		setupMarket();
+
+		// Create dummy players
+		AbstractPlayer player0 = new HumanPlayer(0, "Player 0");
+		AbstractPlayer player1 = new IAPlayer(1, "Player 1", new PointSaladDefaultBotLogic());
+
+		player0.setHand(hand0);
+		player1.setHand(hand1);
+
+		HashMap<Integer, AbstractPlayer> players = new HashMap<>();
+		players.put(1, player1);
+		players.put(0, player0);
+
+		PointSaladFlippingPhase flippingPhase = new PointSaladFlippingPhase();
+
+		IServer server = prepareDummyServer();
+
+		State dummyState = new State(server, players, 1, market, flippingPhase);
+
+
+
+		// Try to process the flipping phase
+		try {
+			flippingPhase.processPhase(dummyState);
+
+			String prints = outContent.toString();
+
+			// Assert the hand of the player was shown
+			assertTrue(prints.contains("Player 1") && prints.contains("hand"),
+						"Player 1's hand should have been shown.");
+			assertTrue(prints.contains("CABBAGE"),
+						"Player 1's hand should have been shown.");
+			assertTrue(prints.contains("LETTUCE"),
+						"Player 1's hand should have been shown.");
+			assertTrue(prints.contains("CARROT"),
+						"Player 1's hand should have been shown.");
+		} catch (Exception e) {
+			// Make test fail
+			fail("Exception thrown when processing the flipping phase: " + e.getMessage());
+		}
+	}
 
 
 	//? Requirement 10: The market should be refilled with the missing vegetables
@@ -930,6 +1015,72 @@ public class RequirementsTest {
 	}
 
 	//? Requirement 14: Announcing the winner
-	// TODO: How to do it? should we detect the message sent to clients? Should we detect the message printed in the local terminal?
-	// Or should a simple local bot game be enough to show that the winner is announced?
+	
+	@Test
+	public void testReq14WinnerAnnouncement() {
+		// We use the same test as the previous one, but we will check the winner announcement at the end of the scoring phase.
+		PointSaladScoringPhase scoringPhase = new PointSaladScoringPhase();
+
+		IServer server = prepareDummyServer();
+
+		int nbPlayers = 3;
+		HashMap<Integer, AbstractPlayer> players = new HashMap<>();
+		for (int i = 0; i < nbPlayers; i++) {
+			// Use bot players to avoid sending server messages
+			players.put(i, new IAPlayer(i, "Player " + i, null));
+		}
+
+		// Create some dummy hands
+		ArrayList<ICard> hand1 = new ArrayList<>();
+		ArrayList<ICard> hand2 = new ArrayList<>();
+		ArrayList<ICard> hand3 = new ArrayList<>();
+
+		// Criterion dummy cards (we do not care about its vegetable side)
+		PointSaladCard card1 = new PointSaladCard(Vegetable.CABBAGE, new PointSaladMostCriterion(Vegetable.CARROT, 7));
+		card1.flip();
+		PointSaladCard card2 = new PointSaladCard(Vegetable.CABBAGE, new PointSaladFewestTotalCriterion(10));
+		card2.flip();
+		PointSaladCard card3 = new PointSaladCard(Vegetable.CABBAGE, new PointSaladEvenOddCriterion(Vegetable.LETTUCE, 7, 3));
+		card3.flip();
+		PointSaladCard card4 = new PointSaladCard(Vegetable.CABBAGE, new PointSaladPerMissingVeggieTypeCriterion(5));
+		card4.flip();
+
+		// Vegetables dummy cards (we do not care about its criterion side)
+		PointSaladCard carrotCard = new PointSaladCard(Vegetable.CARROT, new PointSaladCompleteSetCriterion(1));
+		PointSaladCard lettuceCard = new PointSaladCard(Vegetable.LETTUCE, new PointSaladCompleteSetCriterion(1));
+
+		// Fill the hands
+		hand1.add(card1);
+		hand1.add(carrotCard.copy());
+		hand1.add(carrotCard.copy());
+		hand1.add(carrotCard.copy());
+		hand1.add(card4);
+
+		hand2.add(card2);
+
+		hand3.add(card3);
+		hand3.add(lettuceCard.copy());
+		hand3.add(lettuceCard.copy());
+
+		// Setting the hands
+		players.get(0).setHand(hand1);
+		players.get(1).setHand(hand2);
+		players.get(2).setHand(hand3);
+
+		State state = new State(server, players, -1, null, scoringPhase);
+
+		// Process the phase
+		try {
+			scoringPhase.processPhase(state);
+
+			String prints = outContent.toString();
+
+			// Assert the winning player has been announced
+			assertTrue(prints.contains("Player 0") && prints.contains("winner") && prints.contains("score") && prints.contains("32"),
+						"The winning player should be announced, with its score.");
+		} catch (Exception e) {
+			// Make test fail
+			fail("Exception thrown when processing the scoring phase: " + e.getMessage());
+		}
+	}
 }
